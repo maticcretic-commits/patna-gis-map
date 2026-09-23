@@ -406,8 +406,82 @@
     else { map.removeLayer(E.group); }
   }
 
-  /* ---------- place search (Nominatim, biased to Patna) ---------- */
+  /* ---------- place search: Patna locality gazetteer + Nominatim autocomplete ---------- */
+  let localities = [];
+  let searchMarker = null;
+  let suggestTimer = null;
+  let currentSuggestions = [];
+
+  fetch("data/patna_localities.json")
+    .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+    .then(j => { localities = j; })
+    .catch(e => console.warn("localities load failed:", e));
+
+  function flyToPlace(lat, lon, label) {
+    if (searchMarker) map.removeLayer(searchMarker);
+    map.flyTo([lat, lon], 15, { duration: 1.2 });
+    searchMarker = L.marker([lat, lon]).addTo(map).bindPopup("<b>" + label + "</b>").openPopup();
+  }
+  function shortName(display) { return display.split(",").slice(0, 3).join(",").trim(); }
+
+  function renderSuggestions() {
+    const box = el("searchResults");
+    box.innerHTML = "";
+    if (!currentSuggestions.length) { box.classList.add("hidden"); return; }
+    currentSuggestions.forEach(s => {
+      const d = document.createElement("div");
+      d.className = "sr-item";
+      d.innerHTML = (s.kind === "locality" ? "🏘️" : "🔍") + " <span>" + s.label + "</span>" +
+        '<span class="tag">' + (s.kind === "locality" ? "Patna locality" : "map search") + "</span>";
+      d.addEventListener("mousedown", ev => {
+        ev.preventDefault();
+        box.classList.add("hidden");
+        el("searchInput").value = s.label;
+        flyToPlace(s.lat, s.lon, s.label);
+      });
+      box.appendChild(d);
+    });
+    box.classList.remove("hidden");
+  }
+
+  async function suggest() {
+    const q = el("searchInput").value.trim();
+    if (q.length < 2) { el("searchResults").classList.add("hidden"); currentSuggestions = []; return; }
+    const ql = q.toLowerCase();
+    const out = localities
+      .filter(p => p.name.toLowerCase().includes(ql))
+      .slice(0, 6)
+      .map(p => ({ kind: "locality", label: p.name + (p.approx ? " (approx.)" : ""), lat: p.lat, lon: p.lon }));
+    try {
+      const d = 0.16;
+      const params = new URLSearchParams({
+        format: "json", q: q, limit: "4",
+        viewbox: (CLON - d) + "," + (CLAT + d) + "," + (CLON + d) + "," + (CLAT - d),
+        bounded: "1"
+      });
+      const res = await fetch(cfg.nominatimUrl + "?" + params.toString(), { headers: { "Accept": "application/json" } });
+      const arr = await res.json();
+      const seen = out.map(s => s.label.toLowerCase().replace(" (approx.)", ""));
+      arr.forEach(r => {
+        const label = shortName(r.display_name);
+        if (!seen.some(n => label.toLowerCase().includes(n))) {
+          out.push({ kind: "remote", label: label, lat: parseFloat(r.lat), lon: parseFloat(r.lon) });
+        }
+      });
+    } catch (e) { /* offline — local results still show */ }
+    currentSuggestions = out;
+    renderSuggestions();
+  }
+
   async function searchPlace() {
+    const box = el("searchResults");
+    if (currentSuggestions.length && !box.classList.contains("hidden")) {
+      const s = currentSuggestions[0];
+      box.classList.add("hidden");
+      el("searchInput").value = s.label;
+      flyToPlace(s.lat, s.lon, s.label);
+      return;
+    }
     const q = el("searchInput").value.trim();
     if (!q) return;
     const d = 0.16; // ~16 km box
@@ -423,13 +497,94 @@
       const arr = await res.json();
       if (!arr.length) { toast("No results in Patna for '" + q + "'.", true); return; }
       const p = arr[0];
-      map.flyTo([parseFloat(p.lat), parseFloat(p.lon)], 16, { duration: 1.2 });
-      L.marker([parseFloat(p.lat), parseFloat(p.lon)]).addTo(map)
-        .bindPopup("<b>" + p.display_name.split(",").slice(0, 3).join(",") + "</b>").openPopup();
+      flyToPlace(parseFloat(p.lat), parseFloat(p.lon), shortName(p.display_name));
     } catch (e) { toast("Search failed. Try again.", true); }
   }
   el("searchBtn").addEventListener("click", searchPlace);
-  el("searchInput").addEventListener("keydown", e => { if (e.key === "Enter") searchPlace(); });
+  el("searchInput").addEventListener("input", () => {
+    clearTimeout(suggestTimer);
+    suggestTimer = setTimeout(suggest, 350);
+  });
+  el("searchInput").addEventListener("keydown", e => {
+    if (e.key === "Enter") { clearTimeout(suggestTimer); searchPlace(); }
+    if (e.key === "Escape") { el("searchResults").classList.add("hidden"); }
+  });
+  el("searchInput").addEventListener("blur", () => {
+    setTimeout(() => el("searchResults").classList.add("hidden"), 200);
+  });
+
+  /* ---------- Plot Lookup: guided land-record search assistant ---------- */
+  const PATNA_ANCHALS = ["Patna Sadar","Danapur","Bihta","Naubatpur","Bikram","Paliganj","Dulhin Bazar",
+    "Masaurhi","Dhanarua","Punpun","Fatuha","Daniyawan","Khusrupur","Bakhtiyarpur","Barh",
+    "Athmalgola","Mokama","Ghoswari","Pandarak","Belchhi"];
+  const anchalSel = el("lkAnchal");
+  if (anchalSel) PATNA_ANCHALS.forEach(a => {
+    const o = document.createElement("option"); o.value = a; o.textContent = a; anchalSel.appendChild(o);
+  });
+
+  let lkService = "jamabandi";
+  document.querySelectorAll('input[name="lkService"]').forEach(r => {
+    r.addEventListener("change", () => { lkService = r.value; renderLkSteps(); });
+  });
+
+  function lkVal(id) { return (el(id).value || "").trim(); }
+
+  function renderLkSteps() {
+    const box = el("lkSteps");
+    if (!box) return;
+    const anchal = lkVal("lkAnchal") || "— select —";
+    const mauza = lkVal("lkMauza") || "—";
+    const khata = lkVal("lkKhata") || "—";
+    const khesra = lkVal("lkKhesra") || "—";
+    let steps;
+    if (lkService === "jamabandi") {
+      steps = [
+        "Open the Bihar Bhumi portal (button below) → <b>अपना खाता देखें</b> (View Your Account).",
+        "Select <b>District: Patna</b> → <b>Anchal: " + anchal + "</b> → <b>Mauza: " + mauza + "</b>.",
+        "Search by <b>Khata " + khata + "</b> or <b>Khesra " + khesra + "</b> (or by raiyat name).",
+        "Enter the on-screen security code and click Search, then the View icon.",
+        "The Jamabandi Register-II opens — download or print it for your records."
+      ];
+    } else {
+      steps = [
+        "Open the Bhu Naksha portal (button below) → <b>View Map</b>.",
+        "Select <b>District: Patna</b> → <b>Circle: " + anchal + "</b> → <b>Mauza: " + mauza + "</b>.",
+        "Type plot no. <b>" + khesra + "</b> in the portal's top search bar and hit Search.",
+        "Click the highlighted plot to see owner, area and classification; use the <b>LPM</b> tab for the PDF report."
+      ];
+    }
+    box.innerHTML = "<b>Your lookup checklist:</b><ol>" + steps.map(s => "<li>" + s + "</li>").join("") + "</ol>" +
+      "<p class='note'>Records open on the official portal (it uses a security code), so keep this checklist handy while you search there.</p>";
+  }
+  ["lkAnchal","lkMauza","lkKhata","lkKhesra"].forEach(id => {
+    const n = el(id); if (n) n.addEventListener("input", renderLkSteps);
+  });
+
+  const lkOpen = el("lkOpen");
+  if (lkOpen) lkOpen.addEventListener("click", () => {
+    const url = lkService === "jamabandi" ? cfg.portals.biharbhumi : cfg.portals.bhunaksha;
+    window.open(url, "_blank", "noopener");
+  });
+
+  const lkMap = el("lkFindMauza");
+  if (lkMap) lkMap.addEventListener("click", async () => {
+    const mauza = lkVal("lkMauza");
+    if (!mauza) { toast("Enter a mauza / village name first.", true); return; }
+    toast("Locating '" + mauza + "'…");
+    try {
+      const d = 0.35;
+      const params = new URLSearchParams({
+        format: "json", q: mauza + ", Patna, Bihar", limit: "3",
+        viewbox: (CLON - d) + "," + (CLAT + d) + "," + (CLON + d) + "," + (CLAT - d),
+        bounded: "1"
+      });
+      const res = await fetch(cfg.nominatimUrl + "?" + params.toString(), { headers: { "Accept": "application/json" } });
+      const arr = await res.json();
+      if (!arr.length) { toast("Mauza not found on the map — check the spelling.", true); return; }
+      flyToPlace(parseFloat(arr[0].lat), parseFloat(arr[0].lon), mauza + " (mauza)");
+    } catch (e) { toast("Map lookup failed. Try again.", true); }
+  });
+  renderLkSteps();
 
   /* ---------- tabs & mobile sidebar ---------- */
   document.querySelectorAll(".tab").forEach(btn => {
