@@ -54,7 +54,7 @@
   const radiusCircle = L.circle(cfg.center, {
     radius: R, color: "#38bdf8", weight: 2, dashArray: "8 6",
     fillColor: "#38bdf8", fillOpacity: 0.04
-  }).addTo(map).bindTooltip("5 km radius", { sticky: true });
+  }).addTo(map).bindTooltip("15 km radius", { sticky: true });
 
   /* ---------- Patna district boundary (bundled free GeoJSON) ---------- */
   const boundaryLayer = L.layerGroup().addTo(map);
@@ -214,7 +214,7 @@
   /* ---------- Overpass loading (with 24 h cache) ---------- */
   function buildQuery() {
     const a = "(around:" + R + "," + CLAT + "," + CLON + ")";
-    return "[out:json][timeout:90];(" +
+    return "[out:json][timeout:180];(" +
       'way["highway"]' + a + ";" +
       'nwr["shop"="mall"]' + a + ";" +
       'nwr["building"="apartments"]' + a + ";" +
@@ -317,6 +317,18 @@
       if (ev.target.checked) map.addLayer(boundaryLayer); else map.removeLayer(boundaryLayer);
     });
     wrap.appendChild(brow);
+    const rhead = document.createElement("div");
+    rhead.innerHTML = '<h2 style="margin:14px 0 4px">Research overlays</h2><p class="hint">Open Patna research data. Accessibility &amp; facilities load on demand.</p>';
+    wrap.appendChild(rhead);
+    Object.keys(EXTRA).forEach(k => {
+      const E = EXTRA[k];
+      const on = (k === "junct" || k === "listings");
+      const row = document.createElement("label");
+      row.className = "toggle-row";
+      row.innerHTML = '<input type="checkbox"' + (on ? " checked" : "") + " />" + "<span>" + E.label + "</span>";
+      row.querySelector("input").addEventListener("change", ev => loadExtra(k, ev.target.checked));
+      wrap.appendChild(row);
+    });
   }
 
   /* ---------- legend ---------- */
@@ -327,14 +339,78 @@
     '<span class="swp" style="background:#f472b6"></span>Malls<br>' +
     '<span class="swp" style="background:#fb923c"></span>Apartments<br>' +
     '<span class="swp" style="background:#4ade80"></span>Open land<br>' +
-    '<span class="sw" style="background:#38bdf8"></span>5 km radius<br>' +
+    '<span class="sw" style="background:#38bdf8"></span>15 km radius<br>' +
     '<span class="sw" style="background:#38bdf8;opacity:.6"></span>District boundary';
+
+  /* ---------- research overlays (open GitHub data on Patna) ---------- */
+  const EXTRA = {
+    access:   { label: "Highway accessibility zones", file: "data/analysis/patna_accessibility_grid.geojson", group: L.layerGroup(), loaded: false },
+    hfac:     { label: "Roadside facilities (280)", file: "data/analysis/patna_facilities.geojson", group: L.layerGroup(), loaded: false },
+    junct:    { label: "Highway intersections (12)", file: "data/analysis/patna_intersections.geojson", group: L.layerGroup(), loaded: false },
+    listings: { label: "Sample property listings (demo)", file: "data/sample_listings.geojson", group: L.layerGroup(), loaded: false }
+  };
+
+  function renderAnalysis(key, gj) {
+    const E = EXTRA[key];
+    if (key === "access") {
+      L.geoJSON(gj, {
+        style: f => { const c = f.properties.color || "#999999"; return { color: c, weight: 0.6, fillColor: c, fillOpacity: 0.38 }; },
+        onEachFeature: (f, l) => {
+          const p = f.properties;
+          l.bindPopup("<b>" + p.accessibility_class + "</b> (" + p.zone_id + ")<br>Score: " + p.score +
+            "<br>To highway: " + Math.round(p.dist_to_highway_m) + " m<br>To facility: " + Math.round(p.dist_to_vital_facility_m) +
+            " m<br><i>" + p.engineering_implication + "</i>");
+        }
+      }).addTo(E.group);
+    } else if (key === "hfac") {
+      const cols = { "Hospital / Healthcare": "#ef4444", "Fuel / Petrol Pump": "#f59e0b", "Police Station / Emergency": "#3b82f6", "College / University": "#8b5cf6" };
+      L.geoJSON(gj, {
+        pointToLayer: (f, ll) => L.circleMarker(ll, { radius: 5, color: cols[f.properties.facility_type] || "#999999", weight: 1.5, fillOpacity: 0.85 }),
+        onEachFeature: (f, l) => {
+          const p = f.properties;
+          l.bindPopup("<b>" + p.facility_name + "</b><br>" + p.facility_type + "<br>Near: " + p.nearest_major_road + " (" + p.buffer_zone + ")");
+        }
+      }).addTo(E.group);
+    } else if (key === "junct") {
+      L.geoJSON(gj, {
+        pointToLayer: (f, ll) => L.marker(ll, { icon: poiIcon("🔀") }),
+        onEachFeature: (f, l) => {
+          const p = f.properties;
+          l.bindPopup("<b>" + p.junction_name + "</b><br>" + p.junction_type + "<br>" + p.intersecting_roads + "<br><i>" + p.significance + "</i>");
+        }
+      }).addTo(E.group);
+    } else if (key === "listings") {
+      const zc = { Residential: "#4ade80", Commercial: "#f472b6", Agricultural: "#facc15", Industrial: "#94a3b8" };
+      L.geoJSON(gj, {
+        style: f => { const c = zc[f.properties.zone] || "#999999"; return { color: c, weight: 1.5, fillColor: c, fillOpacity: 0.35 }; },
+        onEachFeature: (f, l) => {
+          const p = f.properties;
+          l.bindPopup("<b>" + p.title + "</b><br>📍 " + p.locality + " · " + p.zone + "<br>💰 ₹" + p.price_lakh + " Lakh · " + p.size +
+            "<br>⚠️ <i>Sample demo data — not a real listing.</i>");
+        }
+      }).addTo(E.group);
+    }
+  }
+
+  function loadExtra(key, show) {
+    const E = EXTRA[key];
+    if (show && !E.loaded) {
+      E.loaded = true; // prevent double fetch
+      el("loading").classList.remove("hidden");
+      fetch(E.file)
+        .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+        .then(gj => { renderAnalysis(key, gj); map.addLayer(E.group); })
+        .catch(e => { E.loaded = false; console.warn(key, "load failed:", e); toast("Could not load " + E.label + ".", true); })
+        .finally(() => el("loading").classList.add("hidden"));
+    } else if (show) { map.addLayer(E.group); }
+    else { map.removeLayer(E.group); }
+  }
 
   /* ---------- place search (Nominatim, biased to Patna) ---------- */
   async function searchPlace() {
     const q = el("searchInput").value.trim();
     if (!q) return;
-    const d = 0.06; // ~6 km box
+    const d = 0.16; // ~16 km box
     const params = new URLSearchParams({
       format: "json", q: q, limit: "5",
       viewbox: (CLON - d) + "," + (CLAT + d) + "," + (CLON + d) + "," + (CLAT - d),
@@ -370,5 +446,7 @@
 
   /* ---------- go ---------- */
   buildToggles();
+  loadExtra("junct", true);
+  loadExtra("listings", true);
   loadData(false);
 })();
