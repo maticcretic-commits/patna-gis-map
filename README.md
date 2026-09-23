@@ -16,6 +16,7 @@ Live demo: open `index.html` in a browser (or serve the folder with any static s
 - 🔍 **Place search with autocomplete** — built-in Patna locality gazetteer (e.g. Anandpuri) answers instantly, Nominatim backs up everything else, with fly-to
 - 📋 **Plot Lookup assistant** — enter anchal → mauza → khata/khesra to get a personalized step-by-step checklist for the official portals (Jamabandi on Bihar Bhumi, plot maps on Bhu Naksha), find the mauza on the map, and jump to the portal
 - 🏘️ **Property Listings tab** — pin your own For Sale / For Rent / For Lease listings on the map (pick on map or geocode the locality), with quick links to 99acres, MagicBricks and Housing.com. ✅ appears only when a RERA number is entered (verify at rera.bihar.gov.in); everything else is marked ⚠️ unverified. Saved in your browser only.
+- 🤖 **AI assistants** — quick links to ChatGPT, Claude, Gemini and Grok in the About tab (they open in a new tab; they can't be embedded)
 - 📍 **5 km radius circle** around Patna Junction (25.5941° N, 85.1376° E)
 - 🗂️ **Land Records tab** — khata/khesra/mauza/jamabandi/PID explained, step-by-step official lookup, disputed-land verification checklist
 - 🌙 Dark UI, mobile-friendly with collapsible panel, 24-hour local data cache
