@@ -15,6 +15,7 @@ Live demo: open `index.html` in a browser (or serve the folder with any static s
 - 🗺️ **Patna district boundary** overlay + **15 km radius** circle around Patna Junction (25.5941° N, 85.1376° E)
 - 🔍 **Place search with autocomplete** — built-in Patna locality gazetteer (e.g. Anandpuri) answers instantly, Nominatim backs up everything else, with fly-to
 - 📋 **Plot Lookup assistant** — enter anchal → mauza → khata/khesra to get a personalized step-by-step checklist for the official portals (Jamabandi on Bihar Bhumi, plot maps on Bhu Naksha), find the mauza on the map, and jump to the portal
+- 🏘️ **Property Listings tab** — pin your own For Sale / For Rent / For Lease listings on the map (pick on map or geocode the locality), with quick links to 99acres, MagicBricks and Housing.com. ✅ appears only when a RERA number is entered (verify at rera.bihar.gov.in); everything else is marked ⚠️ unverified. Saved in your browser only.
 - 📍 **5 km radius circle** around Patna Junction (25.5941° N, 85.1376° E)
 - 🗂️ **Land Records tab** — khata/khesra/mauza/jamabandi/PID explained, step-by-step official lookup, disputed-land verification checklist
 - 🌙 Dark UI, mobile-friendly with collapsible panel, 24-hour local data cache
@@ -48,6 +49,9 @@ All built-in base maps are **free with no API key**. Google Maps is listed for r
 | RoR field reference (khata/khasra) | Field dictionary from [ror_bihar_2022](https://github.com/in-rolls/ror_bihar_2022); record data itself is restricted to researchers, so only the field reference is used |
 | Place search | Built-in Patna locality gazetteer (`data/patna_localities.json`, hand-compiled, approx. locations marked) + [Nominatim](https://nominatim.openstreetmap.org/) |
 | Plot Lookup assistant | Guided form (20 Patna anchals) linking out to [Bihar Bhumi](http://biharbhumi.bihar.gov.in/) (Jamabandi) and [Bhu Naksha](https://bhunaksha.bihar.gov.in/) (cadastral plot maps); no record data is fetched — portals require their own security code |
+| User property listings | Entered by the visitor in the Listings tab; stored in browser localStorage only, never uploaded |
+| Property portals | Linked, not scraped: [99acres](https://www.99acres.com/), [MagicBricks](https://www.magicbricks.com/), [Housing.com](https://housing.com/) (they block automated copying) |
+| ✅ verified tick | Shown only when a RERA registration number is entered; verify at [rera.bihar.gov.in](https://rera.bihar.gov.in/) — listings without one are marked ⚠️ unverified |
 | Land records | Govt. of Bihar portals — **linked, never scraped**: [Bhulekh](http://biharbhumi.bihar.gov.in/), [Nibandhan](https://nibandhan.bihar.gov.in), [Land Records](https://landrecords.bihar.gov.in) |
 
 ## Optional: Google Maps base layers (paid)
