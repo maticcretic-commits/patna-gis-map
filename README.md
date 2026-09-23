@@ -81,3 +81,6 @@ python3 -m http.server 8000
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+## ☕ Support my work
+If this project was useful, you can support it with Bitcoin: `bc1q6q75k8zjxvw7w02lmdprpy6xx6qk4lzz2rmvay`
