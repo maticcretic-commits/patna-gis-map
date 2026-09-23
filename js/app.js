@@ -23,12 +23,32 @@
 
   const baseLayers = { "OpenStreetMap": osm, "Dark": cartoDark };
 
-  // Free satellite imagery (Esri World Imagery) — no API key needed
+  // Free base maps — no API key or billing needed for any of these
+  const cartoLight = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+    maxZoom: 20,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
+  });
   const esriSat = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
     maxZoom: 19,
     attribution: 'Imagery &copy; <a href="https://www.esri.com/">Esri</a>, Maxar, Earthstar Geographics'
   });
-  baseLayers["Satellite (free)"] = esriSat;
+  const esriStreet = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}", {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.esri.com/">Esri</a>, HERE, Garmin, OpenStreetMap contributors'
+  });
+  const esriTopo = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}", {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.esri.com/">Esri</a>, HERE, Garmin, OpenStreetMap contributors, GIS user community'
+  });
+  const openTopo = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
+    maxZoom: 17,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, SRTM | style &copy; <a href="https://opentopomap.org/">OpenTopoMap</a> (CC-BY-SA)'
+  });
+  baseLayers["Light"] = cartoLight;
+  baseLayers["Satellite (Esri, free)"] = esriSat;
+  baseLayers["Streets (Esri, free)"] = esriStreet;
+  baseLayers["Topo (Esri, free)"] = esriTopo;
+  baseLayers["Topo (OpenTopoMap)"] = openTopo;
 
   /* ---------- radius circle ---------- */
   const radiusCircle = L.circle(cfg.center, {
