@@ -74,9 +74,10 @@
     apartments: { label: "Apartments",       color: "#fb923c", group: L.layerGroup().addTo(map) },
     openland:   { label: "Open / vacant land", color: "#4ade80", group: L.layerGroup().addTo(map) },
     amenities:  { label: "Hospitals & schools", color: "#60a5fa", group: L.layerGroup().addTo(map) },
-    shops:      { label: "Supermarkets",     color: "#c084fc", group: L.layerGroup().addTo(map), icon: "🛒" }
+    shops:      { label: "Supermarkets",     color: "#c084fc", group: L.layerGroup().addTo(map), icon: "🛒" },
+    userlistings: { label: "My listings (sale / rent / lease)", color: "#facc15", group: L.layerGroup().addTo(map) }
   };
-  const counts = { roads: 0, malls: 0, apartments: 0, openland: 0, amenities: 0, shops: 0 };
+  const counts = { roads: 0, malls: 0, apartments: 0, openland: 0, amenities: 0, shops: 0, userlistings: 0 };
   let roadKm = 0;
 
   const ROAD_STYLE = {
@@ -585,6 +586,135 @@
     } catch (e) { toast("Map lookup failed. Try again.", true); }
   });
   renderLkSteps();
+
+  /* ---------- User property listings (sale / rent / lease) ---------- */
+  const LS_KEY = "patna-gis-user-listings-v1";
+  const TYPE_ICON = { sale: "🏠", rent: "🔑", lease: "📄" };
+  const TYPE_LABEL = { sale: "For Sale", rent: "For Rent", lease: "For Lease" };
+  let userListings = [];
+  try { userListings = JSON.parse(localStorage.getItem(LS_KEY) || "[]"); } catch (e) { userListings = []; }
+  let pickMode = false, pickMarker = null, pickLatLng = null;
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, c =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+  function saveUserListings() {
+    try { localStorage.setItem(LS_KEY, JSON.stringify(userListings)); }
+    catch (e) { toast("Could not save (browser storage full/blocked).", true); }
+  }
+  function listingPopup(l) {
+    const reraLine = l.rera
+      ? '✅ <b>RERA-registered:</b> ' + esc(l.rera) + '<br><span class="muted">Verify at rera.bihar.gov.in</span>'
+      : '⚠️ <b>Unverified</b> — confirm ownership &amp; documents independently.';
+    return "<b>" + esc(l.title) + "</b><br>" +
+      TYPE_ICON[l.type] + " " + TYPE_LABEL[l.type] +
+      (l.price ? " · <b>" + esc(l.price) + "</b>" : "") + "<br>" +
+      (l.locality ? esc(l.locality) + "<br>" : "") +
+      reraLine +
+      (l.link ? '<br><a target="_blank" rel="noopener" href="' + esc(l.link) + '">View source ↗</a>' : "") +
+      (l.contact ? "<br>☎️ " + esc(l.contact) : "");
+  }
+  function renderUserListings() {
+    const g = LAYERS.userlistings.group;
+    g.clearLayers();
+    userListings.forEach(l => {
+      const m = L.marker([l.lat, l.lon], {
+        icon: L.divIcon({
+          className: "",
+          html: '<div class="uicon">' + TYPE_ICON[l.type] + (l.rera ? '<span class="utick">✅</span>' : "") + "</div>",
+          iconSize: [30, 30], iconAnchor: [15, 15]
+        })
+      }).bindPopup(listingPopup(l));
+      g.addLayer(m);
+    });
+    counts.userlistings = userListings.length;
+    const c = document.querySelector('#layerToggles .count[data-key="userlistings"]');
+    if (c) c.textContent = userListings.length;
+    el("ulCount").textContent = userListings.length;
+    const list = el("ulList");
+    if (!userListings.length) {
+      list.innerHTML = '<p class="hint">None yet — add your first listing above.</p>';
+      return;
+    }
+    list.innerHTML = "";
+    userListings.forEach((l, i) => {
+      const d = document.createElement("div");
+      d.className = "ul-card";
+      d.innerHTML = "<div><b>" + TYPE_ICON[l.type] + " " + esc(l.title) + "</b> " +
+        (l.rera ? "✅" : "⚠️") +
+        "<br><span class='muted'>" + TYPE_LABEL[l.type] + (l.price ? " · " + esc(l.price) : "") +
+        (l.locality ? " · " + esc(l.locality) : "") + "</span></div>" +
+        '<button class="ul-del" data-i="' + i + '" title="Delete">✕</button>';
+      list.appendChild(d);
+    });
+    list.querySelectorAll(".ul-del").forEach(b => {
+      b.addEventListener("click", () => {
+        userListings.splice(parseInt(b.dataset.i, 10), 1);
+        saveUserListings(); renderUserListings();
+        toast("Listing deleted.");
+      });
+    });
+  }
+
+  map.on("click", e => {
+    if (!pickMode) return;
+    pickMode = false;
+    pickLatLng = e.latlng;
+    document.getElementById("map").classList.remove("picking");
+    if (pickMarker) map.removeLayer(pickMarker);
+    pickMarker = L.marker(e.latlng).addTo(map).bindPopup("New listing location").openPopup();
+    el("ulCoords").value = e.latlng.lat.toFixed(5) + ", " + e.latlng.lng.toFixed(5);
+  });
+  el("ulPick").addEventListener("click", () => {
+    pickMode = true;
+    document.getElementById("map").classList.add("picking");
+    toast("Click anywhere on the map to place the listing.");
+  });
+
+  async function geocodeLocality(q) {
+    const d = 0.16;
+    const params = new URLSearchParams({
+      format: "json", q: q + ", Patna, Bihar", limit: "1",
+      viewbox: (CLON - d) + "," + (CLAT + d) + "," + (CLON + d) + "," + (CLAT - d),
+      bounded: "1"
+    });
+    const res = await fetch(cfg.nominatimUrl + "?" + params.toString(), { headers: { "Accept": "application/json" } });
+    const arr = await res.json();
+    return arr.length ? { lat: parseFloat(arr[0].lat), lon: parseFloat(arr[0].lon) } : null;
+  }
+
+  el("ulAdd").addEventListener("click", async () => {
+    const title = el("ulTitle").value.trim();
+    if (!title) { toast("Give the listing a title.", true); return; }
+    let latLng = pickLatLng;
+    const locText = el("ulLocality").value.trim();
+    if (!latLng && locText) {
+      toast("Locating '" + locText + "'…");
+      try { const g = await geocodeLocality(locText); if (g) latLng = { lat: g.lat, lng: g.lon }; } catch (e) {}
+    }
+    if (!latLng) { toast("Pick a location on the map or enter a findable locality.", true); return; }
+    let link = el("ulLink").value.trim();
+    if (link && !/^https?:\/\//i.test(link)) link = "https://" + link;
+    userListings.push({
+      title: title,
+      type: el("ulType").value,
+      price: el("ulPrice").value.trim(),
+      locality: locText,
+      rera: el("ulRera").value.trim(),
+      link: link,
+      contact: el("ulContact").value.trim(),
+      lat: latLng.lat, lon: latLng.lng,
+      created: new Date().toISOString().slice(0, 10)
+    });
+    saveUserListings(); renderUserListings();
+    if (pickMarker) { map.removeLayer(pickMarker); pickMarker = null; }
+    pickLatLng = null;
+    ["ulTitle","ulPrice","ulLocality","ulRera","ulLink","ulContact","ulCoords"].forEach(id => el(id).value = "");
+    map.flyTo([latLng.lat, latLng.lng], 15, { duration: 1 });
+    toast("Listing added to the map.");
+  });
+  renderUserListings();
 
   /* ---------- tabs & mobile sidebar ---------- */
   document.querySelectorAll(".tab").forEach(btn => {
