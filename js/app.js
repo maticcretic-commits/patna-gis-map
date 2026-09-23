@@ -23,11 +23,29 @@
 
   const baseLayers = { "OpenStreetMap": osm, "Dark": cartoDark };
 
+  // Free satellite imagery (Esri World Imagery) — no API key needed
+  const esriSat = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+    maxZoom: 19,
+    attribution: 'Imagery &copy; <a href="https://www.esri.com/">Esri</a>, Maxar, Earthstar Geographics'
+  });
+  baseLayers["Satellite (free)"] = esriSat;
+
   /* ---------- radius circle ---------- */
   const radiusCircle = L.circle(cfg.center, {
     radius: R, color: "#38bdf8", weight: 2, dashArray: "8 6",
     fillColor: "#38bdf8", fillOpacity: 0.04
   }).addTo(map).bindTooltip("5 km radius", { sticky: true });
+
+  /* ---------- Patna district boundary (bundled free GeoJSON) ---------- */
+  const boundaryLayer = L.layerGroup().addTo(map);
+  fetch("data/patna_boundary.geojson")
+    .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+    .then(gj => {
+      L.geoJSON(gj, { style: { color: "#38bdf8", weight: 2.5, dashArray: "6 4", fill: false } })
+        .bindTooltip("Patna district boundary")
+        .addTo(boundaryLayer);
+    })
+    .catch(e => console.warn("boundary load failed:", e));
 
   /* ---------- feature layers ---------- */
   const LAYERS = {
@@ -270,6 +288,15 @@
     el("radiusToggle").addEventListener("change", ev => {
       if (ev.target.checked) map.addLayer(radiusCircle); else map.removeLayer(radiusCircle);
     });
+    const brow = document.createElement("label");
+    brow.className = "toggle-row";
+    brow.innerHTML = '<input type="checkbox" checked />' +
+      '<span class="dot" style="background:#38bdf8"></span>' +
+      "<span>Patna district boundary</span>";
+    brow.querySelector("input").addEventListener("change", ev => {
+      if (ev.target.checked) map.addLayer(boundaryLayer); else map.removeLayer(boundaryLayer);
+    });
+    wrap.appendChild(brow);
   }
 
   /* ---------- legend ---------- */
@@ -280,7 +307,8 @@
     '<span class="swp" style="background:#f472b6"></span>Malls<br>' +
     '<span class="swp" style="background:#fb923c"></span>Apartments<br>' +
     '<span class="swp" style="background:#4ade80"></span>Open land<br>' +
-    '<span class="sw" style="background:#38bdf8"></span>5 km radius';
+    '<span class="sw" style="background:#38bdf8"></span>5 km radius<br>' +
+    '<span class="sw" style="background:#38bdf8;opacity:.6"></span>District boundary';
 
   /* ---------- place search (Nominatim, biased to Patna) ---------- */
   async function searchPlace() {
