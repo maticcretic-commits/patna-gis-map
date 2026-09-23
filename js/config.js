@@ -6,7 +6,7 @@
 window.PATNA_CONFIG = {
   center: [25.5941, 85.1376],          // Patna Junction
   centerLabel: "Patna Junction, Patna, Bihar",
-  radiusMeters: 5000,                  // 5 km coverage
+  radiusMeters: 15000,                  // 15 km coverage (5 km + extra 10 km)
   defaultZoom: 13,
 
   googleMapsApiKey: "",                // <-- paste key here, e.g. "AIzaSy..."
