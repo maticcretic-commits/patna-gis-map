@@ -13,7 +13,8 @@ Live demo: open `index.html` in a browser (or serve the folder with any static s
 - 🔀 **Highway intersections (12)** — named major junctions with intersecting roads
 - 🏷️ **Sample property listings** — 7 demo listings with plot polygons & prices (clearly marked as demo data)
 - 🗺️ **Patna district boundary** overlay + **15 km radius** circle around Patna Junction (25.5941° N, 85.1376° E)
-- 🔍 **Place search** — Nominatim search biased to the Patna area with fly-to
+- 🔍 **Place search with autocomplete** — built-in Patna locality gazetteer (e.g. Anandpuri) answers instantly, Nominatim backs up everything else, with fly-to
+- 📋 **Plot Lookup assistant** — enter anchal → mauza → khata/khesra to get a personalized step-by-step checklist for the official portals (Jamabandi on Bihar Bhumi, plot maps on Bhu Naksha), find the mauza on the map, and jump to the portal
 - 📍 **5 km radius circle** around Patna Junction (25.5941° N, 85.1376° E)
 - 🗂️ **Land Records tab** — khata/khesra/mauza/jamabandi/PID explained, step-by-step official lookup, disputed-land verification checklist
 - 🌙 Dark UI, mobile-friendly with collapsible panel, 24-hour local data cache
@@ -45,7 +46,8 @@ All built-in base maps are **free with no API key**. Google Maps is listed for r
 | Highway accessibility grid, roadside facilities, intersections | Bundled `data/analysis/`, from [gis-highway-accessibility-patna](https://github.com/Lakshyaitis/gis-highway-accessibility-patna) (highway network & accessibility analysis, Patna corridor) |
 | Sample property listings (demo) | Bundled `data/sample_listings.geojson`, adapted from [patnapropertyhub](https://github.com/abhishekkumarai/patnapropertyhub) (broker contact details removed) |
 | RoR field reference (khata/khasra) | Field dictionary from [ror_bihar_2022](https://github.com/in-rolls/ror_bihar_2022); record data itself is restricted to researchers, so only the field reference is used |
-| Place search | [Nominatim](https://nominatim.openstreetmap.org/) |
+| Place search | Built-in Patna locality gazetteer (`data/patna_localities.json`, hand-compiled, approx. locations marked) + [Nominatim](https://nominatim.openstreetmap.org/) |
+| Plot Lookup assistant | Guided form (20 Patna anchals) linking out to [Bihar Bhumi](http://biharbhumi.bihar.gov.in/) (Jamabandi) and [Bhu Naksha](https://bhunaksha.bihar.gov.in/) (cadastral plot maps); no record data is fetched — portals require their own security code |
 | Land records | Govt. of Bihar portals — **linked, never scraped**: [Bhulekh](http://biharbhumi.bihar.gov.in/), [Nibandhan](https://nibandhan.bihar.gov.in), [Land Records](https://landrecords.bihar.gov.in) |
 
 ## Optional: Google Maps base layers (paid)
