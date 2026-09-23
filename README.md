@@ -18,10 +18,14 @@ Live demo: open `index.html` in a browser (or serve the folder with any static s
 | What | Source |
 |---|---|
 | Map tiles, roads, POIs | © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright), queried live via [Overpass API](https://overpass-api.de/) |
+| Free satellite imagery | [Esri World Imagery](https://www.esri.com/) — no API key or billing needed |
+| Patna district boundary | Bundled `data/patna_boundary.geojson`, from the [Patna-Flood-WebGIS](https://github.com/vibhalakra04-dev/Patna-Flood-WebGIS) project |
 | Place search | [Nominatim](https://nominatim.openstreetmap.org/) |
 | Land records | Govt. of Bihar portals — **linked, never scraped**: [Bhulekh](http://biharbhumi.bihar.gov.in/), [Nibandhan](https://nibandhan.bihar.gov.in), [Land Records](https://landrecords.bihar.gov.in) |
 
-## Optional: Google Maps base layers
+## Optional: Google Maps base layers (paid)
+
+Free satellite is already built in via Esri World Imagery — no key needed. Only add a Google key if you specifically want Google's roadmap/satellite:
 
 1. Go to the [Google Cloud Console](https://console.cloud.google.com/), create a project and **enable the Maps JavaScript API** (billing required).
 2. Create an API key (restrict it to your domain).
