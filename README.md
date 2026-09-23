@@ -1,13 +1,18 @@
 # Patna GIS Map 🗺️
 
-Interactive GIS web app for **Patna, Bihar** — roads, malls, apartments, open/vacant lands, hospitals, schools and supermarkets within a **5 km radius**, plus a practical guide to checking **Bihar land records (khata / khesra / new PID)** on official government portals.
+Interactive GIS web app for **Patna district, Bihar** — roads, malls, apartments, open/vacant lands, hospitals, schools and supermarkets within a **15 km radius** of Patna Junction (expanded from 5 km + 10 km extra), plus a practical guide to checking **Bihar land records (khata / khesra / new PID)** on official government portals.
 
 Live demo: open `index.html` in a browser (or serve the folder with any static server).
 
 ## Features
 
-- 🛣️ **Road network** — all OSM roads in 5 km, styled by class (highway → street), with total road km
+- 🛣️ **Road network** — all OSM roads in 15 km, styled by class (highway → street), with total road km
 - 🏬 **Malls**, 🏢 **apartment complexes**, 🌳 **open/vacant land**, 🏥🏫 **hospitals & schools**, 🛒 **supermarkets** — toggleable layers
+- 📊 **Highway accessibility zones** — 286-zone color-coded grid (high/moderate/low) from open Patna corridor research
+- 🏥 **Roadside facilities (280)** — hospitals, fuel pumps, police stations, colleges with highway-distance info
+- 🔀 **Highway intersections (12)** — named major junctions with intersecting roads
+- 🏷️ **Sample property listings** — 7 demo listings with plot polygons & prices (clearly marked as demo data)
+- 🗺️ **Patna district boundary** overlay + **15 km radius** circle around Patna Junction (25.5941° N, 85.1376° E)
 - 🔍 **Place search** — Nominatim search biased to the Patna area with fly-to
 - 📍 **5 km radius circle** around Patna Junction (25.5941° N, 85.1376° E)
 - 🗂️ **Land Records tab** — khata/khesra/mauza/jamabandi/PID explained, step-by-step official lookup, disputed-land verification checklist
@@ -37,6 +42,9 @@ All built-in base maps are **free with no API key**. Google Maps is listed for r
 | Map tiles, roads, POIs | © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright), queried live via [Overpass API](https://overpass-api.de/) |
 | Free satellite imagery | [Esri World Imagery](https://www.esri.com/) — no API key or billing needed |
 | Patna district boundary | Bundled `data/patna_boundary.geojson`, from the [Patna-Flood-WebGIS](https://github.com/vibhalakra04-dev/Patna-Flood-WebGIS) project |
+| Highway accessibility grid, roadside facilities, intersections | Bundled `data/analysis/`, from [gis-highway-accessibility-patna](https://github.com/Lakshyaitis/gis-highway-accessibility-patna) (highway network & accessibility analysis, Patna corridor) |
+| Sample property listings (demo) | Bundled `data/sample_listings.geojson`, adapted from [patnapropertyhub](https://github.com/abhishekkumarai/patnapropertyhub) (broker contact details removed) |
+| RoR field reference (khata/khasra) | Field dictionary from [ror_bihar_2022](https://github.com/in-rolls/ror_bihar_2022); record data itself is restricted to researchers, so only the field reference is used |
 | Place search | [Nominatim](https://nominatim.openstreetmap.org/) |
 | Land records | Govt. of Bihar portals — **linked, never scraped**: [Bhulekh](http://biharbhumi.bihar.gov.in/), [Nibandhan](https://nibandhan.bihar.gov.in), [Land Records](https://landrecords.bihar.gov.in) |
 
