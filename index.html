@@ -18,8 +18,9 @@
       </div>
     </div>
     <div class="searchbox">
-      <input id="searchInput" type="text" placeholder="Search a place in Patna… (e.g. Boring Road)" />
+      <input id="searchInput" type="text" placeholder="Search a Patna locality… (e.g. Anandpuri)" autocomplete="off" />
       <button id="searchBtn" title="Search">🔍</button>
+      <div id="searchResults" class="hidden"></div>
     </div>
   </header>
 
@@ -28,6 +29,7 @@
       <nav class="tabs">
         <button class="tab active" data-tab="layers">Layers</button>
         <button class="tab" data-tab="land">Land Records</button>
+        <button class="tab" data-tab="plot">Plot Lookup</button>
         <button class="tab" data-tab="about">About</button>
       </nav>
 
@@ -67,6 +69,7 @@
         </ol>
         <div class="portal-links">
           <a class="btn" target="_blank" rel="noopener" href="http://biharbhumi.bihar.gov.in/">🏛️ Bhulekh Bihar</a>
+          <a class="btn" target="_blank" rel="noopener" href="https://bhunaksha.bihar.gov.in/">🗺️ Bhu Naksha (plot maps)</a>
           <a class="btn" target="_blank" rel="noopener" href="https://nibandhan.bihar.gov.in">📜 Nibandhan Portal</a>
           <a class="btn" target="_blank" rel="noopener" href="https://landrecords.bihar.gov.in">🗂️ Land Records Bihar</a>
         </div>
@@ -90,6 +93,42 @@
           <li>Physical possession matches the records.</li>
           <li>Get a local property lawyer's title opinion. ⚖️</li>
         </ul>
+      </section>
+
+      <section class="panel" id="panel-plot">
+        <h2>Plot Lookup Assistant</h2>
+        <p class="hint">Fill in your plot details — this builds a step-by-step checklist for the official portal and can locate the mauza on the map. Records themselves open only on the government site (it uses a security code).</p>
+
+        <div class="lk-service">
+          <label><input type="radio" name="lkService" value="jamabandi" checked /> 📋 Jamabandi (ownership record)</label>
+          <label><input type="radio" name="lkService" value="bhunaksha" /> 🗺️ Cadastral map (plot map)</label>
+        </div>
+
+        <div class="lk-form">
+          <label>District
+            <input type="text" value="Patna" disabled />
+          </label>
+          <label>Anchal (circle)
+            <select id="lkAnchal"><option value="">— select anchal —</option></select>
+          </label>
+          <label>Mauza (village)
+            <input id="lkMauza" type="text" placeholder="e.g. Phulwari" />
+          </label>
+          <label>Khata no.
+            <input id="lkKhata" type="text" placeholder="e.g. 42" inputmode="numeric" />
+          </label>
+          <label>Khesra / Plot no.
+            <input id="lkKhesra" type="text" placeholder="e.g. 118" inputmode="numeric" />
+          </label>
+        </div>
+
+        <div class="lk-actions">
+          <button class="btn" id="lkFindMauza">📍 Find mauza on map</button>
+          <button class="btn primary" id="lkOpen">Open official portal ↗</button>
+        </div>
+
+        <div id="lkSteps" class="lk-steps"></div>
+        <p class="note">Not a legal/title verification. Always cross-check with a local property lawyer before any transaction. ⚖️</p>
       </section>
 
       <section class="panel" id="panel-about">
