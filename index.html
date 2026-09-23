@@ -30,6 +30,7 @@
         <button class="tab active" data-tab="layers">Layers</button>
         <button class="tab" data-tab="land">Land Records</button>
         <button class="tab" data-tab="plot">Plot Lookup</button>
+        <button class="tab" data-tab="listings">Listings</button>
         <button class="tab" data-tab="about">About</button>
       </nav>
 
@@ -129,6 +130,59 @@
 
         <div id="lkSteps" class="lk-steps"></div>
         <p class="note">Not a legal/title verification. Always cross-check with a local property lawyer before any transaction. ⚖️</p>
+      </section>
+
+      <section class="panel" id="panel-listings">
+        <h2>Property Listings</h2>
+        <p class="hint">Pin your own sale / rent / lease listings on the map, or browse the big portals.</p>
+
+        <h3>Browse portals</h3>
+        <div class="portal-links">
+          <a class="btn" target="_blank" rel="noopener" href="https://www.99acres.com/">99acres</a>
+          <a class="btn" target="_blank" rel="noopener" href="https://www.magicbricks.com/">MagicBricks</a>
+          <a class="btn" target="_blank" rel="noopener" href="https://housing.com/">Housing.com</a>
+        </div>
+        <p class="note">Those sites block automated copying, so their listings can't appear here directly — open them and search Patna there.</p>
+
+        <h3>Add your listing</h3>
+        <div class="lk-form">
+          <label>Title *
+            <input id="ulTitle" type="text" placeholder="e.g. 3BHK flat near Boring Road" />
+          </label>
+          <label>Type *
+            <select id="ulType">
+              <option value="sale">For Sale 🏠</option>
+              <option value="rent">For Rent 🔑</option>
+              <option value="lease">For Lease 📄</option>
+            </select>
+          </label>
+          <label>Price
+            <input id="ulPrice" type="text" placeholder="e.g. ₹85 L" />
+          </label>
+          <label>Locality
+            <input id="ulLocality" type="text" placeholder="e.g. Kankarbagh" />
+          </label>
+          <label>RERA no. (optional)
+            <input id="ulRera" type="text" placeholder="e.g. BRERAP…" />
+          </label>
+          <label>Source link (optional)
+            <input id="ulLink" type="url" placeholder="https://…" />
+          </label>
+          <label>Contact (optional)
+            <input id="ulContact" type="text" placeholder="phone / email" />
+          </label>
+          <label>Location *
+            <input id="ulCoords" type="text" readonly placeholder="Pick on map, or type locality" />
+          </label>
+        </div>
+        <div class="lk-actions">
+          <button class="btn" id="ulPick">📍 Pick on map</button>
+          <button class="btn primary" id="ulAdd">Add listing</button>
+        </div>
+
+        <h3>My listings (<span id="ulCount">0</span>)</h3>
+        <div id="ulList" class="ul-list"><p class="hint">None yet — add your first listing above.</p></div>
+        <p class="note">✅ appears only when a RERA registration number is entered — always verify it at <a target="_blank" rel="noopener" href="https://rera.bihar.gov.in/">rera.bihar.gov.in</a>. Listings without a RERA number are marked ⚠️ unverified. Your listings are saved only in this browser.</p>
       </section>
 
       <section class="panel" id="panel-about">
