@@ -14,7 +14,7 @@
       <span class="brand-icon">🗺️</span>
       <div>
         <h1>Patna GIS Map</h1>
-        <p>Roads · Landmarks · Open Lands · Land Records — 5 km around Patna Junction</p>
+        <p>Roads · Landmarks · Open Lands · Land Records — 15 km around Patna Junction · Patna district</p>
       </div>
     </div>
     <div class="searchbox">
@@ -37,7 +37,7 @@
         <div id="layerToggles" class="toggles"></div>
         <label class="toggle-row">
           <input type="checkbox" id="radiusToggle" checked />
-          <span>Show 5 km radius circle</span>
+          <span>Show 15 km radius circle</span>
         </label>
         <h2>Stats</h2>
         <div id="stats" class="stats"><p class="hint">Loading data…</p></div>
@@ -71,6 +71,16 @@
           <a class="btn" target="_blank" rel="noopener" href="https://landrecords.bihar.gov.in">🗂️ Land Records Bihar</a>
         </div>
 
+        <h3>RoR field reference</h3>
+        <p class="hint">Fields as they appear in Bihar's Record of Rights (Jamabandi) — compiled from the open <a target="_blank" rel="noopener" href="https://github.com/in-rolls/ror_bihar_2022">ror_bihar_2022</a> research project:</p>
+        <ul class="terms">
+          <li><b>c1 Khata</b> · <b>c3 Khasra</b> — account &amp; plot numbers</li>
+          <li><b>c5</b> land type · <b>c6–c8</b> area (acre / decimal / hectare)</li>
+          <li><b>c4</b> plot boundary · <b>c9</b> nature of possession</li>
+          <li><b>c10</b> lagaan (rent) · <b>c14</b> jamabandi number</li>
+          <li><b>v1–v9</b> — ryot name, father's name, residence, thana, district, anchal, village</li>
+        </ul>
+
         <h3>Disputed land? Verify this way</h3>
         <p class="hint">No public dataset of disputed lands exists. Before buying, verify:</p>
         <ul class="terms">
@@ -85,12 +95,17 @@
       <section class="panel" id="panel-about">
         <h2>About this project</h2>
         <p>Open interactive GIS for Patna, Bihar — built with Leaflet, OpenStreetMap and the Overpass API. Optional Google Maps base layers activate when you add an API key in <code>js/config.js</code>.</p>
+        <h3>Highway accessibility analysis</h3>
+        <p class="hint">Open research on the Patna corridor (20 × 10.5 km study area): <b>307 km</b> of mapped roads, <b>667</b> highway/arterial segments, <b>12</b> major intersections, <b>280</b> roadside facilities. Accessibility: <b>53%</b> high · <b>44%</b> moderate · <b>3%</b> low. Toggle the zones, facilities and intersections from the Layers tab.</p>
         <h3>Data sources</h3>
         <ul class="terms">
           <li>Map &amp; POI data © <a target="_blank" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a></li>
           <li>Live queries via <a target="_blank" rel="noopener" href="https://overpass-api.de/">Overpass API</a></li>
           <li>Free satellite tiles: <a target="_blank" rel="noopener" href="https://www.esri.com/">Esri World Imagery</a> (no key needed)</li>
           <li>Patna district boundary: <a target="_blank" rel="noopener" href="https://github.com/vibhalakra04-dev/Patna-Flood-WebGIS">Patna-Flood-WebGIS</a> project (bundled in <code>data/</code>)</li>
+          <li>Highway accessibility zones, roadside facilities &amp; intersections: <a target="_blank" rel="noopener" href="https://github.com/Lakshyaitis/gis-highway-accessibility-patna">gis-highway-accessibility-patna</a> (bundled in <code>data/analysis/</code>)</li>
+          <li>Sample property listings (demo data): <a target="_blank" rel="noopener" href="https://github.com/abhishekkumarai/patnapropertyhub">patnapropertyhub</a> (bundled in <code>data/sample_listings.geojson</code>)</li>
+          <li>RoR field reference: <a target="_blank" rel="noopener" href="https://github.com/in-rolls/ror_bihar_2022">ror_bihar_2022</a></li>
           <li>Land records: Govt. of Bihar portals (linked, not scraped)</li>
         </ul>
         <p class="hint">⚠️ Map data is community-maintained and may be incomplete. Land ownership details must always be verified on official government portals.</p>
