@@ -13,6 +13,23 @@ Live demo: open `index.html` in a browser (or serve the folder with any static s
 - 🗂️ **Land Records tab** — khata/khesra/mauza/jamabandi/PID explained, step-by-step official lookup, disputed-land verification checklist
 - 🌙 Dark UI, mobile-friendly with collapsible panel, 24-hour local data cache
 
+## Base map comparison
+
+All built-in base maps are **free with no API key**. Google Maps is listed for reference only.
+
+| Base map | Cost | Key needed | Satellite | Topo / terrain | Dark mode | Best for |
+|---|---|---|---|---|---|---|
+| OpenStreetMap Standard | Free | No | — | — | — | Default street detail, richest POI labels |
+| CARTO Light (Positron) | Free | No | — | — | — | Clean minimal backdrop for data overlays |
+| CARTO Dark Matter | Free | No | — | — | ✅ | Matches this app's dark UI |
+| Esri World Imagery | Free | No | ✅ | — | — | **Best free satellite** — inspect plots, vacant land |
+| Esri World Street Map | Free | No | — | — | — | Polished street cartography |
+| Esri World Topo Map | Free | No | — | ✅ | — | Elevation, terrain context (flood analysis) |
+| OpenTopoMap | Free | No | — | ✅ | — | Contour lines, hiking-style detail (zoom ≤ 17) |
+| Google Maps / Satellite | Paid (billing) | Yes | ✅ | ✅ | — | Only if you specifically need Google's data |
+
+**Verdict:** Esri World Imagery wins for free satellite (no key, global coverage); OpenStreetMap Standard wins for street/POI detail; Esri Topo wins for terrain. Switch between all of them from the layer control (top-right).
+
 ## Data sources
 
 | What | Source |
