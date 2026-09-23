@@ -20,6 +20,8 @@ window.PATNA_CONFIG = {
 
   portals: {
     bhulekh: "http://biharbhumi.bihar.gov.in/",
+    biharbhumi: "http://biharbhumi.bihar.gov.in/",
+    bhunaksha: "https://bhunaksha.bihar.gov.in/",
     nibandhan: "https://nibandhan.bihar.gov.in",
     landrecords: "https://landrecords.bihar.gov.in"
   }
