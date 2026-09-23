@@ -1,0 +1,233 @@
+﻿{
+    "type":  "FeatureCollection",
+    "features":  [
+                     {
+                         "type":  "Feature",
+                         "properties":  {
+                                            "junction_id":  "PAT-JCT-01",
+                                            "junction_name":  "Zero Mile Junction",
+                                            "junction_type":  "Grade-Separated Interchange \u0026 Roundabout",
+                                            "intersecting_roads":  "NH-30 Bypass \u0026 NH-31 / Old Bypass",
+                                            "latitude":  25.5935,
+                                            "longitude":  85.2154,
+                                            "significance":  "Key Traffic Friction Node / Interchange"
+                                        },
+                         "geometry":  {
+                                          "type":  "Point",
+                                          "coordinates":  [
+                                                              85.2154,
+                                                              25.5935
+                                                          ]
+                                      }
+                     },
+                     {
+                         "type":  "Feature",
+                         "properties":  {
+                                            "junction_id":  "PAT-JCT-02",
+                                            "junction_name":  "Mithapur Flyover Junction",
+                                            "junction_type":  "Multi-Arm Flyover \u0026 Surface Roundabout",
+                                            "intersecting_roads":  "Bailey Road Connector \u0026 Bypass Road",
+                                            "latitude":  25.5892,
+                                            "longitude":  85.1294,
+                                            "significance":  "Key Traffic Friction Node / Interchange"
+                                        },
+                         "geometry":  {
+                                          "type":  "Point",
+                                          "coordinates":  [
+                                                              85.1294,
+                                                              25.5892
+                                                          ]
+                                      }
+                     },
+                     {
+                         "type":  "Feature",
+                         "properties":  {
+                                            "junction_id":  "PAT-JCT-03",
+                                            "junction_name":  "AIIMS Roundabout",
+                                            "junction_type":  "Major Arterial Rotary",
+                                            "intersecting_roads":  "NH-139 \u0026 AIIMS-Digha Elevated Corridor",
+                                            "latitude":  25.5684,
+                                            "longitude":  85.0482,
+                                            "significance":  "Key Traffic Friction Node / Interchange"
+                                        },
+                         "geometry":  {
+                                          "type":  "Point",
+                                          "coordinates":  [
+                                                              85.0482,
+                                                              25.5684
+                                                          ]
+                                      }
+                     },
+                     {
+                         "type":  "Feature",
+                         "properties":  {
+                                            "junction_id":  "PAT-JCT-04",
+                                            "junction_name":  "Digha Rotary (Ganga Path)",
+                                            "junction_type":  "Expressway Toll \u0026 Riverfront Rotary",
+                                            "intersecting_roads":  "Loknayak Ganga Path \u0026 Digha-AIIMS Road",
+                                            "latitude":  25.6542,
+                                            "longitude":  85.0938,
+                                            "significance":  "Key Traffic Friction Node / Interchange"
+                                        },
+                         "geometry":  {
+                                          "type":  "Point",
+                                          "coordinates":  [
+                                                              85.0938,
+                                                              25.6542
+                                                          ]
+                                      }
+                     },
+                     {
+                         "type":  "Feature",
+                         "properties":  {
+                                            "junction_id":  "PAT-JCT-05",
+                                            "junction_name":  "Saguna More",
+                                            "junction_type":  "Signalized 4-Way Arterial Intersection",
+                                            "intersecting_roads":  "Bailey Road (NH-139) \u0026 Danapur Station Road",
+                                            "latitude":  25.6087,
+                                            "longitude":  85.0503,
+                                            "significance":  "Key Traffic Friction Node / Interchange"
+                                        },
+                         "geometry":  {
+                                          "type":  "Point",
+                                          "coordinates":  [
+                                                              85.0503,
+                                                              25.6087
+                                                          ]
+                                      }
+                     },
+                     {
+                         "type":  "Feature",
+                         "properties":  {
+                                            "junction_id":  "PAT-JCT-06",
+                                            "junction_name":  "Dak Bungalow Chauraha",
+                                            "junction_type":  "Prime CBD Signalized Intersection",
+                                            "intersecting_roads":  "Bailey Road \u0026 Fraser Road",
+                                            "latitude":  25.6062,
+                                            "longitude":  85.1378,
+                                            "significance":  "Key Traffic Friction Node / Interchange"
+                                        },
+                         "geometry":  {
+                                          "type":  "Point",
+                                          "coordinates":  [
+                                                              85.1378,
+                                                              25.6062
+                                                          ]
+                                      }
+                     },
+                     {
+                         "type":  "Feature",
+                         "properties":  {
+                                            "junction_id":  "PAT-JCT-07",
+                                            "junction_name":  "Kargil Chowk (Gandhi Maidan)",
+                                            "junction_type":  "Arterial Multi-Leg Roundabout",
+                                            "intersecting_roads":  "Ashok Rajpath \u0026 Exhibition Road",
+                                            "latitude":  25.6205,
+                                            "longitude":  85.1481,
+                                            "significance":  "Key Traffic Friction Node / Interchange"
+                                        },
+                         "geometry":  {
+                                          "type":  "Point",
+                                          "coordinates":  [
+                                                              85.1481,
+                                                              25.6205
+                                                          ]
+                                      }
+                     },
+                     {
+                         "type":  "Feature",
+                         "properties":  {
+                                            "junction_id":  "PAT-JCT-08",
+                                            "junction_name":  "Kumhrar More",
+                                            "junction_type":  "Major Arterial T-Junction",
+                                            "intersecting_roads":  "Old Bypass \u0026 Kankarbagh Main Road",
+                                            "latitude":  25.5968,
+                                            "longitude":  85.1874,
+                                            "significance":  "Key Traffic Friction Node / Interchange"
+                                        },
+                         "geometry":  {
+                                          "type":  "Point",
+                                          "coordinates":  [
+                                                              85.1874,
+                                                              25.5968
+                                                          ]
+                                      }
+                     },
+                     {
+                         "type":  "Feature",
+                         "properties":  {
+                                            "junction_id":  "PAT-JCT-09",
+                                            "junction_name":  "Anisabad Golambar",
+                                            "junction_type":  "Major 5-Way Rotary",
+                                            "intersecting_roads":  "Patna Bypass \u0026 Khagaul-Phulwari Road",
+                                            "latitude":  25.5786,
+                                            "longitude":  85.0987,
+                                            "significance":  "Key Traffic Friction Node / Interchange"
+                                        },
+                         "geometry":  {
+                                          "type":  "Point",
+                                          "coordinates":  [
+                                                              85.0987,
+                                                              25.5786
+                                                          ]
+                                      }
+                     },
+                     {
+                         "type":  "Feature",
+                         "properties":  {
+                                            "junction_id":  "PAT-JCT-10",
+                                            "junction_name":  "Patna Junction Railway Plaza",
+                                            "junction_type":  "High-Volume Multi-Modal Interchange",
+                                            "intersecting_roads":  "Station Road \u0026 Fraser Road",
+                                            "latitude":  25.6028,
+                                            "longitude":  85.1372,
+                                            "significance":  "Key Traffic Friction Node / Interchange"
+                                        },
+                         "geometry":  {
+                                          "type":  "Point",
+                                          "coordinates":  [
+                                                              85.1372,
+                                                              25.6028
+                                                          ]
+                                      }
+                     },
+                     {
+                         "type":  "Feature",
+                         "properties":  {
+                                            "junction_id":  "PAT-JCT-11",
+                                            "junction_name":  "Gaurichak Junction",
+                                            "junction_type":  "Highway Intersection",
+                                            "intersecting_roads":  "NH-30 Southern Expressway \u0026 Rural Arterial",
+                                            "latitude":  25.5621,
+                                            "longitude":  85.195,
+                                            "significance":  "Key Traffic Friction Node / Interchange"
+                                        },
+                         "geometry":  {
+                                          "type":  "Point",
+                                          "coordinates":  [
+                                                              85.195,
+                                                              25.5621
+                                                          ]
+                                      }
+                     },
+                     {
+                         "type":  "Feature",
+                         "properties":  {
+                                            "junction_id":  "PAT-JCT-12",
+                                            "junction_name":  "Rukunpura More",
+                                            "junction_type":  "Signalized Median Crossing",
+                                            "intersecting_roads":  "Bailey Road \u0026 Canal Road",
+                                            "latitude":  25.6134,
+                                            "longitude":  85.0772,
+                                            "significance":  "Key Traffic Friction Node / Interchange"
+                                        },
+                         "geometry":  {
+                                          "type":  "Point",
+                                          "coordinates":  [
+                                                              85.0772,
+                                                              25.6134
+                                                          ]
+                                      }
+                     }
+                 ]
+}
