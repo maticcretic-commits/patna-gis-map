@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patna GIS Map — Roads, Landmarks &amp; Land Records</title>
+  <meta name="description" content="Interactive GIS map of Patna, Bihar: roads, malls, apartments, open lands within 5 km, plus Bihar land-record (khata/khesra/PID) lookup guide." />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-icon">🗺️</span>
+      <div>
+        <h1>Patna GIS Map</h1>
+        <p>Roads · Landmarks · Open Lands · Land Records — 5 km around Patna Junction</p>
+      </div>
+    </div>
+    <div class="searchbox">
+      <input id="searchInput" type="text" placeholder="Search a place in Patna… (e.g. Boring Road)" />
+      <button id="searchBtn" title="Search">🔍</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <nav class="tabs">
+        <button class="tab active" data-tab="layers">Layers</button>
+        <button class="tab" data-tab="land">Land Records</button>
+        <button class="tab" data-tab="about">About</button>
+      </nav>
+
+      <section class="panel active" id="panel-layers">
+        <h2>Map Layers</h2>
+        <p class="hint">Live data from OpenStreetMap (Overpass API). Toggle what you want to see.</p>
+        <div id="layerToggles" class="toggles"></div>
+        <label class="toggle-row">
+          <input type="checkbox" id="radiusToggle" checked />
+          <span>Show 5 km radius circle</span>
+        </label>
+        <h2>Stats</h2>
+        <div id="stats" class="stats"><p class="hint">Loading data…</p></div>
+        <button id="reloadBtn" class="btn">↻ Reload live data</button>
+      </section>
+
+      <section class="panel" id="panel-land">
+        <h2>Bihar Land Records Guide</h2>
+        <p class="hint">Ownership data (khata / khesra / PID) lives only on official government portals. This app does not scrape or store it — use the links below.</p>
+
+        <h3>Key terms</h3>
+        <ul class="terms">
+          <li><b>Khata</b> — account/register number of the landholder.</li>
+          <li><b>Khesra (Khasra)</b> — unique plot number within a mauza.</li>
+          <li><b>Mauza</b> — revenue village / survey unit.</li>
+          <li><b>Jamabandi</b> — record-of-rights showing ownership &amp; rent.</li>
+          <li><b>Rakba</b> — area of the plot.</li>
+          <li><b>New PID</b> — Property ID from Bihar's urban property survey.</li>
+        </ul>
+
+        <h3>Check a plot (official)</h3>
+        <ol class="steps">
+          <li>Open the <b>Bhulekh / Bhumi Jankari</b> portal.</li>
+          <li>Select District <b>Patna</b> → your <b>Anchal (circle)</b> → <b>Mauza</b>.</li>
+          <li>Search by <b>Khata</b>, <b>Khesra</b>, or party name.</li>
+          <li>For old registry deeds, use the <b>Nibandhan</b> portal.</li>
+        </ol>
+        <div class="portal-links">
+          <a class="btn" target="_blank" rel="noopener" href="http://biharbhumi.bihar.gov.in/">🏛️ Bhulekh Bihar</a>
+          <a class="btn" target="_blank" rel="noopener" href="https://nibandhan.bihar.gov.in">📜 Nibandhan Portal</a>
+          <a class="btn" target="_blank" rel="noopener" href="https://landrecords.bihar.gov.in">🗂️ Land Records Bihar</a>
+        </div>
+
+        <h3>Disputed land? Verify this way</h3>
+        <p class="hint">No public dataset of disputed lands exists. Before buying, verify:</p>
+        <ul class="terms">
+          <li>30-year title chain (sale deeds) on the Nibandhan portal.</li>
+          <li>Mutation (<i>dakhil-kharij</i>) completed in the buyer's name.</li>
+          <li>Pending cases in revenue / civil courts for that khata-khesra.</li>
+          <li>Physical possession matches the records.</li>
+          <li>Get a local property lawyer's title opinion. ⚖️</li>
+        </ul>
+      </section>
+
+      <section class="panel" id="panel-about">
+        <h2>About this project</h2>
+        <p>Open interactive GIS for Patna, Bihar — built with Leaflet, OpenStreetMap and the Overpass API. Optional Google Maps base layers activate when you add an API key in <code>js/config.js</code>.</p>
+        <h3>Data sources</h3>
+        <ul class="terms">
+          <li>Map &amp; POI data © <a target="_blank" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a></li>
+          <li>Live queries via <a target="_blank" rel="noopener" href="https://overpass-api.de/">Overpass API</a></li>
+          <li>Land records: Govt. of Bihar portals (linked, not scraped)</li>
+        </ul>
+        <p class="hint">⚠️ Map data is community-maintained and may be incomplete. Land ownership details must always be verified on official government portals.</p>
+      </section>
+    </aside>
+
+    <main class="mapwrap">
+      <div id="map"></div>
+      <div id="legend" class="legend"></div>
+      <div id="loading" class="loading"><div class="spinner"></div><p>Fetching live map data…</p></div>
+      <div id="toast" class="toast hidden"></div>
+      <button id="sidebarToggle" class="sidebar-toggle" title="Toggle panel">☰</button>
+    </main>
+  </div>
+
+  <footer class="footer">
+    Built for Patna, Bihar · Map data © OpenStreetMap contributors · Land records via Govt. of Bihar portals
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
