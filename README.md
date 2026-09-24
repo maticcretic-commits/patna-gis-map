@@ -1,5 +1,10 @@
 # Patna GIS Map 🗺️
 
+[![GitHub stars](https://img.shields.io/github/stars/maticcretic-commits/patna-gis-map?style=social)](https://github.com/maticcretic-commits/patna-gis-map/stargazers)
+[![Last commit](https://img.shields.io/github/last-commit/maticcretic-commits/patna-gis-map)](https://github.com/maticcretic-commits/patna-gis-map/commits/main)
+[![Cost: Free](https://img.shields.io/badge/cost-%E2%82%B90-brightgreen)](https://github.com/maticcretic-commits/patna-gis-map)
+
+
 Interactive GIS web app for **Patna district, Bihar** — roads, malls, apartments, open/vacant lands, hospitals, schools and supermarkets within a **15 km radius** of Patna Junction (expanded from 5 km + 10 km extra), plus a practical guide to checking **Bihar land records (khata / khesra / new PID)** on official government portals.
 
 Live demo: open `index.html` in a browser (or serve the folder with any static server).
