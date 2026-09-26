@@ -75,10 +75,34 @@
     openland:   { label: "Open / vacant land", color: "#4ade80", group: L.layerGroup().addTo(map) },
     amenities:  { label: "Hospitals & schools", color: "#60a5fa", group: L.layerGroup().addTo(map) },
     shops:      { label: "Supermarkets",     color: "#c084fc", group: L.layerGroup().addTo(map), icon: "🛒" },
-    userlistings: { label: "My listings (sale / rent / lease)", color: "#facc15", group: L.layerGroup().addTo(map) }
+    userlistings: { label: "My listings (sale / rent / lease)", color: "#facc15", group: L.layerGroup().addTo(map) },
+    judicial:   { label: "Bihar Judicial Academy (upcoming)", color: "#a78bfa", group: L.layerGroup().addTo(map) }
   };
-  const counts = { roads: 0, malls: 0, apartments: 0, openland: 0, amenities: 0, shops: 0, userlistings: 0 };
+  const counts = { roads: 0, malls: 0, apartments: 0, openland: 0, amenities: 0, shops: 0, userlistings: 0, judicial: 0 };
   let roadKm = 0;
+
+  /* ---------- Bihar Judicial Academy (upcoming) — predicted campus area ---------- */
+  // 38.77 acres = 156,896.7 sq m -> 396.1 m square, centred at (25.4574, 85.09002).
+  // Corner offsets computed for lat 25.4574: lat +/-0.001779 deg, lon +/-0.001971 deg.
+  // BOUNDARY IS INDICATIVE / PREDICTED — exact plot limits need Bihar Bhumi land records.
+  const JUDICIAL_CORNERS = [
+    [25.455621, 85.088049],
+    [25.455621, 85.091991],
+    [25.459179, 85.091991],
+    [25.459179, 85.088049]
+  ];
+  const JUDICIAL_POPUP =
+    "<b>⚖️ Bihar Judicial Academy (upcoming)</b><br>" +
+    "📐 <b>38.77 acres</b> (≈156,900 sq m)<br>" +
+    "📍 Dharahara &amp; Pothahi maujas, Punpun block, Patna<br>" +
+    "Bihar cabinet transferred agriculture-department land to the law department for the upcoming campus.<br>" +
+    "⚠️ <i>Boundary is <b>indicative / predicted</b> — exact plot limits need official land records (Bihar Bhumi).</i><br>" +
+    '<a target="_blank" rel="noopener" href="https://timesofindia.indiatimes.com/city/patna/cabinet-nod-to-rs-574-crore-for-land-acquisition-in-punpun-to-build-sports-stadium/articleshow/123658314.cms">Source: Times of India</a>';
+  L.polygon(JUDICIAL_CORNERS, { color: "#a78bfa", weight: 2.5, dashArray: "7 5", fillColor: "#a78bfa", fillOpacity: 0.25 })
+    .bindPopup(JUDICIAL_POPUP)
+    .bindTooltip("⚖️ Bihar Judicial Academy (upcoming, predicted area)", { sticky: true })
+    .addTo(LAYERS.judicial.group);
+  counts.judicial = 1;
 
   const ROAD_STYLE = {
     motorway:    { color: "#ef4444", weight: 5 },
