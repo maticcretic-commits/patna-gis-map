@@ -76,9 +76,14 @@
     amenities:  { label: "Hospitals & schools", color: "#60a5fa", group: L.layerGroup().addTo(map) },
     shops:      { label: "Supermarkets",     color: "#c084fc", group: L.layerGroup().addTo(map), icon: "🛒" },
     userlistings: { label: "My listings (sale / rent / lease)", color: "#facc15", group: L.layerGroup().addTo(map) },
-    judicial:   { label: "Bihar Judicial Academy (upcoming)", color: "#a78bfa", group: L.layerGroup().addTo(map) }
+    judicial:   { label: "Bihar Judicial Academy (upcoming)", color: "#a78bfa", group: L.layerGroup().addTo(map) },
+    sports:     { label: "Dumri Sports City (upcoming)", color: "#f97316", group: L.layerGroup().addTo(map) },
+    nfsu:       { label: "NFSU Campus + CFSL (upcoming)", color: "#14b8a6", group: L.layerGroup().addTo(map) },
+    township:   { label: "Pataliputra Township core zone", color: "#a855f7", group: L.layerGroup().addTo(map) },
+    agrifarms:  { label: "Govt agriculture farms", color: "#22c55e", group: L.layerGroup().addTo(map) },
+    logistics:  { label: "Multi-Modal Logistics Park (planned)", color: "#a16207", group: L.layerGroup().addTo(map) }
   };
-  const counts = { roads: 0, malls: 0, apartments: 0, openland: 0, amenities: 0, shops: 0, userlistings: 0, judicial: 0 };
+  const counts = { roads: 0, malls: 0, apartments: 0, openland: 0, amenities: 0, shops: 0, userlistings: 0, judicial: 0, sports: 0, nfsu: 0, township: 0, agrifarms: 0, logistics: 0 };
   let roadKm = 0;
 
   /* ---------- Bihar Judicial Academy (upcoming) — predicted campus area ---------- */
@@ -155,6 +160,119 @@
     });
   };
   counts.judicial = 1;
+
+  /* ---------- Govt projects, Punpun belt — additional pinned records (26 Sep 2026) ---------- */
+  // Every record below is pinned from news/government documents. All boundaries and
+  // positions are PREDICTED/APPROX (village-level anchors) unless noted. Nothing above
+  // (Judicial Academy layer) was changed — all records stay on the map side by side.
+
+  // --- Dumri Sports City: 100 acres = 404,685.6 sq m -> 636.1 m square, centred on
+  // Dumri village geocode (25.48458, 85.09212; district-level match, approx).
+  // Corner offsets: lat +/-0.002857 deg, lon +/-0.003166 deg.
+  const SPORTS_CORNERS = [
+    [25.481723, 85.088954],
+    [25.481723, 85.095286],
+    [25.487437, 85.095286],
+    [25.487437, 85.088954]
+  ];
+  const SPORTS_POPUP =
+    "<b>\uD83C\uDFDF\uFE0F Dumri Sports City (upcoming)</b><br>" +
+    "\uD83D\uDCD0 <b>~100 acres</b> | \uD83D\uDCB0 \u20B9574 crore sanctioned<br>" +
+    "\uD83D\uDCCD Near Dumri village, Punpun block, Patna<br>" +
+    "\u2022 Sep 2025 \u2014 Bihar cabinet sanctions ~\u20B9574 cr for acquisition of 100 acres near Dumri for a world-class stadium &amp; sports infrastructure.<br>" +
+    "\u2022 Jun 2026 \u2014 Sports minister orders fast-track; proposal forwarded to DM &amp; District Land Acquisition Officer, Patna.<br>" +
+    "\u26A0\uFE0F <i>Location <b>approx</b> (village-level anchor) \u2014 exact plot corners not public.</i><br>" +
+    'Sources: <a target="_blank" rel="noopener" href="https://timesofindia.indiatimes.com/city/patna/cabinet-nod-to-rs-574-crore-for-land-acquisition-in-punpun-to-build-sports-stadium/articleshow/123658314.cms">TOI</a> \u00B7 ' +
+    '<a target="_blank" rel="noopener" href="https://theprint.in/sport/bihar-govt-asks-officials-to-fast-track-rs-574-crore-dumri-sports-city-project-in-patna/2957003/">ThePrint (PTI)</a>';
+  L.polygon(SPORTS_CORNERS, { color: "#f97316", weight: 2.5, dashArray: "7 5", fillColor: "#f97316", fillOpacity: 0.22 })
+    .bindPopup(SPORTS_POPUP)
+    .bindTooltip("\uD83C\uDFDF\uFE0F Dumri Sports City (upcoming, ~100 acres \u2014 location approx)", { sticky: true })
+    .addTo(LAYERS.sports.group);
+  counts.sports = 1;
+
+  // --- NFSU off-campus + CFSL: 50 acres = 202,342.8 sq m -> 449.8 m square, placed
+  // just east of the Sports City square (relative position indicative).
+  // Corner offsets: lat +/-0.002020 deg, lon +/-0.002239 deg.
+  const NFSU_CORNERS = [
+    [25.482560, 85.096881],
+    [25.482560, 85.101359],
+    [25.486600, 85.101359],
+    [25.486600, 85.096881]
+  ];
+  const NFSU_POPUP =
+    "<b>\uD83D\uDD2C NFSU off-campus + CFSL (upcoming)</b><br>" +
+    "\uD83D\uDCD0 <b>~50 acres</b> | \uD83D\uDCB0 \u20B9287.16 crore sanctioned<br>" +
+    "\uD83D\uDCCD Dumri, Punpun block, Patna<br>" +
+    "\u2022 National Forensic Sciences University off-campus centre + Central Forensic Sciences Laboratory.<br>" +
+    "\u2022 Labs: DNA testing, fingerprint analysis, cyber forensics, narcotics &amp; explosives.<br>" +
+    "\u2022 Training hub for police personnel, judicial officers &amp; security agencies.<br>" +
+    "\u26A0\uFE0F <i>Location <b>approx</b>; position relative to Sports City is indicative.</i><br>" +
+    'Source: <a target="_blank" rel="noopener" href="https://patnapress.com/bihar-nfsu-cfsl-patna-forensic-lab-project/">Patna Press</a>';
+  L.polygon(NFSU_CORNERS, { color: "#14b8a6", weight: 2.5, dashArray: "7 5", fillColor: "#14b8a6", fillOpacity: 0.22 })
+    .bindPopup(NFSU_POPUP)
+    .bindTooltip("\uD83D\uDD2C NFSU Campus + CFSL (upcoming, ~50 acres \u2014 location approx)", { sticky: true })
+    .addTo(LAYERS.nfsu.group);
+  counts.nfsu = 1;
+
+  // --- Pataliputra Township core zone: 1,010 acres = 4,087,326.8 sq m -> 2,021.7 m
+  // square, centred on the core-village cluster centroid (25.4747, 85.0769) derived
+  // from Pipra / Sikandarpur / Dumri geocodes. Corner offsets: lat +/-0.009081 deg,
+  // lon +/-0.010061 deg.
+  const TOWNSHIP_CORNERS = [
+    [25.465619, 85.066839],
+    [25.465619, 85.086961],
+    [25.483781, 85.086961],
+    [25.483781, 85.066839]
+  ];
+  const TOWNSHIP_POPUP =
+    "<b>\uD83C\uDFD9\uFE0F Pataliputra Township \u2014 core zone</b><br>" +
+    "\uD83D\uDCD0 <b>1,010-acre</b> core across 7 revenue villages: Abdalpur Pipra, Bajidpur, Pipra, Panwar, Nuruddinpur, Dumri, Sikandarpur<br>" +
+    "\uD83D\uDCCD Punpun block (~13 km from Patna city)<br>" +
+    "\u2022 81,730-acre \u2018special zone\u2019 across 9 blocks (Punpun, Fatuha, Sampatchak, Dhanarua, Masaurhi, Phulwari + 3 more); land transactions banned till Mar 2027.<br>" +
+    "\u2022 Planned inside: Sports City, Fintech City, logistics hub, <b>judicial academy</b>.<br>" +
+    "\u2022 Later draft: core expanded to 3,008 acres / 19 villages in Punpun block.<br>" +
+    "\u26A0\uFE0F <i>Zone boundary <b>indicative</b> \u2014 official village list is exact, the drawn square is not.</i><br>" +
+    'Sources: <a target="_blank" rel="noopener" href="https://patnapress.com/bihar-townships-blueprint-11-cities-patna-sports-city-bhagalpur-boost/">Patna Press</a> \u00B7 ' +
+    '<a target="_blank" rel="noopener" href="https://patnapress.com/explained-pataliputra-greenfield-satellite-township-development-plan-2047/">Patna Press (plan)</a> \u00B7 ' +
+    '<a target="_blank" rel="noopener" href="https://patnapress.com/pataliputra-township-villages-social-impact-assessment-land-acquisition/">Patna Press (SIA)</a>';
+  L.polygon(TOWNSHIP_CORNERS, { color: "#a855f7", weight: 2, dashArray: "10 6", fillColor: "#a855f7", fillOpacity: 0.08 })
+    .bindPopup(TOWNSHIP_POPUP)
+    .bindTooltip("\uD83C\uDFD9\uFE0F Pataliputra Township core zone (1,010 ac \u2014 boundary indicative)", { sticky: true })
+    .addTo(LAYERS.township.group);
+  counts.township = 1;
+
+  // --- Govt agriculture farms (ATMA Patna SREP). Circle markers at approx village/
+  // town positions; farm plot corners are not public.
+  const AGRI_FARMS = [
+    { name: "Subdivisional Agril. Farm, Pothahi", lat: 25.444500, lon: 85.084580, acres: "40 acres",
+      note: "\uD83D\uDD17 Likely the Judicial Academy site: the 38.77-acre academy transfer (agri-dept land, Pothahi/Dharahara maujas) almost certainly IS this 40-acre farm \u2014 kept as a separate pin for the record." },
+    { name: "Sub-Divisional Agril. Farm, Sabajtuna", lat: 25.359700, lon: 85.129700, acres: "40 acres",
+      note: "\uD83D\uDCCD Dhanarua block (town approx)." },
+    { name: "Seed Multiplication Farm, Masaurahi", lat: 25.359270, lon: 85.039800, acres: "25 acres",
+      note: "\uD83D\uDCCD Masaurhi (town approx)." },
+    { name: "Seed Multiplication &amp; Production Farm, Fatuha", lat: 25.508150, lon: 85.306900, acres: "25 acres",
+      note: "\uD83D\uDCCD Fatuha (town approx)." }
+  ];
+  AGRI_FARMS.forEach(function (f) {
+    L.circleMarker([f.lat, f.lon], { radius: 8, color: "#22c55e", weight: 2, fillColor: "#22c55e", fillOpacity: 0.5 })
+      .bindPopup("<b>\uD83C\uDF3E " + f.name + "</b><br>\uD83D\uDCD0 <b>" + f.acres + "</b> (ATMA Patna SREP)<br>" + f.note +
+        '<br>Source: <a target="_blank" rel="noopener" href="https://atmapatna.com/wp-content/uploads/2018/12/srep.pdf">ATMA Patna SREP (PDF)</a>')
+      .bindTooltip("\uD83C\uDF3E " + f.name + " (" + f.acres + ", approx)", { sticky: true })
+      .addTo(LAYERS.agrifarms.group);
+  });
+  counts.agrifarms = AGRI_FARMS.length;
+
+  // --- Multi-Modal Logistics Park (planned): ~103-105 acres at Jaitiya mauza, Fatuha.
+  L.circleMarker([25.429800, 85.192450], { radius: 9, color: "#a16207", weight: 2, fillColor: "#a16207", fillOpacity: 0.5 })
+    .bindPopup("<b>\uD83D\uDE9A Multi-Modal Logistics Park (planned)</b><br>" +
+      "\uD83D\uDCD0 <b>~103\u2013105 acres</b><br>\uD83D\uDCCD Jaitiya mauza, Fatuha<br>" +
+      "\u2022 Warehouses + cold storage, inside the Pataliputra Township plan.<br>" +
+      "\u26A0\uFE0F <i>Location <b>approx</b> (village-level).</i><br>" +
+      'Source: <a target="_blank" rel="noopener" href="https://patnapress.com/explained-pataliputra-greenfield-satellite-township-development-plan-2047/">Patna Press</a>')
+    .bindTooltip("\uD83D\uDE9A Logistics Park (planned, ~104 ac \u2014 approx)", { sticky: true })
+    .addTo(LAYERS.logistics.group);
+  counts.logistics = 1;
+
 
   const ROAD_STYLE = {
     motorway:    { color: "#ef4444", weight: 5 },
