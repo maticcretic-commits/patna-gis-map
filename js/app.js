@@ -82,15 +82,22 @@
     nfsu:       { label: "NFSU Campus + CFSL (upcoming)", color: "#14b8a6", group: L.layerGroup().addTo(map) },
     township:   { label: "Pataliputra Township core zone", color: "#a855f7", group: L.layerGroup().addTo(map) },
     agrifarms:  { label: "Govt agriculture farms", color: "#22c55e", group: L.layerGroup().addTo(map) },
-    logistics:  { label: "Multi-Modal Logistics Park (planned)", color: "#a16207", group: L.layerGroup().addTo(map) }
+    logistics:  { label: "Multi-Modal Logistics Park (planned)", color: "#a16207", group: L.layerGroup().addTo(map) },
+    earlier:    { label: "Earlier estimates (superseded)", color: "#9ca3af", group: L.layerGroup().addTo(map) }
   };
-  const counts = { roads: 0, malls: 0, apartments: 0, openland: 0, amenities: 0, shops: 0, userlistings: 0, judicial: 0, sports: 0, nfsu: 0, township: 0, agrifarms: 0, logistics: 0 };
+  const counts = { roads: 0, malls: 0, apartments: 0, openland: 0, amenities: 0, shops: 0, userlistings: 0, judicial: 0, sports: 0, nfsu: 0, township: 0, agrifarms: 0, logistics: 0, earlier: 0 };
   let roadKm = 0;
 
   /* ---------- Bihar Judicial Academy (upcoming) — predicted campus area ---------- */
   // Core: 38.77 acres = 156,896.7 sq m -> 396.1 m square, centred on the
   // Pothahi Subdivisional Agricultural Farm pin (25.444500, 85.084580).
-  // Corner offsets: lat +/-0.001779 deg, lon +/-0.001971 deg.
+  // REVISED 26 Sep 2026 — railway reality check: OSM shows the Patna–Gaya
+  // railway line running NNE right through the old square (line lon ~85.0841
+  // at lat 25.4445). The square was SHIFTED WEST so it no longer crosses the
+  // line: new centre (25.444500, 85.080741), same 396.1 m square (lat
+  // +/-0.001779 deg, lon +/-0.001971 deg). East edge now clears the line by
+  // ~70–210 m. Square corners remain PREDICTED (placeholder); exact legal
+  // boundary needs Bihar Bhumi khasra records.
   // VERDICT 26 Sep 2026 (HIGH confidence): the academy's 38.77 acres IS the
   // Subdivisional Agril. Farm, Pothahi (40 acres, ATMA Patna SREP). Acreage gap
   // 1.23 ac = khasra-survey precision (cabinet, 2 decimals) vs rounded farm
@@ -108,16 +115,16 @@
   // records; plot CORNERS remain predicted (square placeholder). Exact legal
   // boundary needs khasra records from Bihar Bhumi.
   const JUDICIAL_CORNERS = [
-    [25.442721, 85.082609],
-    [25.442721, 85.086551],
-    [25.446279, 85.086551],
-    [25.446279, 85.082609]
+    [25.442721, 85.078770],
+    [25.442721, 85.082712],
+    [25.446279, 85.082712],
+    [25.446279, 85.078770]
   ];
   const JUDICIAL_ZONE_CORNERS = [
-    [25.441984, 85.081793],
-    [25.441984, 85.087367],
-    [25.447016, 85.087367],
-    [25.447016, 85.081793]
+    [25.441984, 85.077954],
+    [25.441984, 85.083528],
+    [25.447016, 85.083528],
+    [25.447016, 85.077954]
   ];
   const JUDICIAL_COLORS = [
     { name: "Blue",   hex: "#2563eb" },
@@ -137,6 +144,7 @@
     "✅ <b>Site identified (HIGH confidence):</b> the Subdivisional Agricultural Farm, Pothahi (40 acres) — 38.77 vs 40 is khasra-survey precision vs rounded farm records; the Dharahara &amp; Pothahi dual-mauja naming fits a farm straddling the mauja boundary.<br>" +
     "🗓️ Sep 2025 cabinet transfer → 3 Jan 2026 bhoomi pujan (CJI Surya Kant) → May 2026 design tender.<br>" +
     "🏗️ Planned: academic blocks, training centre, smart classrooms, digital library, residential complex.<br>" +
+    "🚂 <b>Boundary note:</b> the <b>Patna–Gaya railway line</b> runs NNE just east of this zone (OSM), so this predicted square was shifted west of the line to respect it — no boundary may cross the railway.<br>" +
     "⚠️ <i>Square corners remain predicted — exact boundary needs Bihar Bhumi khasra records.</i><br>" +
     'Sources: <a target="_blank" rel="noopener" href="https://timesofindia.indiatimes.com/city/patna/cabinet-nod-to-rs-574-crore-for-land-acquisition-in-punpun-to-build-sports-stadium/articleshow/123658314.cms">TOI</a> · ' +
     '<a target="_blank" rel="noopener" href="https://www.jagran.com/bihar/patna-city-cji-suryakant-to-lay-foundation-for-rs-302-cr-projects-in-patna-high-court-40094047.html">Jagran</a> · ' +
@@ -146,11 +154,16 @@
   let judicialCorePoly = null, judicialZonePoly = null;
   const projectRefs = { farms: [] };
   function renderProjectLayers() {
-    // Self-contained: clear our 6 project groups first so re-runs never duplicate.
-    ["judicial", "sports", "nfsu", "township", "agrifarms", "logistics"]
+    // Self-contained: clear our 7 project groups first so re-runs never duplicate.
+    ["judicial", "sports", "nfsu", "township", "agrifarms", "logistics", "earlier"]
       .forEach(k => { LAYERS[k].group.clearLayers(); counts[k] = 0; });
     projectRefs.farms = [];
+    projectRefs.earlier = [];
     judicialZonePoly = L.polygon(JUDICIAL_ZONE_CORNERS, { color: judicialColor, weight: 1.5, dashArray: "4 6", fillColor: judicialColor, fillOpacity: 0.10 })
+      .bindPopup("<b>🔵 Probable area — Bihar Judicial Academy site (expanded, low placement confidence)</b><br>" +
+        "📐 <b>2× confidence buffer</b> around the predicted core — where the site could be if the farm analysis is off.<br>" +
+        "🚂 The <b>Patna–Gaya railway line</b> passes through the eastern edge of this buffer (OSM) and a secondary road clips its SE corner — the final boundary must stay west of the line.<br>" +
+        "⚠️ <i>Corners predicted — exact boundary needs Bihar Bhumi khasra records.</i>")
       .bindTooltip("🔵 Probable area — Bihar Judicial Academy site (expanded, low placement confidence)", { sticky: true })
       .addTo(LAYERS.judicial.group);
     judicialCorePoly = L.polygon(JUDICIAL_CORNERS, { color: judicialColor, weight: 2.5, dashArray: "7 5", fillColor: judicialColor, fillOpacity: 0.28 })
@@ -201,14 +214,21 @@
       .addTo(LAYERS.sports.group);
     counts.sports = 1;
 
-    // --- NFSU off-campus + CFSL: 50 acres = 202,342.8 sq m -> 449.8 m square, placed
-    // just east of the Sports City square (relative position indicative).
+    // --- NFSU off-campus + CFSL: 50 acres = 202,342.8 sq m -> 449.8 m square.
+    // REVISED 26 Sep 2026 — infrastructure reality check (OSM): the Patna–Gaya
+    // railway line AND NH22 (Patna–Gaya highway) run NNE parallel ~110 m apart
+    // through the old square's west (railway lon ~85.09797–85.09904, NH22 lon
+    // ~85.09959–85.10025 across its lat range). The square was SHIFTED EAST of
+    // BOTH: new centre (25.484580, 85.102982), same 449.8 m square (lat
+    // +/-0.002020 deg, lon +/-0.002239 deg). West edge now clears NH22 by
+    // ~50–160 m and the railway by ~130–250 m. Placement was always indicative
+    // (relative to Sports City) — keep the infra note in the popup.
     // Corner offsets: lat +/-0.002020 deg, lon +/-0.002239 deg.
     const NFSU_CORNERS = [
-      [25.482560, 85.096881],
-      [25.482560, 85.101359],
-      [25.486600, 85.101359],
-      [25.486600, 85.096881]
+      [25.482560, 85.100743],
+      [25.482560, 85.105221],
+      [25.486600, 85.105221],
+      [25.486600, 85.100743]
     ];
     const NFSU_POPUP =
       "<b>\uD83D\uDD2C NFSU off-campus + CFSL (upcoming)</b><br>" +
@@ -217,6 +237,7 @@
       "\u2022 National Forensic Sciences University off-campus centre + Central Forensic Sciences Laboratory.<br>" +
       "\u2022 Labs: DNA testing, fingerprint analysis, cyber forensics, narcotics &amp; explosives.<br>" +
       "\u2022 Training hub for police personnel, judicial officers &amp; security agencies.<br>" +
+      "\uD83D\uDE82 <b>Boundary note:</b> the <b>Patna\u2013Gaya railway line</b> and <b>NH22</b> run NNE parallel just west of this zone (OSM) \u2014 this predicted square was shifted east of both so no boundary crosses them.<br>" +
       "\u26A0\uFE0F <i>Location <b>approx</b>; position relative to Sports City is indicative.</i><br>" +
       'Source: <a target="_blank" rel="noopener" href="https://patnapress.com/bihar-nfsu-cfsl-patna-forensic-lab-project/">Patna Press</a>';
     projectRefs.nfsu = L.polygon(NFSU_CORNERS, { color: "#14b8a6", weight: 2.5, dashArray: "7 5", fillColor: "#14b8a6", fillOpacity: 0.22 })
@@ -242,6 +263,7 @@
       "\u2022 81,730-acre \u2018special zone\u2019 across 9 blocks (Punpun, Fatuha, Sampatchak, Dhanarua, Masaurhi, Phulwari + 3 more); land transactions banned till Mar 2027.<br>" +
       "\u2022 Planned inside: Sports City, Fintech City, logistics hub, <b>judicial academy</b>.<br>" +
       "\u2022 Later draft: core expanded to 3,008 acres / 19 villages in Punpun block.<br>" +
+      "\uD83D\uDEE3\uFE0F <b>Boundary note:</b> SH78 (Bihta\u2013Daniyawam\u2013Sarmera Road) and another primary road run E\u2013W through this zone (OSM) \u2014 the drawn square is indicative only, not an official boundary.<br>" +
       "\u26A0\uFE0F <i>Zone boundary <b>indicative</b> \u2014 official village list is exact, the drawn square is not.</i><br>" +
       'Sources: <a target="_blank" rel="noopener" href="https://patnapress.com/bihar-townships-blueprint-11-cities-patna-sports-city-bhagalpur-boost/">Patna Press</a> \u00B7 ' +
       '<a target="_blank" rel="noopener" href="https://patnapress.com/explained-pataliputra-greenfield-satellite-township-development-plan-2047/">Patna Press (plan)</a> \u00B7 ' +
@@ -256,7 +278,7 @@
     // town positions; farm plot corners are not public.
     const AGRI_FARMS = [
       { name: "Subdivisional Agril. Farm, Pothahi", lat: 25.444500, lon: 85.084580, acres: "40 acres",
-        note: "\uD83D\uDD17 Likely the Judicial Academy site: the 38.77-acre academy transfer (agri-dept land, Pothahi/Dharahara maujas) almost certainly IS this 40-acre farm \u2014 kept as a separate pin for the record." },
+        note: "\uD83D\uDD17 Likely the Judicial Academy site: the 38.77-acre academy transfer (agri-dept land, Pothahi/Dharahara maujas) almost certainly IS this 40-acre farm \u2014 kept as a separate pin for the record.<br>\uD83D\uDE82 The Patna\u2013Gaya railway line runs through this pin area (OSM) \u2014 pin is village-level approx; the real farm boundary respects the line." },
       { name: "Sub-Divisional Agril. Farm, Sabajtuna", lat: 25.359700, lon: 85.129700, acres: "40 acres",
         note: "\uD83D\uDCCD Dhanarua block (town approx)." },
       { name: "Seed Multiplication Farm, Masaurahi", lat: 25.359270, lon: 85.039800, acres: "25 acres",
@@ -284,6 +306,31 @@
       .bindTooltip("\uD83D\uDE9A Logistics Park (planned, ~104 ac \u2014 approx)", { sticky: true })
       .addTo(LAYERS.logistics.group);
     counts.logistics = 1;
+
+    // --- Earlier (superseded) academy site estimates — kept per the
+    // "pinpoint all records, don't remove earlier ones" rule. Grey dashed
+    // markers + popups tagged "earlier estimate" so they are never confused
+    // with the current best estimate.
+    const EARLIER_RECORDS = [
+      { key: "dharahra", chip: "Academy @ Dharahra", lat: 25.457400, lon: 85.090020,
+        popup: "<b>🕓 Earlier estimate — Bihar Judicial Academy (superseded)</b><br>" +
+          "📍 Rough prediction near <b>Dharahra</b> village, Punpun block (Sep 2026).<br>" +
+          "🚂 The <b>Patna–Gaya railway line</b> passes ~60 m west of this point (OSM).<br>" +
+          "➡️ Superseded: bhoomi-pujan reports placed the site at Pothahi → moved to Pothahi village → now the Pothahi agri farm (HIGH confidence)." },
+      { key: "pothahiv", chip: "Academy @ Pothahi vill.", lat: 25.446890, lon: 85.084580,
+        popup: "<b>🕓 Earlier estimate — Bihar Judicial Academy (superseded)</b><br>" +
+          "📍 Prediction at <b>Pothahi village</b>, Punpun block, after the 3 Jan 2026 bhoomi-pujan reports.<br>" +
+          "🚂 The <b>Patna–Gaya railway line</b> runs ~50 m east of this point (OSM).<br>" +
+          "➡️ Superseded: acquisition-record analysis pinned the site on the Pothahi Subdivisional Agricultural Farm (HIGH confidence)." }
+    ];
+    EARLIER_RECORDS.forEach(function (rec) {
+      const mk = L.circleMarker([rec.lat, rec.lon], { radius: 8, color: "#9ca3af", weight: 2, dashArray: "4 3", fillColor: "#9ca3af", fillOpacity: 0.35 })
+        .bindPopup(rec.popup + "<br><i>Kept for the record — not the current estimate.</i>")
+        .bindTooltip("🕓 Earlier estimate — superseded", { sticky: true })
+        .addTo(LAYERS.earlier.group);
+      projectRefs.earlier.push({ key: rec.key, marker: mk, chip: rec.chip, lat: rec.lat, lon: rec.lon });
+    });
+    counts.earlier = EARLIER_RECORDS.length;
   }
   renderProjectLayers(); // initial render
 
@@ -579,7 +626,7 @@
         }
       }
     } finally {
-      renderProjectLayers(); // ALWAYS restore the 6 static project layers
+      renderProjectLayers(); // ALWAYS restore the 7 static project layers
       renderUserListings();  // ALWAYS restore the user's own listings
       updateStats();
       if (showOverlay) el("loading").classList.add("hidden");
@@ -1053,16 +1100,34 @@
 
   /* ---------- one-tap project jumps + fit-to-projects overview ---------- */
   const JUMPS = [
-    { emoji: "⚖️", label: "Academy", lat: 25.4445, lon: 85.08458, zoom: 16, popup: "judicial" },
+    // --- current project records ---
+    { emoji: "⚖️", label: "Academy", lat: 25.4445, lon: 85.080741, zoom: 16, popup: "judicial" },
+    { emoji: "🔵", label: "Academy area", zone: true },
     { emoji: "🏟️", label: "Sports City", lat: 25.48458, lon: 85.09212, zoom: 14, popup: "sports" },
-    { emoji: "🔬", label: "NFSU", lat: 25.48458, lon: 85.09912, zoom: 14, popup: "nfsu" },
+    { emoji: "🔬", label: "NFSU", lat: 25.48458, lon: 85.10298, zoom: 14, popup: "nfsu" },
     { emoji: "🏙️", label: "Township", lat: 25.4747, lon: 85.0769, zoom: 13, popup: "township" },
     { emoji: "🌾", label: "Farms", farms: true },
-    { emoji: "🚚", label: "Logistics", lat: 25.4298, lon: 85.19245, zoom: 14, popup: "logistics" }
+    { emoji: "🚚", label: "Logistics", lat: 25.4298, lon: 85.19245, zoom: 14, popup: "logistics" },
+    // --- earlier (superseded) records, kept for the record ---
+    { group: "Earlier records", emoji: "🕓", label: "Academy @ Dharahra", earlier: "dharahra", cls: "earlier" },
+    { group: "Earlier records", emoji: "🕓", label: "Academy @ Pothahi vill.", earlier: "pothahiv", cls: "earlier" }
   ];
   function jumpTo(j) {
     if (j.farms && projectRefs.farms.length) {
       map.flyToBounds(L.latLngBounds(projectRefs.farms.map(m => m.getLatLng())).pad(0.4), { duration: 1 });
+      return;
+    }
+    if (j.zone && judicialZonePoly) {
+      map.flyToBounds(judicialZonePoly.getBounds().pad(0.2), { duration: 1 });
+      setTimeout(() => { if (judicialZonePoly.getPopup()) judicialZonePoly.openPopup(); }, 1200);
+      return;
+    }
+    if (j.earlier) {
+      const rec = (projectRefs.earlier || []).find(r => r.key === j.earlier);
+      if (rec) {
+        map.flyTo([rec.lat, rec.lon], 15, { duration: 1 });
+        setTimeout(() => rec.marker.openPopup(), 1200);
+      }
       return;
     }
     map.flyTo([j.lat, j.lon], j.zoom, { duration: 1 });
@@ -1073,10 +1138,18 @@
     const bar = document.createElement("div");
     bar.id = "jumpbar";
     bar.className = "jumpbar";
+    let lastGroup = null;
     JUMPS.forEach(j => {
+      if (j.group && j.group !== lastGroup) {
+        const sep = document.createElement("span");
+        sep.className = "jumpbar-sep";
+        sep.textContent = j.group;
+        bar.appendChild(sep);
+        lastGroup = j.group;
+      }
       const b = document.createElement("button");
       b.type = "button";
-      b.className = "jumpchip";
+      b.className = "jumpchip" + (j.cls ? " " + j.cls : "");
       b.textContent = j.emoji + " " + j.label;
       b.setAttribute("aria-label", "Jump to " + j.label);
       b.addEventListener("click", () => jumpTo(j));
