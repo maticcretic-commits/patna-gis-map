@@ -82,25 +82,37 @@
   let roadKm = 0;
 
   /* ---------- Bihar Judicial Academy (upcoming) — predicted campus area ---------- */
-  // 38.77 acres = 156,896.7 sq m -> 396.1 m square, centred at (25.4574, 85.09002).
-  // Corner offsets computed for lat 25.4574: lat +/-0.001779 deg, lon +/-0.001971 deg.
-  // BOUNDARY IS INDICATIVE / PREDICTED — exact plot limits need Bihar Bhumi land records.
+  // 38.77 acres = 156,896.7 sq m -> 396.1 m square.
+  // REFINED 26 Sep 2026 from press reports: bhoomi pujan (3 Jan 2026, CJI Justice
+  // Surya Kant) was held at Pothahi village, Punpun block — reported as
+  // "Pothahi (Dharahara area)". Square re-centred on Pothi village geocode
+  // (25.44689, 85.08458). Corner offsets for lat 25.44689: lat +/-0.001779 deg,
+  // lon +/-0.001971 deg.
+  // BOUNDARY IS PREDICTED FROM PUBLIC DOCUMENTS (medium confidence, village-level
+  // anchor). No khasra/plot map published — exact plot corners need Bihar Bhumi records.
   const JUDICIAL_CORNERS = [
-    [25.455621, 85.088049],
-    [25.455621, 85.091991],
-    [25.459179, 85.091991],
-    [25.459179, 85.088049]
+    [25.445111, 85.082609],
+    [25.445111, 85.086551],
+    [25.448669, 85.086551],
+    [25.448669, 85.082609]
   ];
   const JUDICIAL_POPUP =
     "<b>⚖️ Bihar Judicial Academy (upcoming)</b><br>" +
     "📐 <b>38.77 acres</b> (≈156,900 sq m)<br>" +
-    "📍 Dharahara &amp; Pothahi maujas, Punpun block, Patna<br>" +
-    "Bihar cabinet transferred agriculture-department land to the law department for the upcoming campus.<br>" +
-    "⚠️ <i>Boundary is <b>indicative / predicted</b> — exact plot limits need official land records (Bihar Bhumi).</i><br>" +
-    '<a target="_blank" rel="noopener" href="https://timesofindia.indiatimes.com/city/patna/cabinet-nod-to-rs-574-crore-for-land-acquisition-in-punpun-to-build-sports-stadium/articleshow/123658314.cms">Source: Times of India</a>';
+    "📍 Pothahi mauja (Dharahara area), Punpun block, Patna<br>" +
+    "<b>Timeline:</b><br>" +
+    "• Sep 2025 — Bihar cabinet transfers 38.77 acres of agriculture-department land (Dharahara &amp; Pothahi maujas) to the law department.<br>" +
+    "• 3 Jan 2026 — Bhoomi pujan at the Pothahi site by CJI Justice Surya Kant.<br>" +
+    "• May 2026 — Building Construction Dept invites design &amp; master-plan proposals (pre-bid 22 May; technical bids 1 Jul 2026).<br>" +
+    "<b>Planned:</b> academic blocks, training centre, smart classrooms, seminar halls, digital library, admin block, residential complex.<br>" +
+    "⚠️ <i>Boundary <b>predicted from public documents</b> (village-level anchor, medium confidence) — exact plot corners need official land records (Bihar Bhumi).</i><br>" +
+    'Sources: <a target="_blank" rel="noopener" href="https://timesofindia.indiatimes.com/city/patna/cabinet-nod-to-rs-574-crore-for-land-acquisition-in-punpun-to-build-sports-stadium/articleshow/123658314.cms">TOI</a> · ' +
+    '<a target="_blank" rel="noopener" href="https://www.jagran.com/bihar/patna-city-cji-suryakant-to-lay-foundation-for-rs-302-cr-projects-in-patna-high-court-40094047.html">Jagran (Jan 2026)</a> · ' +
+    '<a target="_blank" rel="noopener" href="https://www.jagran.com/bihar/patna-city-bihar-judicial-academy-world-class-training-center-in-punpun-40237118.html">Jagran (May 2026)</a> · ' +
+    '<a target="_blank" rel="noopener" href="https://www.livehindustan.com/bihar/patna/story-cji-suryakant-visits-patna-inauguration-of-judicial-projects-and-e-acr-platform-201767273074432.html">Hindustan</a>';
   L.polygon(JUDICIAL_CORNERS, { color: "#a78bfa", weight: 2.5, dashArray: "7 5", fillColor: "#a78bfa", fillOpacity: 0.25 })
     .bindPopup(JUDICIAL_POPUP)
-    .bindTooltip("⚖️ Bihar Judicial Academy (upcoming, predicted area)", { sticky: true })
+    .bindTooltip("⚖️ Bihar Judicial Academy (upcoming, Pothahi — predicted area)", { sticky: true })
     .addTo(LAYERS.judicial.group);
   counts.judicial = 1;
 
