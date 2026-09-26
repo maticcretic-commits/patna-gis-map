@@ -7,6 +7,7 @@
   const cfg = window.PATNA_CONFIG;
   const [CLAT, CLON] = cfg.center;
   const R = cfg.radiusMeters;
+  document.getElementById("loading").classList.add("hidden"); // live data loads in background; no blocking spinner
 
   /* ---------- map ---------- */
   const map = L.map("map", { zoomControl: true }).setView(cfg.center, cfg.defaultZoom);
@@ -132,154 +133,157 @@
   LAYERS.judicial.color = judicialColor;
   const JUDICIAL_POPUP =
     "<b>⚖️ Bihar Judicial Academy (upcoming)</b><br>" +
-    "📐 <b>38.77 acres</b> (≈156,900 sq m)<br>" +
-    "📍 Pothahi mauja (Dharahara area), Punpun block, Patna<br>" +
-    "✅ <b>Site identified (HIGH confidence):</b> this is the <b>Subdivisional Agricultural Farm, Pothahi</b> (40 acres, ATMA Patna SREP) — 38.77 vs 40 acres is khasra-survey precision vs rounded farm records (1.23-acre gap); the Dharahara &amp; Pothahi dual-mauja naming fits a farm straddling the mauja boundary.<br>" +
-    "<b>Map shows:</b><br>" +
-    "• <b>Inner square</b> — predicted 38.77-acre campus footprint.<br>" +
-    "• <b>Outer zone</b> — expanded probable area (≈2×, ≈77.5 acres), added because the exact plot corners are not public.<br>" +
-    "<b>Timeline:</b><br>" +
-    "• Sep 2025 — Bihar cabinet transfers 38.77 acres of agriculture-department land (Dharahara &amp; Pothahi maujas) to the law department.<br>" +
-    "• 3 Jan 2026 — Bhoomi pujan at the Pothahi site by CJI Justice Surya Kant.<br>" +
-    "• May 2026 — Building Construction Dept invites design &amp; master-plan proposals (pre-bid 22 May; technical bids 1 Jul 2026).<br>" +
-    "<b>Planned:</b> academic blocks, training centre, smart classrooms, seminar halls, digital library, admin block, residential complex.<br>" +
-    "⚠️ <i>Site identified from acquisition records (HIGH confidence); the square <b>corners remain predicted</b> — the exact legal boundary needs khasra records from Bihar Bhumi.</i><br>" +
+    "📐 <b>38.77 acres</b> · 📍 Pothahi agri farm, Punpun block<br>" +
+    "✅ <b>Site identified (HIGH confidence):</b> the Subdivisional Agricultural Farm, Pothahi (40 acres) — 38.77 vs 40 is khasra-survey precision vs rounded farm records; the Dharahara &amp; Pothahi dual-mauja naming fits a farm straddling the mauja boundary.<br>" +
+    "🗓️ Sep 2025 cabinet transfer → 3 Jan 2026 bhoomi pujan (CJI Surya Kant) → May 2026 design tender.<br>" +
+    "🏗️ Planned: academic blocks, training centre, smart classrooms, digital library, residential complex.<br>" +
+    "⚠️ <i>Square corners remain predicted — exact boundary needs Bihar Bhumi khasra records.</i><br>" +
     'Sources: <a target="_blank" rel="noopener" href="https://timesofindia.indiatimes.com/city/patna/cabinet-nod-to-rs-574-crore-for-land-acquisition-in-punpun-to-build-sports-stadium/articleshow/123658314.cms">TOI</a> · ' +
-    '<a target="_blank" rel="noopener" href="https://www.jagran.com/bihar/patna-city-cji-suryakant-to-lay-foundation-for-rs-302-cr-projects-in-patna-high-court-40094047.html">Jagran (Jan 2026)</a> · ' +
-    '<a target="_blank" rel="noopener" href="https://www.jagran.com/bihar/patna-city-bihar-judicial-academy-world-class-training-center-in-punpun-40237118.html">Jagran (May 2026)</a> · ' +
+    '<a target="_blank" rel="noopener" href="https://www.jagran.com/bihar/patna-city-cji-suryakant-to-lay-foundation-for-rs-302-cr-projects-in-patna-high-court-40094047.html">Jagran</a> · ' +
     '<a target="_blank" rel="noopener" href="https://www.livehindustan.com/bihar/patna/story-cji-suryakant-visits-patna-inauguration-of-judicial-projects-and-e-acr-platform-201767273074432.html">Hindustan</a>';
-  const judicialZonePoly = L.polygon(JUDICIAL_ZONE_CORNERS, { color: judicialColor, weight: 1.5, dashArray: "4 6", fillColor: judicialColor, fillOpacity: 0.10 })
-    .bindTooltip("🔵 Probable area — Bihar Judicial Academy site (expanded, low placement confidence)", { sticky: true })
-    .addTo(LAYERS.judicial.group);
-  const judicialCorePoly = L.polygon(JUDICIAL_CORNERS, { color: judicialColor, weight: 2.5, dashArray: "7 5", fillColor: judicialColor, fillOpacity: 0.28 })
-    .bindPopup(JUDICIAL_POPUP)
-    .bindTooltip("⚖️ Bihar Judicial Academy (upcoming, Pothahi agri farm — 38.77 acres)", { sticky: true })
-    .addTo(LAYERS.judicial.group);
-  window.setJudicialColor = function (hex) {
-    judicialColor = hex;
-    try { localStorage.setItem("judicialColor", hex); } catch (e) { /* storage unavailable */ }
-    LAYERS.judicial.color = hex;
-    judicialCorePoly.setStyle({ color: hex, fillColor: hex });
-    judicialZonePoly.setStyle({ color: hex, fillColor: hex });
-    const dot = document.querySelector('.toggle-row[data-layer="judicial"] .dot');
-    if (dot) dot.style.background = hex;
-    document.querySelectorAll(".jcolor-swatch").forEach(s => {
-      s.style.outline = (s.dataset.hex === hex) ? "2px solid #fff" : "none";
+
+  // Static project layers — re-rendered after every Reload so they never vanish.
+  let judicialCorePoly = null, judicialZonePoly = null;
+  const projectRefs = { farms: [] };
+  function renderProjectLayers() {
+    projectRefs.farms = [];
+    judicialZonePoly = L.polygon(JUDICIAL_ZONE_CORNERS, { color: judicialColor, weight: 1.5, dashArray: "4 6", fillColor: judicialColor, fillOpacity: 0.10 })
+      .bindTooltip("🔵 Probable area — Bihar Judicial Academy site (expanded, low placement confidence)", { sticky: true })
+      .addTo(LAYERS.judicial.group);
+    judicialCorePoly = L.polygon(JUDICIAL_CORNERS, { color: judicialColor, weight: 2.5, dashArray: "7 5", fillColor: judicialColor, fillOpacity: 0.28 })
+      .bindPopup(JUDICIAL_POPUP)
+      .bindTooltip("⚖️ Bihar Judicial Academy (upcoming, Pothahi agri farm — 38.77 acres)", { sticky: true })
+      .addTo(LAYERS.judicial.group);
+    window.setJudicialColor = function (hex) {
+      judicialColor = hex;
+      try { localStorage.setItem("judicialColor", hex); } catch (e) { /* storage unavailable */ }
+      LAYERS.judicial.color = hex;
+      judicialCorePoly.setStyle({ color: hex, fillColor: hex });
+      judicialZonePoly.setStyle({ color: hex, fillColor: hex });
+      const dot = document.querySelector('.toggle-row[data-layer="judicial"] .dot');
+      if (dot) dot.style.background = hex;
+      document.querySelectorAll(".jcolor-swatch").forEach(s => {
+        s.style.outline = (s.dataset.hex === hex) ? "2px solid #fff" : "none";
+      });
+    };
+    counts.judicial = 1;
+    projectRefs.judicial = judicialCorePoly;
+
+    /* ---------- Govt projects, Punpun belt — additional pinned records (26 Sep 2026) ---------- */
+    // Every record below is pinned from news/government documents. All boundaries and
+    // positions are PREDICTED/APPROX (village-level anchors) unless noted. Nothing above
+    // (Judicial Academy layer) was changed — all records stay on the map side by side.
+
+    // --- Dumri Sports City: 100 acres = 404,685.6 sq m -> 636.1 m square, centred on
+    // Dumri village geocode (25.48458, 85.09212; district-level match, approx).
+    // Corner offsets: lat +/-0.002857 deg, lon +/-0.003166 deg.
+    const SPORTS_CORNERS = [
+      [25.481723, 85.088954],
+      [25.481723, 85.095286],
+      [25.487437, 85.095286],
+      [25.487437, 85.088954]
+    ];
+    const SPORTS_POPUP =
+      "<b>\uD83C\uDFDF\uFE0F Dumri Sports City (upcoming)</b><br>" +
+      "\uD83D\uDCD0 <b>~100 acres</b> | \uD83D\uDCB0 \u20B9574 crore sanctioned<br>" +
+      "\uD83D\uDCCD Near Dumri village, Punpun block, Patna<br>" +
+      "\u2022 Sep 2025 \u2014 Bihar cabinet sanctions ~\u20B9574 cr for acquisition of 100 acres near Dumri for a world-class stadium &amp; sports infrastructure.<br>" +
+      "\u2022 Jun 2026 \u2014 Sports minister orders fast-track; proposal forwarded to DM &amp; District Land Acquisition Officer, Patna.<br>" +
+      "\u26A0\uFE0F <i>Location <b>approx</b> (village-level anchor) \u2014 exact plot corners not public.</i><br>" +
+      'Sources: <a target="_blank" rel="noopener" href="https://timesofindia.indiatimes.com/city/patna/cabinet-nod-to-rs-574-crore-for-land-acquisition-in-punpun-to-build-sports-stadium/articleshow/123658314.cms">TOI</a> \u00B7 ' +
+      '<a target="_blank" rel="noopener" href="https://theprint.in/sport/bihar-govt-asks-officials-to-fast-track-rs-574-crore-dumri-sports-city-project-in-patna/2957003/">ThePrint (PTI)</a>';
+    projectRefs.sports = L.polygon(SPORTS_CORNERS, { color: "#f97316", weight: 2.5, dashArray: "7 5", fillColor: "#f97316", fillOpacity: 0.22 })
+      .bindPopup(SPORTS_POPUP)
+      .bindTooltip("\uD83C\uDFDF\uFE0F Dumri Sports City (upcoming, ~100 acres \u2014 location approx)", { sticky: true })
+      .addTo(LAYERS.sports.group);
+    counts.sports = 1;
+
+    // --- NFSU off-campus + CFSL: 50 acres = 202,342.8 sq m -> 449.8 m square, placed
+    // just east of the Sports City square (relative position indicative).
+    // Corner offsets: lat +/-0.002020 deg, lon +/-0.002239 deg.
+    const NFSU_CORNERS = [
+      [25.482560, 85.096881],
+      [25.482560, 85.101359],
+      [25.486600, 85.101359],
+      [25.486600, 85.096881]
+    ];
+    const NFSU_POPUP =
+      "<b>\uD83D\uDD2C NFSU off-campus + CFSL (upcoming)</b><br>" +
+      "\uD83D\uDCD0 <b>~50 acres</b> | \uD83D\uDCB0 \u20B9287.16 crore sanctioned<br>" +
+      "\uD83D\uDCCD Dumri, Punpun block, Patna<br>" +
+      "\u2022 National Forensic Sciences University off-campus centre + Central Forensic Sciences Laboratory.<br>" +
+      "\u2022 Labs: DNA testing, fingerprint analysis, cyber forensics, narcotics &amp; explosives.<br>" +
+      "\u2022 Training hub for police personnel, judicial officers &amp; security agencies.<br>" +
+      "\u26A0\uFE0F <i>Location <b>approx</b>; position relative to Sports City is indicative.</i><br>" +
+      'Source: <a target="_blank" rel="noopener" href="https://patnapress.com/bihar-nfsu-cfsl-patna-forensic-lab-project/">Patna Press</a>';
+    projectRefs.nfsu = L.polygon(NFSU_CORNERS, { color: "#14b8a6", weight: 2.5, dashArray: "7 5", fillColor: "#14b8a6", fillOpacity: 0.22 })
+      .bindPopup(NFSU_POPUP)
+      .bindTooltip("\uD83D\uDD2C NFSU Campus + CFSL (upcoming, ~50 acres \u2014 location approx)", { sticky: true })
+      .addTo(LAYERS.nfsu.group);
+    counts.nfsu = 1;
+
+    // --- Pataliputra Township core zone: 1,010 acres = 4,087,326.8 sq m -> 2,021.7 m
+    // square, centred on the core-village cluster centroid (25.4747, 85.0769) derived
+    // from Pipra / Sikandarpur / Dumri geocodes. Corner offsets: lat +/-0.009081 deg,
+    // lon +/-0.010061 deg.
+    const TOWNSHIP_CORNERS = [
+      [25.465619, 85.066839],
+      [25.465619, 85.086961],
+      [25.483781, 85.086961],
+      [25.483781, 85.066839]
+    ];
+    const TOWNSHIP_POPUP =
+      "<b>\uD83C\uDFD9\uFE0F Pataliputra Township \u2014 core zone</b><br>" +
+      "\uD83D\uDCD0 <b>1,010-acre</b> core across 7 revenue villages: Abdalpur Pipra, Bajidpur, Pipra, Panwar, Nuruddinpur, Dumri, Sikandarpur<br>" +
+      "\uD83D\uDCCD Punpun block (~13 km from Patna city)<br>" +
+      "\u2022 81,730-acre \u2018special zone\u2019 across 9 blocks (Punpun, Fatuha, Sampatchak, Dhanarua, Masaurhi, Phulwari + 3 more); land transactions banned till Mar 2027.<br>" +
+      "\u2022 Planned inside: Sports City, Fintech City, logistics hub, <b>judicial academy</b>.<br>" +
+      "\u2022 Later draft: core expanded to 3,008 acres / 19 villages in Punpun block.<br>" +
+      "\u26A0\uFE0F <i>Zone boundary <b>indicative</b> \u2014 official village list is exact, the drawn square is not.</i><br>" +
+      'Sources: <a target="_blank" rel="noopener" href="https://patnapress.com/bihar-townships-blueprint-11-cities-patna-sports-city-bhagalpur-boost/">Patna Press</a> \u00B7 ' +
+      '<a target="_blank" rel="noopener" href="https://patnapress.com/explained-pataliputra-greenfield-satellite-township-development-plan-2047/">Patna Press (plan)</a> \u00B7 ' +
+      '<a target="_blank" rel="noopener" href="https://patnapress.com/pataliputra-township-villages-social-impact-assessment-land-acquisition/">Patna Press (SIA)</a>';
+    projectRefs.township = L.polygon(TOWNSHIP_CORNERS, { color: "#a855f7", weight: 2, dashArray: "10 6", fillColor: "#a855f7", fillOpacity: 0.08 })
+      .bindPopup(TOWNSHIP_POPUP)
+      .bindTooltip("\uD83C\uDFD9\uFE0F Pataliputra Township core zone (1,010 ac \u2014 boundary indicative)", { sticky: true })
+      .addTo(LAYERS.township.group);
+    counts.township = 1;
+
+    // --- Govt agriculture farms (ATMA Patna SREP). Circle markers at approx village/
+    // town positions; farm plot corners are not public.
+    const AGRI_FARMS = [
+      { name: "Subdivisional Agril. Farm, Pothahi", lat: 25.444500, lon: 85.084580, acres: "40 acres",
+        note: "\uD83D\uDD17 Likely the Judicial Academy site: the 38.77-acre academy transfer (agri-dept land, Pothahi/Dharahara maujas) almost certainly IS this 40-acre farm \u2014 kept as a separate pin for the record." },
+      { name: "Sub-Divisional Agril. Farm, Sabajtuna", lat: 25.359700, lon: 85.129700, acres: "40 acres",
+        note: "\uD83D\uDCCD Dhanarua block (town approx)." },
+      { name: "Seed Multiplication Farm, Masaurahi", lat: 25.359270, lon: 85.039800, acres: "25 acres",
+        note: "\uD83D\uDCCD Masaurhi (town approx)." },
+      { name: "Seed Multiplication &amp; Production Farm, Fatuha", lat: 25.508150, lon: 85.306900, acres: "25 acres",
+        note: "\uD83D\uDCCD Fatuha (town approx)." }
+    ];
+    AGRI_FARMS.forEach(function (f) {
+      const mk = L.circleMarker([f.lat, f.lon], { radius: 8, color: "#22c55e", weight: 2, fillColor: "#22c55e", fillOpacity: 0.5 })
+        .bindPopup("<b>\uD83C\uDF3E " + f.name + "</b><br>\uD83D\uDCD0 <b>" + f.acres + "</b> (ATMA Patna SREP)<br>" + f.note +
+          '<br>Source: <a target="_blank" rel="noopener" href="https://atmapatna.com/wp-content/uploads/2018/12/srep.pdf">ATMA Patna SREP (PDF)</a>')
+        .bindTooltip("\uD83C\uDF3E " + f.name + " (" + f.acres + ", approx)", { sticky: true })
+        .addTo(LAYERS.agrifarms.group);
+      projectRefs.farms.push(mk);
     });
-  };
-  counts.judicial = 1;
+    counts.agrifarms = AGRI_FARMS.length;
 
-  /* ---------- Govt projects, Punpun belt — additional pinned records (26 Sep 2026) ---------- */
-  // Every record below is pinned from news/government documents. All boundaries and
-  // positions are PREDICTED/APPROX (village-level anchors) unless noted. Nothing above
-  // (Judicial Academy layer) was changed — all records stay on the map side by side.
+    // --- Multi-Modal Logistics Park (planned): ~103-105 acres at Jaitiya mauza, Fatuha.
+    projectRefs.logistics = L.circleMarker([25.429800, 85.192450], { radius: 9, color: "#a16207", weight: 2, fillColor: "#a16207", fillOpacity: 0.5 })
+      .bindPopup("<b>\uD83D\uDE9A Multi-Modal Logistics Park (planned)</b><br>" +
+        "\uD83D\uDCD0 <b>~103\u2013105 acres</b><br>\uD83D\uDCCD Jaitiya mauza, Fatuha<br>" +
+        "\u2022 Warehouses + cold storage, inside the Pataliputra Township plan.<br>" +
+        "\u26A0\uFE0F <i>Location <b>approx</b> (village-level).</i><br>" +
+        'Source: <a target="_blank" rel="noopener" href="https://patnapress.com/explained-pataliputra-greenfield-satellite-township-development-plan-2047/">Patna Press</a>')
+      .bindTooltip("\uD83D\uDE9A Logistics Park (planned, ~104 ac \u2014 approx)", { sticky: true })
+      .addTo(LAYERS.logistics.group);
+    counts.logistics = 1;
+  }
+  renderProjectLayers(); // initial render
 
-  // --- Dumri Sports City: 100 acres = 404,685.6 sq m -> 636.1 m square, centred on
-  // Dumri village geocode (25.48458, 85.09212; district-level match, approx).
-  // Corner offsets: lat +/-0.002857 deg, lon +/-0.003166 deg.
-  const SPORTS_CORNERS = [
-    [25.481723, 85.088954],
-    [25.481723, 85.095286],
-    [25.487437, 85.095286],
-    [25.487437, 85.088954]
-  ];
-  const SPORTS_POPUP =
-    "<b>\uD83C\uDFDF\uFE0F Dumri Sports City (upcoming)</b><br>" +
-    "\uD83D\uDCD0 <b>~100 acres</b> | \uD83D\uDCB0 \u20B9574 crore sanctioned<br>" +
-    "\uD83D\uDCCD Near Dumri village, Punpun block, Patna<br>" +
-    "\u2022 Sep 2025 \u2014 Bihar cabinet sanctions ~\u20B9574 cr for acquisition of 100 acres near Dumri for a world-class stadium &amp; sports infrastructure.<br>" +
-    "\u2022 Jun 2026 \u2014 Sports minister orders fast-track; proposal forwarded to DM &amp; District Land Acquisition Officer, Patna.<br>" +
-    "\u26A0\uFE0F <i>Location <b>approx</b> (village-level anchor) \u2014 exact plot corners not public.</i><br>" +
-    'Sources: <a target="_blank" rel="noopener" href="https://timesofindia.indiatimes.com/city/patna/cabinet-nod-to-rs-574-crore-for-land-acquisition-in-punpun-to-build-sports-stadium/articleshow/123658314.cms">TOI</a> \u00B7 ' +
-    '<a target="_blank" rel="noopener" href="https://theprint.in/sport/bihar-govt-asks-officials-to-fast-track-rs-574-crore-dumri-sports-city-project-in-patna/2957003/">ThePrint (PTI)</a>';
-  L.polygon(SPORTS_CORNERS, { color: "#f97316", weight: 2.5, dashArray: "7 5", fillColor: "#f97316", fillOpacity: 0.22 })
-    .bindPopup(SPORTS_POPUP)
-    .bindTooltip("\uD83C\uDFDF\uFE0F Dumri Sports City (upcoming, ~100 acres \u2014 location approx)", { sticky: true })
-    .addTo(LAYERS.sports.group);
-  counts.sports = 1;
-
-  // --- NFSU off-campus + CFSL: 50 acres = 202,342.8 sq m -> 449.8 m square, placed
-  // just east of the Sports City square (relative position indicative).
-  // Corner offsets: lat +/-0.002020 deg, lon +/-0.002239 deg.
-  const NFSU_CORNERS = [
-    [25.482560, 85.096881],
-    [25.482560, 85.101359],
-    [25.486600, 85.101359],
-    [25.486600, 85.096881]
-  ];
-  const NFSU_POPUP =
-    "<b>\uD83D\uDD2C NFSU off-campus + CFSL (upcoming)</b><br>" +
-    "\uD83D\uDCD0 <b>~50 acres</b> | \uD83D\uDCB0 \u20B9287.16 crore sanctioned<br>" +
-    "\uD83D\uDCCD Dumri, Punpun block, Patna<br>" +
-    "\u2022 National Forensic Sciences University off-campus centre + Central Forensic Sciences Laboratory.<br>" +
-    "\u2022 Labs: DNA testing, fingerprint analysis, cyber forensics, narcotics &amp; explosives.<br>" +
-    "\u2022 Training hub for police personnel, judicial officers &amp; security agencies.<br>" +
-    "\u26A0\uFE0F <i>Location <b>approx</b>; position relative to Sports City is indicative.</i><br>" +
-    'Source: <a target="_blank" rel="noopener" href="https://patnapress.com/bihar-nfsu-cfsl-patna-forensic-lab-project/">Patna Press</a>';
-  L.polygon(NFSU_CORNERS, { color: "#14b8a6", weight: 2.5, dashArray: "7 5", fillColor: "#14b8a6", fillOpacity: 0.22 })
-    .bindPopup(NFSU_POPUP)
-    .bindTooltip("\uD83D\uDD2C NFSU Campus + CFSL (upcoming, ~50 acres \u2014 location approx)", { sticky: true })
-    .addTo(LAYERS.nfsu.group);
-  counts.nfsu = 1;
-
-  // --- Pataliputra Township core zone: 1,010 acres = 4,087,326.8 sq m -> 2,021.7 m
-  // square, centred on the core-village cluster centroid (25.4747, 85.0769) derived
-  // from Pipra / Sikandarpur / Dumri geocodes. Corner offsets: lat +/-0.009081 deg,
-  // lon +/-0.010061 deg.
-  const TOWNSHIP_CORNERS = [
-    [25.465619, 85.066839],
-    [25.465619, 85.086961],
-    [25.483781, 85.086961],
-    [25.483781, 85.066839]
-  ];
-  const TOWNSHIP_POPUP =
-    "<b>\uD83C\uDFD9\uFE0F Pataliputra Township \u2014 core zone</b><br>" +
-    "\uD83D\uDCD0 <b>1,010-acre</b> core across 7 revenue villages: Abdalpur Pipra, Bajidpur, Pipra, Panwar, Nuruddinpur, Dumri, Sikandarpur<br>" +
-    "\uD83D\uDCCD Punpun block (~13 km from Patna city)<br>" +
-    "\u2022 81,730-acre \u2018special zone\u2019 across 9 blocks (Punpun, Fatuha, Sampatchak, Dhanarua, Masaurhi, Phulwari + 3 more); land transactions banned till Mar 2027.<br>" +
-    "\u2022 Planned inside: Sports City, Fintech City, logistics hub, <b>judicial academy</b>.<br>" +
-    "\u2022 Later draft: core expanded to 3,008 acres / 19 villages in Punpun block.<br>" +
-    "\u26A0\uFE0F <i>Zone boundary <b>indicative</b> \u2014 official village list is exact, the drawn square is not.</i><br>" +
-    'Sources: <a target="_blank" rel="noopener" href="https://patnapress.com/bihar-townships-blueprint-11-cities-patna-sports-city-bhagalpur-boost/">Patna Press</a> \u00B7 ' +
-    '<a target="_blank" rel="noopener" href="https://patnapress.com/explained-pataliputra-greenfield-satellite-township-development-plan-2047/">Patna Press (plan)</a> \u00B7 ' +
-    '<a target="_blank" rel="noopener" href="https://patnapress.com/pataliputra-township-villages-social-impact-assessment-land-acquisition/">Patna Press (SIA)</a>';
-  L.polygon(TOWNSHIP_CORNERS, { color: "#a855f7", weight: 2, dashArray: "10 6", fillColor: "#a855f7", fillOpacity: 0.08 })
-    .bindPopup(TOWNSHIP_POPUP)
-    .bindTooltip("\uD83C\uDFD9\uFE0F Pataliputra Township core zone (1,010 ac \u2014 boundary indicative)", { sticky: true })
-    .addTo(LAYERS.township.group);
-  counts.township = 1;
-
-  // --- Govt agriculture farms (ATMA Patna SREP). Circle markers at approx village/
-  // town positions; farm plot corners are not public.
-  const AGRI_FARMS = [
-    { name: "Subdivisional Agril. Farm, Pothahi", lat: 25.444500, lon: 85.084580, acres: "40 acres",
-      note: "\uD83D\uDD17 Likely the Judicial Academy site: the 38.77-acre academy transfer (agri-dept land, Pothahi/Dharahara maujas) almost certainly IS this 40-acre farm \u2014 kept as a separate pin for the record." },
-    { name: "Sub-Divisional Agril. Farm, Sabajtuna", lat: 25.359700, lon: 85.129700, acres: "40 acres",
-      note: "\uD83D\uDCCD Dhanarua block (town approx)." },
-    { name: "Seed Multiplication Farm, Masaurahi", lat: 25.359270, lon: 85.039800, acres: "25 acres",
-      note: "\uD83D\uDCCD Masaurhi (town approx)." },
-    { name: "Seed Multiplication &amp; Production Farm, Fatuha", lat: 25.508150, lon: 85.306900, acres: "25 acres",
-      note: "\uD83D\uDCCD Fatuha (town approx)." }
-  ];
-  AGRI_FARMS.forEach(function (f) {
-    L.circleMarker([f.lat, f.lon], { radius: 8, color: "#22c55e", weight: 2, fillColor: "#22c55e", fillOpacity: 0.5 })
-      .bindPopup("<b>\uD83C\uDF3E " + f.name + "</b><br>\uD83D\uDCD0 <b>" + f.acres + "</b> (ATMA Patna SREP)<br>" + f.note +
-        '<br>Source: <a target="_blank" rel="noopener" href="https://atmapatna.com/wp-content/uploads/2018/12/srep.pdf">ATMA Patna SREP (PDF)</a>')
-      .bindTooltip("\uD83C\uDF3E " + f.name + " (" + f.acres + ", approx)", { sticky: true })
-      .addTo(LAYERS.agrifarms.group);
-  });
-  counts.agrifarms = AGRI_FARMS.length;
-
-  // --- Multi-Modal Logistics Park (planned): ~103-105 acres at Jaitiya mauza, Fatuha.
-  L.circleMarker([25.429800, 85.192450], { radius: 9, color: "#a16207", weight: 2, fillColor: "#a16207", fillOpacity: 0.5 })
-    .bindPopup("<b>\uD83D\uDE9A Multi-Modal Logistics Park (planned)</b><br>" +
-      "\uD83D\uDCD0 <b>~103\u2013105 acres</b><br>\uD83D\uDCCD Jaitiya mauza, Fatuha<br>" +
-      "\u2022 Warehouses + cold storage, inside the Pataliputra Township plan.<br>" +
-      "\u26A0\uFE0F <i>Location <b>approx</b> (village-level).</i><br>" +
-      'Source: <a target="_blank" rel="noopener" href="https://patnapress.com/explained-pataliputra-greenfield-satellite-township-development-plan-2047/">Patna Press</a>')
-    .bindTooltip("\uD83D\uDE9A Logistics Park (planned, ~104 ac \u2014 approx)", { sticky: true })
-    .addTo(LAYERS.logistics.group);
-  counts.logistics = 1;
 
 
   const ROAD_STYLE = {
@@ -443,22 +447,45 @@
   }
 
   async function fetchOverpass(url, query) {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: "data=" + encodeURIComponent(query)
-    });
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    return res.json();
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 45000); // never hang the UI
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "data=" + encodeURIComponent(query),
+        signal: ctrl.signal
+      });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return res.json();
+    } finally { clearTimeout(timer); }
   }
 
-  async function loadData(force) {
-    el("loading").classList.remove("hidden");
+  function setLiveBadge(state, detail) {
+    let badge = document.getElementById("liveBadge");
+    if (!badge) {
+      badge = document.createElement("div");
+      badge.id = "liveBadge";
+      badge.className = "livebadge";
+      document.querySelector(".mapwrap").appendChild(badge);
+    }
+    const msgs = {
+      loading: "● Loading live map data…",
+      ok: "✓ Live data loaded" + (detail ? " (" + detail + " features)" : ""),
+      cached: "✓ Showing saved map data",
+      error: "⚠️ Offline — project sites still shown"
+    };
+    badge.textContent = msgs[state] || state;
+  }
+
+  async function loadData(force, showOverlay) {
+    if (showOverlay) el("loading").classList.remove("hidden");
+    setLiveBadge("loading");
     Object.keys(LAYERS).forEach(k => { LAYERS[k].group.clearLayers(); counts[k] = 0; });
     roadKm = 0;
     try {
-      let data = (!force) ? readCache() : null;
-      if (!data) {
+      let data = readCache();
+      if (force || !data) {
         const q = buildQuery();
         try { data = await fetchOverpass(cfg.overpassUrl, q); }
         catch (e1) {
@@ -467,15 +494,25 @@
         }
         writeCache(data);
       }
+      const n = (data.elements || []).length;
       (data.elements || []).forEach(renderElement);
-      updateStats();
-      toast("Loaded live data: " + (data.elements || []).length + " features.", false);
+      setLiveBadge(force ? "ok" : (readCache() ? "cached" : "ok"), n);
+      if (force) toast("Loaded live data: " + n + " features.", false);
     } catch (e) {
       console.error(e);
-      el("stats").innerHTML = '<p class="hint">⚠️ Could not reach the Overpass API. Check your connection and press Reload.</p>';
-      toast("Failed to load map data. Please retry.", true);
+      const cached = readCache();
+      if (cached && (cached.elements || []).length) {
+        (cached.elements || []).forEach(renderElement);
+        setLiveBadge("cached");
+      } else {
+        setLiveBadge("error");
+        el("stats").innerHTML = '<p class="hint">⚠️ Could not reach the Overpass API. Check your connection and press Reload.</p>';
+        toast("Failed to load map data. Please retry.", true);
+      }
     } finally {
-      el("loading").classList.add("hidden");
+      renderProjectLayers(); // ALWAYS restore the 6 static project layers
+      updateStats();
+      if (showOverlay) el("loading").classList.add("hidden");
     }
   }
 
@@ -942,11 +979,57 @@
   });
   el("sidebarToggle").addEventListener("click", () => el("sidebar").classList.toggle("open"));
 
-  el("reloadBtn").addEventListener("click", () => loadData(true));
+  el("reloadBtn").addEventListener("click", () => loadData(true, true));
+
+  /* ---------- one-tap project jumps + fit-to-projects overview ---------- */
+  const JUMPS = [
+    { emoji: "⚖️", label: "Academy", lat: 25.4445, lon: 85.08458, zoom: 16, popup: "judicial" },
+    { emoji: "🏟️", label: "Sports City", lat: 25.48458, lon: 85.09212, zoom: 14, popup: "sports" },
+    { emoji: "🔬", label: "NFSU", lat: 25.48458, lon: 85.09912, zoom: 14, popup: "nfsu" },
+    { emoji: "🏙️", label: "Township", lat: 25.4747, lon: 85.0769, zoom: 13, popup: "township" },
+    { emoji: "🌾", label: "Farms", farms: true },
+    { emoji: "🚚", label: "Logistics", lat: 25.4298, lon: 85.19245, zoom: 14, popup: "logistics" }
+  ];
+  function jumpTo(j) {
+    if (j.farms && projectRefs.farms.length) {
+      map.flyToBounds(L.latLngBounds(projectRefs.farms.map(m => m.getLatLng())).pad(0.4), { duration: 1 });
+      return;
+    }
+    map.flyTo([j.lat, j.lon], j.zoom, { duration: 1 });
+    const r = projectRefs[j.popup];
+    setTimeout(() => { if (r && r.getPopup && r.getPopup()) r.openPopup(); }, 1200);
+  }
+  function buildJumpbar() {
+    const bar = document.createElement("div");
+    bar.id = "jumpbar";
+    bar.className = "jumpbar";
+    JUMPS.forEach(j => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "jumpchip";
+      b.textContent = j.emoji + " " + j.label;
+      b.setAttribute("aria-label", "Jump to " + j.label);
+      b.addEventListener("click", () => jumpTo(j));
+      bar.appendChild(b);
+    });
+    document.querySelector(".mapwrap").appendChild(bar);
+  }
+  function fitAllProjects() {
+    const b = L.latLngBounds([]);
+    ["judicial", "sports", "nfsu", "township"].forEach(k => {
+      const r = projectRefs[k];
+      if (r && r.getBounds) b.extend(r.getBounds());
+    });
+    if (projectRefs.logistics) b.extend(projectRefs.logistics.getLatLng());
+    projectRefs.farms.forEach(m => b.extend(m.getLatLng()));
+    if (b.isValid()) map.fitBounds(b.pad(0.15));
+  }
 
   /* ---------- go ---------- */
   buildToggles();
+  buildJumpbar();
+  fitAllProjects();
   loadExtra("junct", true);
   loadExtra("listings", true);
-  loadData(false);
+  loadData(false, false);
 })();
