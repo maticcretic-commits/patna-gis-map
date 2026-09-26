@@ -276,15 +276,20 @@
 
     // --- Govt agriculture farms (ATMA Patna SREP). Circle markers at approx village/
     // town positions; farm plot corners are not public.
+    // Infra audit 26 Sep 2026 (OSM via api.openstreetmap.org; Overpass API was
+    // unreachable from this network): Sabajtuna pin sits on SH1; Masaurahi pin is
+    // ~80 m west of the Patna-Gaya railway; Fatuha pin clean (railway ~640 m SW);
+    // logistics pin is ~20 m from the Neora-Daniwan railway line (line passes SE of the marker). Constraints are
+    // noted in each popup.
     const AGRI_FARMS = [
       { name: "Subdivisional Agril. Farm, Pothahi", lat: 25.444500, lon: 85.084580, acres: "40 acres",
         note: "\uD83D\uDD17 Likely the Judicial Academy site: the 38.77-acre academy transfer (agri-dept land, Pothahi/Dharahara maujas) almost certainly IS this 40-acre farm \u2014 kept as a separate pin for the record.<br>\uD83D\uDE82 The Patna\u2013Gaya railway line runs through this pin area (OSM) \u2014 pin is village-level approx; the real farm boundary respects the line." },
       { name: "Sub-Divisional Agril. Farm, Sabajtuna", lat: 25.359700, lon: 85.129700, acres: "40 acres",
-        note: "\uD83D\uDCCD Dhanarua block (town approx)." },
+        note: "\uD83D\uDCCD Dhanarua block (town approx).<br>\uD83D\uDE82 SH1 runs through this area (OSM) \u2014 the real 40-acre farm boundary must respect it." },
       { name: "Seed Multiplication Farm, Masaurahi", lat: 25.359270, lon: 85.039800, acres: "25 acres",
-        note: "\uD83D\uDCCD Masaurhi (town approx)." },
+        note: "\uD83D\uDCCD Masaurhi (town approx).<br>\uD83D\uDE82 The Patna\u2013Gaya railway line passes ~80 m east of this marker (OSM) \u2014 the real 25-acre farm boundary must respect it; NH22 runs ~500 m east." },
       { name: "Seed Multiplication &amp; Production Farm, Fatuha", lat: 25.508150, lon: 85.306900, acres: "25 acres",
-        note: "\uD83D\uDCCD Fatuha (town approx)." }
+        note: "\uD83D\uDCCD Fatuha (town approx).<br>\u2705 Infra check (OSM, 26 Sep 2026): no railway/highway conflicts at this marker \u2014 Howrah\u2013Delhi line ~640 m SW, Punpun river ~700 m away." }
     ];
     AGRI_FARMS.forEach(function (f) {
       const mk = L.circleMarker([f.lat, f.lon], { radius: 8, color: "#22c55e", weight: 2, fillColor: "#22c55e", fillOpacity: 0.5 })
@@ -301,6 +306,7 @@
       .bindPopup("<b>\uD83D\uDE9A Multi-Modal Logistics Park (planned)</b><br>" +
         "\uD83D\uDCD0 <b>~103\u2013105 acres</b><br>\uD83D\uDCCD Jaitiya mauza, Fatuha<br>" +
         "\u2022 Warehouses + cold storage, inside the Pataliputra Township plan.<br>" +
+        "\uD83D\uDE82 The Neora\u2013Daniwan railway line passes ~20 m SE of this marker (OSM) \u2014 pin is village-level approx; the real site boundary must respect the line.<br>" +
         "\u26A0\uFE0F <i>Location <b>approx</b> (village-level).</i><br>" +
         'Source: <a target="_blank" rel="noopener" href="https://patnapress.com/explained-pataliputra-greenfield-satellite-township-development-plan-2047/">Patna Press</a>')
       .bindTooltip("\uD83D\uDE9A Logistics Park (planned, ~104 ac \u2014 approx)", { sticky: true })
