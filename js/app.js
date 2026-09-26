@@ -83,9 +83,10 @@
     township:   { label: "Pataliputra Township core zone", color: "#a855f7", group: L.layerGroup().addTo(map) },
     agrifarms:  { label: "Govt agriculture farms", color: "#22c55e", group: L.layerGroup().addTo(map) },
     logistics:  { label: "Multi-Modal Logistics Park (planned)", color: "#a16207", group: L.layerGroup().addTo(map) },
-    earlier:    { label: "Earlier estimates (superseded)", color: "#9ca3af", group: L.layerGroup().addTo(map) }
+    earlier:    { label: "Earlier estimates (superseded)", color: "#9ca3af", group: L.layerGroup().addTo(map) },
+    resources:  { label: "Nearby resources \u2014 Judicial Academy", color: "#f59e0b", group: L.layerGroup().addTo(map) }
   };
-  const counts = { roads: 0, malls: 0, apartments: 0, openland: 0, amenities: 0, shops: 0, userlistings: 0, judicial: 0, sports: 0, nfsu: 0, township: 0, agrifarms: 0, logistics: 0, earlier: 0 };
+  const counts = { roads: 0, malls: 0, apartments: 0, openland: 0, amenities: 0, shops: 0, userlistings: 0, judicial: 0, sports: 0, nfsu: 0, township: 0, agrifarms: 0, logistics: 0, earlier: 0, resources: 0 };
   let roadKm = 0;
 
   /* ---------- Bihar Judicial Academy (upcoming) — predicted campus area ---------- */
@@ -146,6 +147,7 @@
     "🏗️ Planned: academic blocks, training centre, smart classrooms, digital library, residential complex.<br>" +
     "🚂 <b>Boundary note:</b> the <b>Patna–Gaya railway line</b> runs NNE just east of this zone (OSM), so this predicted square was shifted west of the line to respect it — no boundary may cross the railway.<br>" +
     "⚠️ <i>Square corners remain predicted — exact boundary needs Bihar Bhumi khasra records.</i><br>" +
+"📜 <b>Check the land records yourself:</b> exact plot corners live on <b>biharbhumi.bihar.gov.in</b> — open it in your own browser → Jamabandi/Khasra → Patna → Punpun block → mauja <b>Pothahi</b> (also check <b>Dharahara</b>), and look for the ~38.77-acre Agriculture Department plot transferred to the Law Department (Sep 2025 cabinet). The portal asks for a security code, so only you can run this lookup.<br>" +
     'Sources: <a target="_blank" rel="noopener" href="https://timesofindia.indiatimes.com/city/patna/cabinet-nod-to-rs-574-crore-for-land-acquisition-in-punpun-to-build-sports-stadium/articleshow/123658314.cms">TOI</a> · ' +
     '<a target="_blank" rel="noopener" href="https://www.jagran.com/bihar/patna-city-cji-suryakant-to-lay-foundation-for-rs-302-cr-projects-in-patna-high-court-40094047.html">Jagran</a> · ' +
     '<a target="_blank" rel="noopener" href="https://www.livehindustan.com/bihar/patna/story-cji-suryakant-visits-patna-inauguration-of-judicial-projects-and-e-acr-platform-201767273074432.html">Hindustan</a>';
@@ -155,10 +157,11 @@
   const projectRefs = { farms: [] };
   function renderProjectLayers() {
     // Self-contained: clear our 7 project groups first so re-runs never duplicate.
-    ["judicial", "sports", "nfsu", "township", "agrifarms", "logistics", "earlier"]
+    ["judicial", "sports", "nfsu", "township", "agrifarms", "logistics", "earlier", "resources"]
       .forEach(k => { LAYERS[k].group.clearLayers(); counts[k] = 0; });
     projectRefs.farms = [];
     projectRefs.earlier = [];
+    projectRefs.resources = [];
     judicialZonePoly = L.polygon(JUDICIAL_ZONE_CORNERS, { color: judicialColor, weight: 1.5, dashArray: "4 6", fillColor: judicialColor, fillOpacity: 0.10 })
       .bindPopup("<b>🔵 Probable area — Bihar Judicial Academy site (expanded, low placement confidence)</b><br>" +
         "📐 <b>2× confidence buffer</b> around the predicted core — where the site could be if the farm analysis is off.<br>" +
@@ -312,6 +315,40 @@
       .bindTooltip("\uD83D\uDE9A Logistics Park (planned, ~104 ac \u2014 approx)", { sticky: true })
       .addTo(LAYERS.logistics.group);
     counts.logistics = 1;
+
+    // --- Nearby resources for the Bihar Judicial Academy site (public OSM data, 26 Sep 2026) ---
+    // Rural belt: the immediate ~4 km around the site has NO mapped amenities in OSM.
+    // These are the nearest mapped resources (9-14 km, towards Masaurhi / Punpun town).
+    // Privacy: name + category + distance only. No phone numbers or contact tags, ever.
+    const RESOURCE_POIS = [
+      { emoji: "\uD83C\uDFE7", name: "Induslnd Bank ATM", cat: "ATM", lat: 25.532118, lon: 85.176721, dist: 13701, dir: "NE" },
+      { emoji: "\uD83C\uDFE6", name: "Andhra Bank", cat: "Bank", lat: 25.531231, lon: 85.176450, dist: 13612, dir: "NE" },
+      { emoji: "\uD83C\uDFE6", name: "Axis Bank", cat: "Bank", lat: 25.535235, lon: 85.175151, dist: 13842, dir: "NE" },
+      { emoji: "\uD83C\uDFE6", name: "State Bank of India", cat: "Bank", lat: 25.538483, lon: 85.176757, dist: 14216, dir: "NE" },
+      { emoji: "\uD83C\uDFE6", name: "Canara Bank", cat: "Bank", lat: 25.538983, lon: 85.176684, dist: 14252, dir: "NE" },
+      { emoji: "\u26FD", name: "HP petrolpump", cat: "Fuel station", lat: 25.553389, lon: 85.120373, dist: 12745, dir: "N" },
+      { emoji: "\uD83C\uDFE5", name: "SDH Masaurhi", cat: "Hospital", lat: 25.367677, lon: 85.042780, dist: 9355, dir: "SW" },
+      { emoji: "\uD83C\uDFE5", name: "Sri Krishna Nursing Home", cat: "Clinic", lat: 25.352856, lon: 85.028227, dist: 11475, dir: "SW" },
+      { emoji: "\uD83C\uDFE5", name: "Tridev Health Care and Research Educational Welfare and Charitable Trust", cat: "Hospital", lat: 25.548130, lon: 85.119070, dist: 12148, dir: "N" },
+      { emoji: "\uD83C\uDFE5", name: "Narayana Hospital", cat: "Hospital", lat: 25.533091, lon: 85.176218, dist: 13743, dir: "NE" },
+      { emoji: "\uD83C\uDFE5", name: "Sharda Hospital Mother & Child Care Pvt. Ltd.", cat: "Hospital", lat: 25.532505, lon: 85.177788, dist: 13807, dir: "NE" },
+      { emoji: "\uD83D\uDED2", name: "Smart Bazar", cat: "Supermarket", lat: 25.531267, lon: 85.176339, dist: 13607, dir: "NE" },
+      { emoji: "\uD83D\uDED2", name: "V Mart", cat: "Supermarket", lat: 25.536404, lon: 85.175997, dist: 13995, dir: "NE" },
+      { emoji: "\uD83D\uDCF1", name: "Mobile Point", cat: "Mobile/phone shop", lat: 25.533531, lon: 85.176004, dist: 13763, dir: "NE" },
+      { emoji: "\uD83C\uDFEB", name: "Smt. Girija Kunwar High School", cat: "School", lat: 25.355726, lon: 85.033253, dist: 10963, dir: "SW" },
+      { emoji: "\uD83C\uDFEB", name: "St. Mary\u0027s School", cat: "School", lat: 25.356644, lon: 85.026337, dist: 11194, dir: "SW" },
+      { emoji: "\uD83C\uDFEB", name: "St. John\u0027s Residential Public School", cat: "School", lat: 25.531841, lon: 85.178696, dist: 13820, dir: "NE" }
+    ];
+    RESOURCE_POIS.forEach(function (r) {
+      const dstr = r.dist >= 1000 ? (r.dist / 1000).toFixed(1) + " km" : r.dist + " m";
+      const mk = L.marker([r.lat, r.lon], { icon: poiIcon(r.emoji) })
+        .bindPopup("<b>" + r.emoji + " " + r.name + "</b><br>" + r.cat + " \u00B7 " + dstr + " " + r.dir + " of the academy site<br>" +
+          "<i>Public map data (OpenStreetMap) \u2014 no contact details.</i>")
+        .bindTooltip(r.emoji + " " + r.name + " (" + r.cat + ")", { sticky: true })
+        .addTo(LAYERS.resources.group);
+      projectRefs.resources.push(mk);
+    });
+    counts.resources = RESOURCE_POIS.length;
 
     // --- Earlier (superseded) academy site estimates — kept per the
     // "pinpoint all records, don't remove earlier ones" rule. Grey dashed
@@ -1114,6 +1151,7 @@
     { emoji: "🏙️", label: "Township", lat: 25.4747, lon: 85.0769, zoom: 13, popup: "township" },
     { emoji: "🌾", label: "Farms", farms: true },
     { emoji: "🚚", label: "Logistics", lat: 25.4298, lon: 85.19245, zoom: 14, popup: "logistics" },
+    { emoji: "📍", label: "Resources", resources: true },
     // --- earlier (superseded) records, kept for the record ---
     { group: "Earlier records", emoji: "🕓", label: "Academy @ Dharahra", earlier: "dharahra", cls: "earlier" },
     { group: "Earlier records", emoji: "🕓", label: "Academy @ Pothahi vill.", earlier: "pothahiv", cls: "earlier" }
@@ -1126,6 +1164,11 @@
     if (j.zone && judicialZonePoly) {
       map.flyToBounds(judicialZonePoly.getBounds().pad(0.2), { duration: 1 });
       setTimeout(() => { if (judicialZonePoly.getPopup()) judicialZonePoly.openPopup(); }, 1200);
+      return;
+    }
+    if (j.resources && projectRefs.resources && projectRefs.resources.length) {
+      if (!map.hasLayer(LAYERS.resources.group)) map.addLayer(LAYERS.resources.group);
+      map.flyToBounds(L.latLngBounds(projectRefs.resources.map(m => m.getLatLng())).pad(0.25), { duration: 1 });
       return;
     }
     if (j.earlier) {
