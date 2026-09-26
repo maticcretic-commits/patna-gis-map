@@ -82,13 +82,17 @@
   let roadKm = 0;
 
   /* ---------- Bihar Judicial Academy (upcoming) — predicted campus area ---------- */
-  // 38.77 acres = 156,896.7 sq m -> 396.1 m square.
+  // Core: 38.77 acres = 156,896.7 sq m -> 396.1 m square, centred on Pothahi
+  // village geocode (25.44689, 85.08458). Corner offsets: lat +/-0.001779 deg,
+  // lon +/-0.001971 deg.
   // REFINED 26 Sep 2026 from press reports: bhoomi pujan (3 Jan 2026, CJI Justice
   // Surya Kant) was held at Pothahi village, Punpun block — reported as
-  // "Pothahi (Dharahara area)". Square re-centred on Pothi village geocode
-  // (25.44689, 85.08458). Corner offsets for lat 25.44689: lat +/-0.001779 deg,
-  // lon +/-0.001971 deg.
-  // BOUNDARY IS PREDICTED FROM PUBLIC DOCUMENTS (medium confidence, village-level
+  // "Pothahi (Dharahara area)". Eyewitness videos (social media) show the site
+  // next to a highway ~15-16 km south of Patna, but no source gives plot corners.
+  // PROBABLE ZONE 26 Sep 2026: per Nitesh ("if not confident, expand the area") —
+  // a 2x-area confidence buffer (313,824 sq m -> 560.2 m square, lat +/-0.002516
+  // deg, lon +/-0.002787 deg) around the core.
+  // BOUNDARY IS PREDICTED FROM NEWS REPORTS (medium confidence, village-level
   // anchor). No khasra/plot map published — exact plot corners need Bihar Bhumi records.
   const JUDICIAL_CORNERS = [
     [25.445111, 85.082609],
@@ -96,24 +100,60 @@
     [25.448669, 85.086551],
     [25.448669, 85.082609]
   ];
+  const JUDICIAL_ZONE_CORNERS = [
+    [25.444374, 85.081793],
+    [25.444374, 85.087367],
+    [25.449406, 85.087367],
+    [25.449406, 85.081793]
+  ];
+  const JUDICIAL_COLORS = [
+    { name: "Blue",   hex: "#2563eb" },
+    { name: "Violet", hex: "#a78bfa" },
+    { name: "Green",  hex: "#22c55e" },
+    { name: "Orange", hex: "#f97316" }
+  ];
+  let judicialColor = "#2563eb"; // default BLUE (Nitesh's choice)
+  try {
+    const saved = localStorage.getItem("judicialColor");
+    if (saved && JUDICIAL_COLORS.some(c => c.hex === saved)) judicialColor = saved;
+  } catch (e) { /* storage unavailable */ }
+  LAYERS.judicial.color = judicialColor;
   const JUDICIAL_POPUP =
     "<b>⚖️ Bihar Judicial Academy (upcoming)</b><br>" +
     "📐 <b>38.77 acres</b> (≈156,900 sq m)<br>" +
     "📍 Pothahi mauja (Dharahara area), Punpun block, Patna<br>" +
+    "<b>Map shows:</b><br>" +
+    "• <b>Inner square</b> — predicted 38.77-acre campus footprint.<br>" +
+    "• <b>Outer zone</b> — expanded probable area (≈2×, ≈77.5 acres), added because the exact plot corners are not public.<br>" +
     "<b>Timeline:</b><br>" +
     "• Sep 2025 — Bihar cabinet transfers 38.77 acres of agriculture-department land (Dharahara &amp; Pothahi maujas) to the law department.<br>" +
     "• 3 Jan 2026 — Bhoomi pujan at the Pothahi site by CJI Justice Surya Kant.<br>" +
     "• May 2026 — Building Construction Dept invites design &amp; master-plan proposals (pre-bid 22 May; technical bids 1 Jul 2026).<br>" +
     "<b>Planned:</b> academic blocks, training centre, smart classrooms, seminar halls, digital library, admin block, residential complex.<br>" +
-    "⚠️ <i>Boundary <b>predicted from public documents</b> (village-level anchor, medium confidence) — exact plot corners need official land records (Bihar Bhumi).</i><br>" +
+    "⚠️ <i>Boundaries <b>predicted from news reports</b> (village-level anchor, medium confidence) — exact plot corners need official land records (Bihar Bhumi).</i><br>" +
     'Sources: <a target="_blank" rel="noopener" href="https://timesofindia.indiatimes.com/city/patna/cabinet-nod-to-rs-574-crore-for-land-acquisition-in-punpun-to-build-sports-stadium/articleshow/123658314.cms">TOI</a> · ' +
     '<a target="_blank" rel="noopener" href="https://www.jagran.com/bihar/patna-city-cji-suryakant-to-lay-foundation-for-rs-302-cr-projects-in-patna-high-court-40094047.html">Jagran (Jan 2026)</a> · ' +
     '<a target="_blank" rel="noopener" href="https://www.jagran.com/bihar/patna-city-bihar-judicial-academy-world-class-training-center-in-punpun-40237118.html">Jagran (May 2026)</a> · ' +
     '<a target="_blank" rel="noopener" href="https://www.livehindustan.com/bihar/patna/story-cji-suryakant-visits-patna-inauguration-of-judicial-projects-and-e-acr-platform-201767273074432.html">Hindustan</a>';
-  L.polygon(JUDICIAL_CORNERS, { color: "#a78bfa", weight: 2.5, dashArray: "7 5", fillColor: "#a78bfa", fillOpacity: 0.25 })
-    .bindPopup(JUDICIAL_POPUP)
-    .bindTooltip("⚖️ Bihar Judicial Academy (upcoming, Pothahi — predicted area)", { sticky: true })
+  const judicialZonePoly = L.polygon(JUDICIAL_ZONE_CORNERS, { color: judicialColor, weight: 1.5, dashArray: "4 6", fillColor: judicialColor, fillOpacity: 0.10 })
+    .bindTooltip("🔵 Probable area — Bihar Judicial Academy site (expanded, low placement confidence)", { sticky: true })
     .addTo(LAYERS.judicial.group);
+  const judicialCorePoly = L.polygon(JUDICIAL_CORNERS, { color: judicialColor, weight: 2.5, dashArray: "7 5", fillColor: judicialColor, fillOpacity: 0.28 })
+    .bindPopup(JUDICIAL_POPUP)
+    .bindTooltip("⚖️ Bihar Judicial Academy (upcoming, Pothahi — predicted 38.77-acre footprint)", { sticky: true })
+    .addTo(LAYERS.judicial.group);
+  window.setJudicialColor = function (hex) {
+    judicialColor = hex;
+    try { localStorage.setItem("judicialColor", hex); } catch (e) { /* storage unavailable */ }
+    LAYERS.judicial.color = hex;
+    judicialCorePoly.setStyle({ color: hex, fillColor: hex });
+    judicialZonePoly.setStyle({ color: hex, fillColor: hex });
+    const dot = document.querySelector('.toggle-row[data-layer="judicial"] .dot');
+    if (dot) dot.style.background = hex;
+    document.querySelectorAll(".jcolor-swatch").forEach(s => {
+      s.style.outline = (s.dataset.hex === hex) ? "2px solid #fff" : "none";
+    });
+  };
   counts.judicial = 1;
 
   const ROAD_STYLE = {
@@ -333,6 +373,7 @@
       const L_ = LAYERS[k];
       const row = document.createElement("label");
       row.className = "toggle-row";
+      row.dataset.layer = k;
       row.innerHTML = '<input type="checkbox" checked />' +
         '<span class="dot" style="background:' + L_.color + '"></span>' +
         "<span>" + L_.label + "</span>" +
@@ -341,6 +382,18 @@
         if (ev.target.checked) map.addLayer(L_.group); else map.removeLayer(L_.group);
       });
       wrap.appendChild(row);
+      if (k === "judicial") {
+        const cdiv = document.createElement("div");
+        cdiv.style.cssText = "display:flex;gap:6px;align-items:center;padding:2px 0 8px 30px;";
+        cdiv.innerHTML = '<span style="font-size:11px;opacity:.75">Colour:</span>' + JUDICIAL_COLORS.map(c =>
+          '<button type="button" class="jcolor-swatch" data-hex="' + c.hex + '" title="' + c.name + '"' +
+          ' style="width:18px;height:18px;border-radius:50%;border:none;cursor:pointer;background:' + c.hex + ';' +
+          (c.hex === judicialColor ? 'outline:2px solid #fff;' : '') + '"></button>'
+        ).join("");
+        cdiv.querySelectorAll(".jcolor-swatch").forEach(b =>
+          b.addEventListener("click", ev => { ev.preventDefault(); window.setJudicialColor(b.dataset.hex); }));
+        wrap.appendChild(cdiv);
+      }
     });
     el("radiusToggle").addEventListener("change", ev => {
       if (ev.target.checked) map.addLayer(radiusCircle); else map.removeLayer(radiusCircle);
