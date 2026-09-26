@@ -84,9 +84,10 @@
     agrifarms:  { label: "Govt agriculture farms", color: "#22c55e", group: L.layerGroup().addTo(map) },
     logistics:  { label: "Multi-Modal Logistics Park (planned)", color: "#a16207", group: L.layerGroup().addTo(map) },
     earlier:    { label: "Earlier estimates (superseded)", color: "#9ca3af", group: L.layerGroup().addTo(map) },
-    resources:  { label: "Nearby resources \u2014 Judicial Academy", color: "#f59e0b", group: L.layerGroup().addTo(map) }
+    resources:  { label: "Nearby resources \u2014 Judicial Academy", color: "#f59e0b", group: L.layerGroup().addTo(map) },
+    altloc:     { label: "Alternative location candidates (unverified)", color: "#8b5cf6", group: L.layerGroup().addTo(map) }
   };
-  const counts = { roads: 0, malls: 0, apartments: 0, openland: 0, amenities: 0, shops: 0, userlistings: 0, judicial: 0, sports: 0, nfsu: 0, township: 0, agrifarms: 0, logistics: 0, earlier: 0, resources: 0 };
+  const counts = { roads: 0, malls: 0, apartments: 0, openland: 0, amenities: 0, shops: 0, userlistings: 0, judicial: 0, sports: 0, nfsu: 0, township: 0, agrifarms: 0, logistics: 0, earlier: 0, resources: 0, altloc: 0 };
   let roadKm = 0;
 
   /* ---------- Bihar Judicial Academy (upcoming) — predicted campus area ---------- */
@@ -157,7 +158,7 @@
   const projectRefs = { farms: [] };
   function renderProjectLayers() {
     // Self-contained: clear our 7 project groups first so re-runs never duplicate.
-    ["judicial", "sports", "nfsu", "township", "agrifarms", "logistics", "earlier", "resources"]
+    ["judicial", "sports", "nfsu", "township", "agrifarms", "logistics", "earlier", "resources", "altloc"]
       .forEach(k => { LAYERS[k].group.clearLayers(); counts[k] = 0; });
     projectRefs.farms = [];
     projectRefs.earlier = [];
@@ -303,6 +304,22 @@
       projectRefs.farms.push(mk);
     });
     counts.agrifarms = AGRI_FARMS.length;
+
+    // --- Alternative farm-location candidate (community-suggested, UNVERIFIED).
+    // Locals suggested (25.435214, 85.082130) - Google Maps plus code C3PJ+3VJ
+    // Dharahra. The Dharahra label matches the cabinet's Dharahara+Pothahi
+    // dual-mauja naming. It sits ~1.1 km SSW of the existing Pothahi farm pin,
+    // on farmland beside NH22. NEITHER candidate is confirmed; the Bihar Bhumi
+    // khasra lookup decides between the two. Existing pins/squares untouched.
+    const altMk = L.circleMarker([25.435214, 85.082130], { radius: 9, color: "#8b5cf6", weight: 2.5, fillColor: "#8b5cf6", fillOpacity: 0.5 })
+      .bindPopup("<b>\uD83D\uDFE3 Alternative farm location (community-suggested, unverified)</b><br>" +
+        "\uD83D\uDCCD Suggested by locals \u2014 plus code <b>C3PJ+3VJ Dharahra</b> area.<br>" +
+        "\uD83D\uDCCF ~1.1 km SSW of the current Pothahi farm pin, on farmland beside NH22.<br>" +
+        "\u26A0\uFE0F <b>NOT verified</b> \u2014 neither this pin nor the existing Pothahi farm pin is confirmed. " +
+        "The khasra lookup (biharbhumi.bihar.gov.in \u2192 Jamabandi/Khasra \u2192 Patna \u2192 Punpun \u2192 mauja Pothahi/Dharahara) will decide between the two candidates.")
+      .bindTooltip("\uD83D\uDFE3 Alternative farm location (unverified)", { sticky: true })
+      .addTo(LAYERS.altloc.group);
+    counts.altloc = 1;
 
     // --- Multi-Modal Logistics Park (planned): ~103-105 acres at Jaitiya mauza, Fatuha.
     projectRefs.logistics = L.circleMarker([25.429800, 85.192450], { radius: 9, color: "#a16207", weight: 2, fillColor: "#a16207", fillOpacity: 0.5 })
