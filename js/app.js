@@ -706,9 +706,34 @@
     });
   }
 
+  /* ---------- one-tap restore of all saved project-record layers ---------- */
+  // Static record layers (project polygons, pins, historical estimates,
+  // alternative candidates). Live OSM layers, the Resources layer and user
+  // listings stay user-controlled and are never touched by this button.
+  const RESTORE_KEYS = ["judicial", "sports", "nfsu", "township", "agrifarms", "logistics", "earlier", "altloc"];
+  function restoreAllOutlines() {
+    let changed = 0;
+    RESTORE_KEYS.forEach(k => {
+      const L_ = LAYERS[k];
+      if (!L_) return;
+      if (!map.hasLayer(L_.group)) { map.addLayer(L_.group); changed++; }
+      const cb = document.querySelector('.toggle-row[data-layer="' + k + '"] input');
+      if (cb && !cb.checked) { cb.checked = true; changed++; }
+    });
+    toast(changed ? "All saved project records restored." : "All saved project records are already visible.", false);
+  }
+
   /* ---------- sidebar layer toggles ---------- */
   function buildToggles() {
     const wrap = el("layerToggles");
+    const rbtn = document.createElement("button");
+    rbtn.type = "button";
+    rbtn.id = "restoreOutlinesBtn";
+    rbtn.className = "btn";
+    rbtn.textContent = "↺ Restore all outlines";
+    rbtn.title = "Turn on every saved project-record layer (records, history, alternatives)";
+    rbtn.addEventListener("click", restoreAllOutlines);
+    wrap.prepend(rbtn);
     Object.keys(LAYERS).forEach(k => {
       const L_ = LAYERS[k];
       const row = document.createElement("label");
