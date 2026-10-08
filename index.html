@@ -30,6 +30,7 @@
         <button class="tab active" data-tab="layers">Layers</button>
         <button class="tab" data-tab="land">Land Records</button>
         <button class="tab" data-tab="plot">Plot Lookup</button>
+        <button class="tab" data-tab="taxdues">Tax Dues</button>
         <button class="tab" data-tab="listings">Listings</button>
         <button class="tab" data-tab="about">About</button>
       </nav>
@@ -130,6 +131,84 @@
 
         <div id="lkSteps" class="lk-steps"></div>
         <p class="note">Not a legal/title verification. Always cross-check with a local property lawyer before any transaction. ⚖️</p>
+      </section>
+
+      <section class="panel" id="panel-taxdues">
+        <h2>Tax Dues Tracker 🧾</h2>
+        <p class="hint">Track <b>unpaid holding tax</b> (PMC property tax) and <b>bhulagan</b> (land revenue / lagan) for your Patna properties. Dues can only be read on the official portals — this tool walks you through each lookup, then stores what you note down, in this browser only. Nothing is fetched or sent anywhere.</p>
+
+        <h3>📊 Patna arrears at a glance</h3>
+        <p class="hint">PMC-published figures (2026):</p>
+        <div class="stat-grid">
+          <div class="stat-card"><b>₹109 cr</b>outstanding against 1.53 lakh properties on the defaulters list (Sep 2026)</div>
+          <div class="stat-card"><b>₹68 cr</b>property tax collected Apr 1 – Sep 24, 2026</div>
+          <div class="stat-card"><b>₹30 cr</b>owed by 6,702 government properties</div>
+          <div class="stat-card"><b>₹78 cr</b>owed by 1,46,354 non-government properties</div>
+        </div>
+        <ul class="terms">
+          <li><b>Government defaulters</b> include Patna Zoo (~₹9 cr), Divisional Commissioner office (~₹3 cr), CGST (~₹3 cr), Secondary Education Dept (~₹3 cr), Buidco (~₹3 cr) and the DM office (~₹2 cr).</li>
+          <li><b>Zone-wise dues (2025–26):</b> Nutan Rajdhani ₹16.65 cr (11,327 holders) · Bankipur ₹15.13 cr (7,780) · Patliputra ₹14.88 cr (17,328) · Kankarbagh ₹8.67 cr (8,959) · Azimabad ₹7.07 cr (11,838).</li>
+          <li><b>Defaulter brackets:</b> 5,000+ properties owe ₹5,000–10,000 · 2,000+ owe ₹10,001–20,000 · 1,329 owe ₹20,001–50,000 · 248 owe ₹50,001–75,000 · 145 owe ₹75,001–1,00,000 · 142 owe over ₹1 lakh.</li>
+          <li><b>Penalty:</b> 1.5% per month on 2026–27 dues unpaid after Oct 1. Toll-free <b>155304</b> for assessment appointments.</li>
+        </ul>
+        <p class="note">Sources: <a target="_blank" rel="noopener" href="https://realty.economictimes.indiatimes.com/news/regulatory/patna-civic-body-collects-68-crore-property-tax-109-crore-remains-outstanding/134498276?utm_source=latest_news&utm_medium=homepage">ET Realty</a> · <a target="_blank" rel="noopener" href="https://patnapress.com/patna-municipal-corporation-property-tax-arrears-65-crore-2026/">Patna Press (arrears)</a> · <a target="_blank" rel="noopener" href="https://patnapress.com/patna-municipal-corporation-property-tax-defaulters-legal-action-ots-scheme/">Patna Press (defaulters)</a></p>
+
+        <h3>🏠 Holding-tax checker <span class="muted">(होल्डिंग टैक्स)</span></h3>
+        <ol class="steps">
+          <li>Open the <b>PMC property-tax portal</b> below.</li>
+          <li>Search by <b>New / Old Holding No.</b>, <b>Ward No.</b>, or <b>Owner Name</b>.</li>
+          <li>Open the holding, note the dues shown, then record them here.</li>
+        </ol>
+        <div class="portal-links">
+          <a class="btn" target="_blank" rel="noopener" href="https://pmcptax.bihar.gov.in/pmc/public">🏛️ PMC Property Tax Portal ↗</a>
+        </div>
+        <h3>Record a holding</h3>
+        <div class="lk-form">
+          <label>Holding No. *<input id="txHtNo" type="text" placeholder="e.g. 1234" /></label>
+          <label>Ward No.<input id="txHtWard" type="text" placeholder="e.g. 12" inputmode="numeric" /></label>
+          <label>Owner name<input id="txHtOwner" type="text" placeholder="as on the portal" /></label>
+          <label>Years unpaid<input id="txHtYears" type="text" placeholder="e.g. 2023-24, 2024-25" /></label>
+          <label>Amount due (₹)<input id="txHtAmt" type="text" placeholder="e.g. 45000" inputmode="decimal" /></label>
+          <label>Penalty (₹)<input id="txHtPen" type="text" placeholder="e.g. 2700" inputmode="decimal" /></label>
+          <label>Status<select id="txHtStatus"><option>Unpaid</option><option>Partial</option><option>Paid</option></select></label>
+          <label>Notes<input id="txHtNotes" type="text" placeholder="optional" /></label>
+        </div>
+        <div class="lk-actions"><button class="btn primary" id="txHtAdd">💾 Save holding record</button></div>
+        <h3>My holdings (<span id="txHtCount">0</span>)</h3>
+        <div id="txHtList" class="ul-list"><p class="hint">None yet — check the portal above, then save what you find.</p></div>
+
+        <h3>🌾 Bhulagan checker <span class="muted">(भूलगान / लगान)</span></h3>
+        <ol class="steps">
+          <li>Open the <b>Bhulagan portal</b> below and enter the <b>Security Code</b> shown.</li>
+          <li>Go to <b>Pay Online</b> → select <b>District → Anchal → Mauza</b>.</li>
+          <li>Search by <b>Khata / Plot number</b> and view <b>'Land Tax Liability'</b> for pending lagan and past payments — then record it here.</li>
+        </ol>
+        <div class="portal-links">
+          <a class="btn" target="_blank" rel="noopener" href="https://www.bhulagan.bihar.gov.in/">🌾 Bhulagan Portal ↗</a>
+        </div>
+        <h3>Record a bhulagan entry</h3>
+        <div class="lk-form">
+          <label>District<input id="txBgDist" type="text" value="Patna" /></label>
+          <label>Anchal (circle)<input id="txBgAnchal" type="text" placeholder="e.g. Patna Sadar" /></label>
+          <label>Mauza<input id="txBgMauza" type="text" placeholder="e.g. Phulwari" /></label>
+          <label>Khata No.<input id="txBgKhata" type="text" placeholder="e.g. 42" inputmode="numeric" /></label>
+          <label>Plot No.<input id="txBgPlot" type="text" placeholder="e.g. 118" inputmode="numeric" /></label>
+          <label>Raiyat name<input id="txBgRaiyat" type="text" placeholder="as on the portal" /></label>
+          <label>Pending lagan (₹)<input id="txBgLagan" type="text" placeholder="e.g. 3200" inputmode="decimal" /></label>
+          <label>Last paid year<input id="txBgLastPaid" type="text" placeholder="e.g. 2021-22" /></label>
+          <label>Notes<input id="txBgNotes" type="text" placeholder="optional" /></label>
+        </div>
+        <div class="lk-actions"><button class="btn primary" id="txBgAdd">💾 Save bhulagan record</button></div>
+        <h3>My bhulagan entries (<span id="txBgCount">0</span>)</h3>
+        <div id="txBgList" class="ul-list"><p class="hint">None yet — check the portal above, then save what you find.</p></div>
+
+        <h3>📈 Summary</h3>
+        <div id="txSummary"><p class="hint">Nothing tracked yet — add a holding or bhulagan record above and the summary appears here.</p></div>
+        <div class="lk-actions">
+          <button class="btn" id="txExport">⬇️ Export CSV</button>
+          <button class="btn" id="txClear">🗑️ Clear all</button>
+        </div>
+        <p class="note">Records are saved only in this browser (localStorage) — nothing is uploaded. Always read dues off the official portals yourself; this site never fetches them.</p>
       </section>
 
       <section class="panel" id="panel-listings">
