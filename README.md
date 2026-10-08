@@ -24,6 +24,7 @@ Live demo: open `index.html` in a browser (or serve the folder with any static s
 - 🤖 **AI assistants** — quick links to ChatGPT, Claude, Gemini and Grok in the About tab (they open in a new tab; they can't be embedded)
 - 📍 **5 km radius circle** around Patna Junction (25.5941° N, 85.1376° E)
 - 🗂️ **Land Records tab** — khata/khesra/mauza/jamabandi/PID explained, step-by-step official lookup, disputed-land verification checklist
+- 🧾 **Tax Dues tab** — PMC-published Patna property-tax arrears at a glance (₹109 cr outstanding, zone-wise dues, defaulter brackets, 155304 helpline); guided holding-tax checker (pmcptax.bihar.gov.in) and bhulagan checker (bhulagan.bihar.gov.in) with step-by-step portal walkthroughs; record what you read off the portals, live summary (totals, by ward/mauza, largest dues first), CSV export. Records stay in your browser only — nothing is scraped or fetched automatically.
 - 🌙 Dark UI, mobile-friendly with collapsible panel, 24-hour local data cache
 
 ## Base map comparison
