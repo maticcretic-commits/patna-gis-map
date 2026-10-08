@@ -1170,6 +1170,217 @@
   });
   renderUserListings();
 
+  /* ---------- Tax Dues tracker (holding tax + bhulagan, user-recorded only) ---------- */
+  const TX_HT_KEY = "patna-gis-tax-holdings-v1";
+  const TX_BG_KEY = "patna-gis-tax-bhulagan-v1";
+  let txHoldings = [], txBhulagan = [];
+  try { txHoldings = JSON.parse(localStorage.getItem(TX_HT_KEY) || "[]"); } catch (e) { txHoldings = []; }
+  try { txBhulagan = JSON.parse(localStorage.getItem(TX_BG_KEY) || "[]"); } catch (e) { txBhulagan = []; }
+
+  function txSave() {
+    try {
+      localStorage.setItem(TX_HT_KEY, JSON.stringify(txHoldings));
+      localStorage.setItem(TX_BG_KEY, JSON.stringify(txBhulagan));
+    } catch (e) { toast("Could not save (browser storage full/blocked).", true); }
+  }
+  function txInr(n) {
+    const v = Number(n);
+    if (!isFinite(v)) return "₹0";
+    return "₹" + v.toLocaleString("en-IN", { maximumFractionDigits: 0 });
+  }
+  function txHtDue(h) { return (Number(h.amount) || 0) + (Number(h.penalty) || 0); }
+  function txCard(title, sub, i, kind) {
+    const d = document.createElement("div");
+    d.className = "ul-card";
+    d.innerHTML = "<div><b>" + esc(title) + "</b><br><span class='muted'>" + esc(sub) + "</span></div>" +
+      '<button class="ul-del" data-kind="' + kind + '" data-i="' + i + '" title="Delete">✕</button>';
+    return d;
+  }
+  function renderTxHoldings() {
+    el("txHtCount").textContent = txHoldings.length;
+    const list = el("txHtList");
+    if (!txHoldings.length) {
+      list.innerHTML = '<p class="hint">None yet — check the portal above, then save what you find.</p>';
+      return;
+    }
+    list.innerHTML = "";
+    txHoldings.forEach((h, i) => {
+      const sub = [
+        h.ward ? "Ward " + h.ward : null,
+        h.owner || null,
+        h.years ? h.years + " unpaid" : null,
+        txInr(txHtDue(h)) + " due · " + (h.status || "Unpaid"),
+        h.notes || null
+      ].filter(Boolean).join(" · ");
+      list.appendChild(txCard("🏠 Holding " + (h.no || "—"), sub, i, "ht"));
+    });
+  }
+  function renderTxBhulagan() {
+    el("txBgCount").textContent = txBhulagan.length;
+    const list = el("txBgList");
+    if (!txBhulagan.length) {
+      list.innerHTML = '<p class="hint">None yet — check the portal above, then save what you find.</p>';
+      return;
+    }
+    list.innerHTML = "";
+    txBhulagan.forEach((b, i) => {
+      const sub = [
+        b.mauza ? "Mauza " + b.mauza : null,
+        b.anchal || null,
+        (b.khata ? "Khata " + b.khata : null),
+        (b.plot ? "Plot " + b.plot : null),
+        b.raiyat || null,
+        txInr(Number(b.lagan) || 0) + " pending",
+        b.lastPaid ? "last paid " + b.lastPaid : null,
+        b.notes || null
+      ].filter(Boolean).join(" · ");
+      list.appendChild(txCard("🌾 Bhulagan · " + (b.mauza || "—"), sub, i, "bg"));
+    });
+  }
+  function renderTxSummary() {
+    const box = el("txSummary");
+    if (!txHoldings.length && !txBhulagan.length) {
+      box.innerHTML = '<p class="hint">Nothing tracked yet — add a holding or bhulagan record above and the summary appears here.</p>';
+      return;
+    }
+    const unpaidHt = txHoldings.filter(h => (h.status || "Unpaid") !== "Paid");
+    const totalHt = unpaidHt.reduce((s, h) => s + txHtDue(h), 0);
+    const totalBg = txBhulagan.reduce((s, b) => s + (Number(b.lagan) || 0), 0);
+
+    const wardMap = {};
+    txHoldings.forEach(h => {
+      const w = String(h.ward || "—").trim() || "—";
+      wardMap[w] = wardMap[w] || { n: 0, due: 0 };
+      wardMap[w].n += 1; wardMap[w].due += txHtDue(h);
+    });
+    const mauzaMap = {};
+    txBhulagan.forEach(b => {
+      const m = String(b.mauza || "—").trim() || "—";
+      mauzaMap[m] = mauzaMap[m] || { n: 0, due: 0 };
+      mauzaMap[m].n += 1; mauzaMap[m].due += (Number(b.lagan) || 0);
+    });
+
+    const all = [];
+    txHoldings.forEach(h => all.push({
+      label: "🏠 Holding " + (h.no || "—") + (h.ward ? " · Ward " + h.ward : "") + " (" + (h.status || "Unpaid") + ")",
+      amt: txHtDue(h)
+    }));
+    txBhulagan.forEach(b => all.push({
+      label: "🌾 " + (b.mauza || "—") + " · Khata " + (b.khata || "—") + " / Plot " + (b.plot || "—"),
+      amt: Number(b.lagan) || 0
+    }));
+    all.sort((a, b) => b.amt - a.amt);
+
+    let html = '<div class="stat-grid">' +
+      '<div class="stat-card"><b>' + txHoldings.length + '</b>holdings tracked</div>' +
+      '<div class="stat-card"><b>' + txInr(totalHt) + '</b>unpaid holding tax (incl. penalty)</div>' +
+      '<div class="stat-card"><b>' + txBhulagan.length + '</b>bhulagan entries tracked</div>' +
+      '<div class="stat-card"><b>' + txInr(totalBg) + '</b>pending lagan</div></div>';
+
+    if (all.length) {
+      html += '<p class="tx-sub">Largest dues first</p><div class="tx-top">' +
+        all.slice(0, 10).map(a => esc(a.label) + ' — <span class="amt">' + txInr(a.amt) + '</span>').join("<br>") +
+        '</div>';
+    }
+    const wards = Object.keys(wardMap).sort();
+    if (wards.length) {
+      html += '<p class="tx-sub">By ward</p><div class="tx-rows">' +
+        wards.map(w => "Ward " + esc(w) + " — " + wardMap[w].n + " holding(s) · " + txInr(wardMap[w].due) + " due").join("<br>") +
+        '</div>';
+    }
+    const mauzas = Object.keys(mauzaMap).sort();
+    if (mauzas.length) {
+      html += '<p class="tx-sub">By mauza</p><div class="tx-rows">' +
+        mauzas.map(m => esc(m) + " — " + mauzaMap[m].n + " entr(ies) · " + txInr(mauzaMap[m].due) + " pending").join("<br>") +
+        '</div>';
+    }
+    box.innerHTML = html;
+  }
+  function txRenderAll() { renderTxHoldings(); renderTxBhulagan(); renderTxSummary(); }
+
+  el("txHtAdd").addEventListener("click", () => {
+    const no = el("txHtNo").value.trim();
+    if (!no) { toast("Enter the Holding No.", true); return; }
+    txHoldings.push({
+      no: no,
+      ward: el("txHtWard").value.trim(),
+      owner: el("txHtOwner").value.trim(),
+      years: el("txHtYears").value.trim(),
+      amount: parseFloat(el("txHtAmt").value) || 0,
+      penalty: parseFloat(el("txHtPen").value) || 0,
+      status: el("txHtStatus").value,
+      notes: el("txHtNotes").value.trim(),
+      added: new Date().toISOString().slice(0, 10)
+    });
+    txSave(); txRenderAll();
+    ["txHtNo", "txHtWard", "txHtOwner", "txHtYears", "txHtAmt", "txHtPen", "txHtNotes"].forEach(id => el(id).value = "");
+    el("txHtStatus").value = "Unpaid";
+    toast("Holding record saved.");
+  });
+
+  el("txBgAdd").addEventListener("click", () => {
+    const mauza = el("txBgMauza").value.trim();
+    if (!mauza && !el("txBgKhata").value.trim() && !el("txBgPlot").value.trim()) {
+      toast("Enter at least the mauza, khata or plot.", true); return;
+    }
+    txBhulagan.push({
+      district: el("txBgDist").value.trim() || "Patna",
+      anchal: el("txBgAnchal").value.trim(),
+      mauza: mauza,
+      khata: el("txBgKhata").value.trim(),
+      plot: el("txBgPlot").value.trim(),
+      raiyat: el("txBgRaiyat").value.trim(),
+      lagan: parseFloat(el("txBgLagan").value) || 0,
+      lastPaid: el("txBgLastPaid").value.trim(),
+      notes: el("txBgNotes").value.trim(),
+      added: new Date().toISOString().slice(0, 10)
+    });
+    txSave(); txRenderAll();
+    ["txBgAnchal", "txBgMauza", "txBgKhata", "txBgPlot", "txBgRaiyat", "txBgLagan", "txBgLastPaid", "txBgNotes"].forEach(id => el(id).value = "");
+    el("txBgDist").value = "Patna";
+    toast("Bhulagan record saved.");
+  });
+
+  ["txHtList", "txBgList"].forEach(listId => {
+    el(listId).addEventListener("click", e => {
+      const b = e.target.closest(".ul-del");
+      if (!b) return;
+      const i = parseInt(b.dataset.i, 10);
+      if (b.dataset.kind === "ht") txHoldings.splice(i, 1); else txBhulagan.splice(i, 1);
+      txSave(); txRenderAll();
+      toast("Record deleted.");
+    });
+  });
+
+  el("txExport").addEventListener("click", () => {
+    if (!txHoldings.length && !txBhulagan.length) { toast("Nothing to export yet.", true); return; }
+    const q = v => '"' + String(v == null ? "" : v).replace(/"/g, '""') + '"';
+    const rows = [["Type", "Holding No", "Ward", "Owner", "Years unpaid", "Amount due (Rs)", "Penalty (Rs)", "Status",
+      "District", "Anchal", "Mauza", "Khata", "Plot", "Raiyat", "Pending lagan (Rs)", "Last paid year", "Notes", "Added"]];
+    txHoldings.forEach(h => rows.push(["Holding tax", h.no, h.ward, h.owner, h.years, h.amount, h.penalty, h.status,
+      "", "", "", "", "", "", "", "", h.notes, h.added]));
+    txBhulagan.forEach(b => rows.push(["Bhulagan", "", "", "", "", "", "", "",
+      b.district, b.anchal, b.mauza, b.khata, b.plot, b.raiyat, b.lagan, b.lastPaid, b.notes, b.added]));
+    const csv = rows.map(r => r.map(q).join(",")).join("\r\n");
+    const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "patna-tax-dues-" + new Date().toISOString().slice(0, 10) + ".csv";
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 800);
+    toast("CSV exported.");
+  });
+
+  el("txClear").addEventListener("click", () => {
+    if (!txHoldings.length && !txBhulagan.length) { toast("Nothing to clear.", true); return; }
+    if (!window.confirm("Delete ALL tax-due records from this browser? This cannot be undone.")) return;
+    txHoldings = []; txBhulagan = [];
+    txSave(); txRenderAll();
+    toast("All tax-due records cleared.");
+  });
+
+  txRenderAll();
+
   /* ---------- tabs & mobile sidebar ---------- */
   document.querySelectorAll(".tab").forEach(btn => {
     btn.addEventListener("click", () => {
