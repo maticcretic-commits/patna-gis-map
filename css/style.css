@@ -131,3 +131,15 @@ code{background:#0b1220;padding:2px 6px;border-radius:4px;font-size:12px}
   .legend{display:none}
   .leaflet-popup-content{max-width:250px}
 }
+
+/* ---------- Tax Dues tracker ---------- */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.stat-card{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--muted);line-height:1.55}
+.stat-card b{display:block;font-size:17px;color:var(--accent2);margin-bottom:2px}
+.tx-sub{font-size:12.5px;color:var(--muted);margin:12px 0 4px;font-weight:600}
+.tx-rows{font-size:13px;line-height:1.9}
+.tx-top{font-size:13px;line-height:1.8}
+.tx-top .amt{color:var(--accent2);font-weight:600}
+@media (max-width:860px){
+  .stat-grid{grid-template-columns:1fr 1fr}
+}
