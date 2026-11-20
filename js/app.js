@@ -11,6 +11,7 @@
 
   /* ---------- map ---------- */
   const map = L.map("map", { zoomControl: true }).setView(cfg.center, cfg.defaultZoom);
+  window.PATNA_MAP = map; // exposed for the Find-a-Flat tab (js/findflat.js)
 
   const osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
@@ -50,6 +51,7 @@
   baseLayers["Streets (Esri, free)"] = esriStreet;
   baseLayers["Topo (Esri, free)"] = esriTopo;
   baseLayers["Topo (OpenTopoMap)"] = openTopo;
+  window.PATNA_BASELAYERS = baseLayers; // exposed for the Find-a-Flat theme toggle
 
   /* ---------- radius circle ---------- */
   const radiusCircle = L.circle(cfg.center, {
