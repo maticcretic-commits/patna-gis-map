@@ -1,0 +1,2184 @@
+{
+ "version": 1,
+ "note": "DEMO DATA — sample properties for the Patna GIS Map Find-a-Flat tab. Not live market prices. No RERA numbers are recorded here; a property shows a RERA tick only when a real registration number is added by a user.",
+ "properties": [
+  {
+   "id": "apt-ganga-view-residency",
+   "name": "Ganga View Residency",
+   "developer": "Patna Homes Pvt Ltd",
+   "locality": "Boring Road",
+   "lat": 25.6118,
+   "lng": 85.1032,
+   "type": "apartment",
+   "towers": 4,
+   "totalUnits": 180,
+   "acres": 2.1,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park",
+    "Gym",
+    "Swimming Pool",
+    "Club House",
+    "Community Hall",
+    "Kids Play Area"
+   ],
+   "nearby": {
+    "park": 320,
+    "metro": 3100,
+    "school": 700,
+    "hospital": 1400,
+    "mall": 1100
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 2,
+     "sizeSqft": 1150,
+     "bedrooms": [
+      "11'6\"x13'0\"",
+      "10'0\"x12'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      12.0
+     ],
+     "priceLakhMin": 68,
+     "priceLakhMax": 78,
+     "priceEstimated": false,
+     "rentMonthly": 18000,
+     "rentEstimated": false,
+     "psf": 6348,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 3,
+     "sizeSqft": 1520,
+     "bedrooms": [
+      "12'0\"x13'0\"",
+      "11'0\"x12'6\"",
+      "10'0\"x12'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      12.0
+     ],
+     "priceLakhMin": 95,
+     "priceLakhMax": 112,
+     "priceEstimated": false,
+     "rentMonthly": 26000,
+     "rentEstimated": false,
+     "psf": 6809,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 4,
+     "sizeSqft": 2100,
+     "bedrooms": [
+      "12'0\"x14'0\"",
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'6\"x12'0\""
+     ],
+     "minBedFt": [
+      10.5,
+      12.0
+     ],
+     "priceLakhMin": 145,
+     "priceLakhMax": 168,
+     "priceEstimated": false,
+     "rentMonthly": 32500,
+     "rentEstimated": true,
+     "psf": 7452,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-15"
+  },
+  {
+   "id": "apt-rajdhani-heights",
+   "name": "Rajdhani Heights",
+   "developer": "Ganga Builders",
+   "locality": "Rajendra Nagar",
+   "lat": 25.5994,
+   "lng": 85.1588,
+   "type": "apartment",
+   "towers": 3,
+   "totalUnits": 132,
+   "acres": 1.6,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park",
+    "Gym",
+    "Club House",
+    "Jogging Track"
+   ],
+   "nearby": {
+    "park": 450,
+    "metro": 2400,
+    "school": 500,
+    "hospital": 1100,
+    "mall": 900
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 2,
+     "sizeSqft": 1080,
+     "bedrooms": [
+      "11'6\"x13'0\"",
+      "10'0\"x12'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      12.0
+     ],
+     "priceLakhMin": 62,
+     "priceLakhMax": 72,
+     "priceEstimated": false,
+     "rentMonthly": 17000,
+     "rentEstimated": false,
+     "psf": 6204,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 3,
+     "sizeSqft": 1440,
+     "bedrooms": [
+      "12'0\"x13'0\"",
+      "11'0\"x12'6\"",
+      "10'0\"x12'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      12.0
+     ],
+     "priceLakhMin": 88,
+     "priceLakhMax": 102,
+     "priceEstimated": false,
+     "rentMonthly": 24000,
+     "rentEstimated": false,
+     "psf": 6597,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-16"
+  },
+  {
+   "id": "apt-kankarbagh-greens",
+   "name": "Kankarbagh Greens",
+   "developer": "Magadh Constructions",
+   "locality": "Kankarbagh",
+   "lat": 25.596,
+   "lng": 85.1704,
+   "type": "apartment",
+   "towers": 6,
+   "totalUnits": 320,
+   "acres": 3.4,
+   "possession": "Dec 2026",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park",
+    "Swimming Pool",
+    "Club House",
+    "Kids Play Area",
+    "Rainwater Harvesting"
+   ],
+   "nearby": {
+    "park": 280,
+    "metro": 4200,
+    "school": 650,
+    "hospital": 1900,
+    "mall": 1300
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 2,
+     "sizeSqft": 1020,
+     "bedrooms": [
+      "9'6\"x10'6\"",
+      "9'0\"x10'0\""
+     ],
+     "minBedFt": [
+      9.0,
+      10.0
+     ],
+     "priceLakhMin": 52,
+     "priceLakhMax": 60,
+     "priceEstimated": false,
+     "rentMonthly": 14000,
+     "rentEstimated": false,
+     "psf": 5490,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 3,
+     "sizeSqft": 1380,
+     "bedrooms": [
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'0\"x11'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      11.0
+     ],
+     "priceLakhMin": 78,
+     "priceLakhMax": 92,
+     "priceEstimated": false,
+     "rentMonthly": 17500,
+     "rentEstimated": true,
+     "psf": 6159,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 4,
+     "sizeSqft": 1950,
+     "bedrooms": [
+      "12'0\"x14'0\"",
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'6\"x12'0\""
+     ],
+     "minBedFt": [
+      10.5,
+      12.0
+     ],
+     "priceLakhMin": 125,
+     "priceLakhMax": 145,
+     "priceEstimated": false,
+     "rentMonthly": 32000,
+     "rentEstimated": false,
+     "psf": 6923,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-17"
+  },
+  {
+   "id": "apt-patliputra-enclave",
+   "name": "Patliputra Enclave",
+   "developer": "Bihar Realty Group",
+   "locality": "Patliputra Colony",
+   "lat": 25.6236,
+   "lng": 85.098,
+   "type": "apartment",
+   "towers": 5,
+   "totalUnits": 240,
+   "acres": 2.8,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park",
+    "Gym",
+    "Swimming Pool",
+    "Club House",
+    "Community Hall",
+    "EV Charging"
+   ],
+   "nearby": {
+    "park": 380,
+    "metro": 4800,
+    "school": 900,
+    "hospital": 2200,
+    "mall": 1600
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 3,
+     "sizeSqft": 1560,
+     "bedrooms": [
+      "12'0\"x13'0\"",
+      "11'0\"x12'6\"",
+      "10'0\"x12'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      12.0
+     ],
+     "priceLakhMin": 105,
+     "priceLakhMax": 122,
+     "priceEstimated": false,
+     "rentMonthly": 28000,
+     "rentEstimated": false,
+     "psf": 7276,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 4,
+     "sizeSqft": 2200,
+     "bedrooms": [
+      "12'0\"x14'0\"",
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'6\"x12'0\""
+     ],
+     "minBedFt": [
+      10.5,
+      12.0
+     ],
+     "priceLakhMin": 155,
+     "priceLakhMax": 180,
+     "priceEstimated": false,
+     "rentMonthly": 40000,
+     "rentEstimated": false,
+     "psf": 7614,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 5,
+     "sizeSqft": 2900,
+     "bedrooms": [
+      "13'0\"x15'0\"",
+      "12'0\"x14'0\"",
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'6\"x12'0\""
+     ],
+     "minBedFt": [
+      10.5,
+      12.0
+     ],
+     "priceLakhMin": 230,
+     "priceLakhMax": 265,
+     "priceEstimated": false,
+     "rentMonthly": 58000,
+     "rentEstimated": false,
+     "psf": 8534,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-18"
+  },
+  {
+   "id": "apt-bailey-court",
+   "name": "Bailey Court",
+   "developer": "Pataliputra Developers",
+   "locality": "Bailey Road",
+   "lat": 25.6082,
+   "lng": 85.1196,
+   "type": "apartment",
+   "towers": 2,
+   "totalUnits": 96,
+   "acres": 1.2,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park",
+    "Gym"
+   ],
+   "nearby": {
+    "park": 520,
+    "metro": 2900,
+    "school": 800,
+    "hospital": 1300,
+    "mall": 1000
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 2,
+     "sizeSqft": 1180,
+     "bedrooms": [
+      "11'6\"x13'0\"",
+      "10'0\"x12'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      12.0
+     ],
+     "priceLakhMin": 72,
+     "priceLakhMax": 84,
+     "priceEstimated": false,
+     "rentMonthly": 19000,
+     "rentEstimated": false,
+     "psf": 6610,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 3,
+     "sizeSqft": 1490,
+     "bedrooms": [
+      "12'0\"x13'0\"",
+      "11'0\"x12'6\"",
+      "10'0\"x12'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      12.0
+     ],
+     "priceLakhMin": 98,
+     "priceLakhMax": 115,
+     "priceEstimated": false,
+     "rentMonthly": 26000,
+     "rentEstimated": false,
+     "psf": 7148,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-19"
+  },
+  {
+   "id": "apt-danapur-riverside-homes",
+   "name": "Danapur Riverside Homes",
+   "developer": "Ganges Edge Builders",
+   "locality": "Danapur",
+   "lat": 25.6248,
+   "lng": 85.0552,
+   "type": "apartment",
+   "towers": 3,
+   "totalUnits": 150,
+   "acres": 2.0,
+   "possession": "Mar 2027",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park",
+    "Kids Play Area",
+    "Community Hall"
+   ],
+   "nearby": {
+    "park": 600,
+    "metro": 7500,
+    "school": 1100,
+    "hospital": 2800,
+    "mall": 2400
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 2,
+     "sizeSqft": 980,
+     "bedrooms": [
+      "9'6\"x10'6\"",
+      "9'0\"x10'0\""
+     ],
+     "minBedFt": [
+      9.0,
+      10.0
+     ],
+     "priceLakhMin": 45,
+     "priceLakhMax": 54,
+     "priceEstimated": false,
+     "rentMonthly": 12000,
+     "rentEstimated": false,
+     "psf": 5051,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 3,
+     "sizeSqft": 1320,
+     "bedrooms": [
+      "10'0\"x11'0\"",
+      "9'6\"x10'6\"",
+      "9'0\"x10'0\""
+     ],
+     "minBedFt": [
+      9.0,
+      10.0
+     ],
+     "priceLakhMin": 68,
+     "priceLakhMax": 80,
+     "priceEstimated": true,
+     "rentMonthly": 18000,
+     "rentEstimated": false,
+     "psf": 5606,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-20"
+  },
+  {
+   "id": "apt-saguna-plaza-residences",
+   "name": "Saguna Plaza Residences",
+   "developer": "Rajdhani Estates",
+   "locality": "Saguna More",
+   "lat": 25.6064,
+   "lng": 85.0928,
+   "type": "builder-floor",
+   "towers": 1,
+   "totalUnits": 12,
+   "acres": 0.4,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park"
+   ],
+   "nearby": {
+    "park": 700,
+    "metro": 6100,
+    "school": 950,
+    "hospital": 2400,
+    "mall": 1900
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 3,
+     "sizeSqft": 1450,
+     "bedrooms": [
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'0\"x11'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      11.0
+     ],
+     "priceLakhMin": 82,
+     "priceLakhMax": 95,
+     "priceEstimated": false,
+     "rentMonthly": 18500,
+     "rentEstimated": true,
+     "psf": 6103,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 4,
+     "sizeSqft": 1850,
+     "bedrooms": [
+      "12'0\"x14'0\"",
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'6\"x12'0\""
+     ],
+     "minBedFt": [
+      10.5,
+      12.0
+     ],
+     "priceLakhMin": 118,
+     "priceLakhMax": 135,
+     "priceEstimated": false,
+     "rentMonthly": 30000,
+     "rentEstimated": false,
+     "psf": 6838,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-21"
+  },
+  {
+   "id": "apt-phulwari-garden-homes",
+   "name": "Phulwari Garden Homes",
+   "developer": "Sonpur Infra",
+   "locality": "Phulwari Sharif",
+   "lat": 25.578,
+   "lng": 85.0732,
+   "type": "apartment",
+   "towers": 4,
+   "totalUnits": 200,
+   "acres": 2.5,
+   "possession": "Jun 2027",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park",
+    "Gym",
+    "Swimming Pool",
+    "Club House",
+    "Jogging Track"
+   ],
+   "nearby": {
+    "park": 420,
+    "metro": 6800,
+    "school": 1200,
+    "hospital": 3100,
+    "mall": 2600
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 2,
+     "sizeSqft": 1050,
+     "bedrooms": [
+      "11'0\"x12'0\"",
+      "10'0\"x11'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      11.0
+     ],
+     "priceLakhMin": 48,
+     "priceLakhMax": 58,
+     "priceEstimated": false,
+     "rentMonthly": 11000,
+     "rentEstimated": true,
+     "psf": 5048,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 3,
+     "sizeSqft": 1400,
+     "bedrooms": [
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'0\"x11'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      11.0
+     ],
+     "priceLakhMin": 72,
+     "priceLakhMax": 86,
+     "priceEstimated": false,
+     "rentMonthly": 19000,
+     "rentEstimated": false,
+     "psf": 5643,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-22"
+  },
+  {
+   "id": "apt-anand-vihar-apartments",
+   "name": "Anand Vihar Apartments",
+   "developer": "Patna Homes Pvt Ltd",
+   "locality": "Anandpuri",
+   "lat": 25.6191,
+   "lng": 85.1098,
+   "type": "apartment",
+   "towers": 3,
+   "totalUnits": 120,
+   "acres": 1.4,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park",
+    "Gym",
+    "Club House"
+   ],
+   "nearby": {
+    "park": 350,
+    "metro": 3300,
+    "school": 600,
+    "hospital": 1500,
+    "mall": 1200
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 1,
+     "sizeSqft": 720,
+     "bedrooms": [
+      "11'0\"x12'6\""
+     ],
+     "minBedFt": [
+      11.0,
+      12.5
+     ],
+     "priceLakhMin": 34,
+     "priceLakhMax": 42,
+     "priceEstimated": false,
+     "rentMonthly": 9500,
+     "rentEstimated": false,
+     "psf": 5278,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 2,
+     "sizeSqft": 1120,
+     "bedrooms": [
+      "11'0\"x12'0\"",
+      "10'0\"x11'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      11.0
+     ],
+     "priceLakhMin": 66,
+     "priceLakhMax": 76,
+     "priceEstimated": false,
+     "rentMonthly": 17500,
+     "rentEstimated": false,
+     "psf": 6339,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 3,
+     "sizeSqft": 1480,
+     "bedrooms": [
+      "12'0\"x13'0\"",
+      "11'0\"x12'6\"",
+      "10'0\"x12'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      12.0
+     ],
+     "priceLakhMin": 92,
+     "priceLakhMax": 108,
+     "priceEstimated": false,
+     "rentMonthly": 24000,
+     "rentEstimated": false,
+     "psf": 6757,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-23"
+  },
+  {
+   "id": "apt-rajeev-nagar-heights",
+   "name": "Rajeev Nagar Heights",
+   "developer": "Ganga Builders",
+   "locality": "Rajeev Nagar",
+   "lat": 25.6332,
+   "lng": 85.1034,
+   "type": "apartment",
+   "towers": 5,
+   "totalUnits": 260,
+   "acres": 3.0,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park",
+    "Gym",
+    "Swimming Pool",
+    "Club House",
+    "Kids Play Area",
+    "Solar Power"
+   ],
+   "nearby": {
+    "park": 300,
+    "metro": 5200,
+    "school": 750,
+    "hospital": 1800,
+    "mall": 1500
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 3,
+     "sizeSqft": 1620,
+     "bedrooms": [
+      "12'0\"x13'0\"",
+      "11'0\"x12'6\"",
+      "10'0\"x12'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      12.0
+     ],
+     "priceLakhMin": 112,
+     "priceLakhMax": 130,
+     "priceEstimated": false,
+     "rentMonthly": 29000,
+     "rentEstimated": false,
+     "psf": 7469,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 4,
+     "sizeSqft": 2300,
+     "bedrooms": [
+      "12'0\"x14'0\"",
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'6\"x12'0\""
+     ],
+     "minBedFt": [
+      10.5,
+      12.0
+     ],
+     "priceLakhMin": 165,
+     "priceLakhMax": 190,
+     "priceEstimated": false,
+     "rentMonthly": 43000,
+     "rentEstimated": false,
+     "psf": 7717,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-24"
+  },
+  {
+   "id": "apt-shastri-nagar-residency",
+   "name": "Shastri Nagar Residency",
+   "developer": "Magadh Constructions",
+   "locality": "Shastri Nagar",
+   "lat": 25.5968,
+   "lng": 85.108,
+   "type": "builder-floor",
+   "towers": 1,
+   "totalUnits": 16,
+   "acres": 0.5,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking"
+   ],
+   "nearby": {
+    "park": 800,
+    "metro": 3600,
+    "school": 850,
+    "hospital": 1700,
+    "mall": 1400
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 2,
+     "sizeSqft": 1250,
+     "bedrooms": [
+      "11'0\"x12'0\"",
+      "10'0\"x11'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      11.0
+     ],
+     "priceLakhMin": 78,
+     "priceLakhMax": 90,
+     "priceEstimated": false,
+     "rentMonthly": 20000,
+     "rentEstimated": false,
+     "psf": 6720,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 3,
+     "sizeSqft": 1580,
+     "bedrooms": [
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'0\"x11'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      11.0
+     ],
+     "priceLakhMin": 102,
+     "priceLakhMax": 118,
+     "priceEstimated": false,
+     "rentMonthly": 27000,
+     "rentEstimated": false,
+     "psf": 6962,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-25"
+  },
+  {
+   "id": "apt-gardanibagh-towers",
+   "name": "Gardanibagh Towers",
+   "developer": "Bihar Realty Group",
+   "locality": "Gardanibagh",
+   "lat": 25.5964,
+   "lng": 85.1236,
+   "type": "apartment",
+   "towers": 4,
+   "totalUnits": 210,
+   "acres": 2.2,
+   "possession": "Dec 2026",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park",
+    "Gym",
+    "Club House",
+    "Community Hall"
+   ],
+   "nearby": {
+    "park": 480,
+    "metro": 2700,
+    "school": 550,
+    "hospital": 1200,
+    "mall": 800
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 2,
+     "sizeSqft": 1100,
+     "bedrooms": [
+      "9'6\"x10'6\"",
+      "9'0\"x10'0\""
+     ],
+     "minBedFt": [
+      9.0,
+      10.0
+     ],
+     "priceLakhMin": 58,
+     "priceLakhMax": 68,
+     "priceEstimated": false,
+     "rentMonthly": 15500,
+     "rentEstimated": false,
+     "psf": 5727,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 3,
+     "sizeSqft": 1460,
+     "bedrooms": [
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'0\"x11'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      11.0
+     ],
+     "priceLakhMin": 90,
+     "priceLakhMax": 105,
+     "priceEstimated": false,
+     "rentMonthly": 23000,
+     "rentEstimated": false,
+     "psf": 6678,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-26"
+  },
+  {
+   "id": "apt-sheikhpura-homes",
+   "name": "Sheikhpura Homes",
+   "developer": "Pataliputra Developers",
+   "locality": "Sheikhpura",
+   "lat": 25.608,
+   "lng": 85.1352,
+   "type": "apartment",
+   "towers": 2,
+   "totalUnits": 88,
+   "acres": 1.1,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park"
+   ],
+   "nearby": {
+    "park": 650,
+    "metro": 2200,
+    "school": 700,
+    "hospital": 1000,
+    "mall": 950
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 2,
+     "sizeSqft": 1000,
+     "bedrooms": [
+      "11'0\"x12'0\"",
+      "10'0\"x11'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      11.0
+     ],
+     "priceLakhMin": 55,
+     "priceLakhMax": 65,
+     "priceEstimated": false,
+     "rentMonthly": 14500,
+     "rentEstimated": false,
+     "psf": 6000,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 3,
+     "sizeSqft": 1350,
+     "bedrooms": [
+      "10'0\"x11'0\"",
+      "9'6\"x10'6\"",
+      "9'0\"x10'0\""
+     ],
+     "minBedFt": [
+      9.0,
+      10.0
+     ],
+     "priceLakhMin": 80,
+     "priceLakhMax": 94,
+     "priceEstimated": false,
+     "rentMonthly": 20000,
+     "rentEstimated": false,
+     "psf": 6444,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-27"
+  },
+  {
+   "id": "apt-gandhi-maidan-residency",
+   "name": "Gandhi Maidan Residency",
+   "developer": "Ganges Edge Builders",
+   "locality": "Gandhi Maidan",
+   "lat": 25.6146,
+   "lng": 85.1488,
+   "type": "apartment",
+   "towers": 6,
+   "totalUnits": 300,
+   "acres": 3.2,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park",
+    "Gym",
+    "Swimming Pool",
+    "Club House",
+    "EV Charging",
+    "Temple"
+   ],
+   "nearby": {
+    "park": 250,
+    "metro": 1200,
+    "school": 400,
+    "hospital": 900,
+    "mall": 600
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 2,
+     "sizeSqft": 1200,
+     "bedrooms": [
+      "11'6\"x13'0\"",
+      "10'0\"x12'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      12.0
+     ],
+     "priceLakhMin": 85,
+     "priceLakhMax": 98,
+     "priceEstimated": false,
+     "rentMonthly": 22000,
+     "rentEstimated": false,
+     "psf": 7625,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 3,
+     "sizeSqft": 1650,
+     "bedrooms": [
+      "12'0\"x13'0\"",
+      "11'0\"x12'6\"",
+      "10'0\"x12'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      12.0
+     ],
+     "priceLakhMin": 125,
+     "priceLakhMax": 145,
+     "priceEstimated": false,
+     "rentMonthly": 32000,
+     "rentEstimated": false,
+     "psf": 8182,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 4,
+     "sizeSqft": 2250,
+     "bedrooms": [
+      "12'0\"x14'0\"",
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'6\"x12'0\""
+     ],
+     "minBedFt": [
+      10.5,
+      12.0
+     ],
+     "priceLakhMin": 175,
+     "priceLakhMax": 200,
+     "priceEstimated": false,
+     "rentMonthly": 45000,
+     "rentEstimated": false,
+     "psf": 8333,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-28"
+  },
+  {
+   "id": "apt-ashok-rajpath-enclave",
+   "name": "Ashok Rajpath Enclave",
+   "developer": "Rajdhani Estates",
+   "locality": "Ashok Rajpath",
+   "lat": 25.6232,
+   "lng": 85.1602,
+   "type": "villa",
+   "towers": 0,
+   "totalUnits": 18,
+   "acres": 1.8,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park",
+    "Gym",
+    "Swimming Pool",
+    "Club House"
+   ],
+   "nearby": {
+    "park": 380,
+    "metro": 2100,
+    "school": 650,
+    "hospital": 1300,
+    "mall": 1100
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 4,
+     "sizeSqft": 2600,
+     "bedrooms": [
+      "12'0\"x14'0\"",
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'6\"x12'0\""
+     ],
+     "minBedFt": [
+      10.5,
+      12.0
+     ],
+     "priceLakhMin": 210,
+     "priceLakhMax": 245,
+     "priceEstimated": false,
+     "rentMonthly": 52000,
+     "rentEstimated": false,
+     "psf": 8750,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 5,
+     "sizeSqft": 3200,
+     "bedrooms": [
+      "13'0\"x15'0\"",
+      "12'0\"x14'0\"",
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'6\"x12'0\""
+     ],
+     "minBedFt": [
+      10.5,
+      12.0
+     ],
+     "priceLakhMin": 280,
+     "priceLakhMax": 320,
+     "priceEstimated": false,
+     "rentMonthly": 68000,
+     "rentEstimated": false,
+     "psf": 9375,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-15"
+  },
+  {
+   "id": "apt-kumhrar-heritage-homes",
+   "name": "Kumhrar Heritage Homes",
+   "developer": "Sonpur Infra",
+   "locality": "Kumhrar",
+   "lat": 25.5988,
+   "lng": 85.1888,
+   "type": "apartment",
+   "towers": 3,
+   "totalUnits": 140,
+   "acres": 1.8,
+   "possession": "Mar 2027",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park",
+    "Kids Play Area"
+   ],
+   "nearby": {
+    "park": 550,
+    "metro": 5900,
+    "school": 1000,
+    "hospital": 2600,
+    "mall": 2100
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 2,
+     "sizeSqft": 950,
+     "bedrooms": [
+      "9'6\"x10'6\"",
+      "9'0\"x10'0\""
+     ],
+     "minBedFt": [
+      9.0,
+      10.0
+     ],
+     "priceLakhMin": 42,
+     "priceLakhMax": 50,
+     "priceEstimated": false,
+     "rentMonthly": 11500,
+     "rentEstimated": false,
+     "psf": 4842,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 3,
+     "sizeSqft": 1280,
+     "bedrooms": [
+      "10'0\"x11'0\"",
+      "9'6\"x10'6\"",
+      "9'0\"x10'0\""
+     ],
+     "minBedFt": [
+      9.0,
+      10.0
+     ],
+     "priceLakhMin": 65,
+     "priceLakhMax": 76,
+     "priceEstimated": false,
+     "rentMonthly": 14500,
+     "rentEstimated": true,
+     "psf": 5508,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-16"
+  },
+  {
+   "id": "apt-agamkuan-residency",
+   "name": "Agamkuan Residency",
+   "developer": "Patna Homes Pvt Ltd",
+   "locality": "Agamkuan",
+   "lat": 25.5884,
+   "lng": 85.2004,
+   "type": "builder-floor",
+   "towers": 1,
+   "totalUnits": 10,
+   "acres": 0.35,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking"
+   ],
+   "nearby": {
+    "park": 900,
+    "metro": 6800,
+    "school": 1300,
+    "hospital": 3200,
+    "mall": 2800
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 3,
+     "sizeSqft": 1500,
+     "bedrooms": [
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'0\"x11'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      11.0
+     ],
+     "priceLakhMin": 75,
+     "priceLakhMax": 88,
+     "priceEstimated": true,
+     "rentMonthly": 19000,
+     "rentEstimated": false,
+     "psf": 5433,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-17"
+  },
+  {
+   "id": "apt-gulzarbagh-gardens",
+   "name": "Gulzarbagh Gardens",
+   "developer": "Ganga Builders",
+   "locality": "Gulzarbagh",
+   "lat": 25.615,
+   "lng": 85.198,
+   "type": "apartment",
+   "towers": 4,
+   "totalUnits": 190,
+   "acres": 2.4,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park",
+    "Gym",
+    "Club House",
+    "Jogging Track",
+    "Rainwater Harvesting"
+   ],
+   "nearby": {
+    "park": 400,
+    "metro": 5400,
+    "school": 800,
+    "hospital": 2000,
+    "mall": 1700
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 2,
+     "sizeSqft": 1080,
+     "bedrooms": [
+      "11'0\"x12'0\"",
+      "10'0\"x11'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      11.0
+     ],
+     "priceLakhMin": 60,
+     "priceLakhMax": 70,
+     "priceEstimated": false,
+     "rentMonthly": 16000,
+     "rentEstimated": false,
+     "psf": 6019,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 3,
+     "sizeSqft": 1420,
+     "bedrooms": [
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'0\"x11'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      11.0
+     ],
+     "priceLakhMin": 86,
+     "priceLakhMax": 100,
+     "priceEstimated": false,
+     "rentMonthly": 19500,
+     "rentEstimated": true,
+     "psf": 6549,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-18"
+  },
+  {
+   "id": "apt-patna-city-heritage-homes",
+   "name": "Patna City Heritage Homes",
+   "developer": "Magadh Constructions",
+   "locality": "Patna City",
+   "lat": 25.6216,
+   "lng": 85.1866,
+   "type": "villa",
+   "towers": 0,
+   "totalUnits": 14,
+   "acres": 1.5,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park",
+    "Club House",
+    "Temple"
+   ],
+   "nearby": {
+    "park": 450,
+    "metro": 4700,
+    "school": 900,
+    "hospital": 2400,
+    "mall": 1900
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 3,
+     "sizeSqft": 1750,
+     "bedrooms": [
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'0\"x11'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      11.0
+     ],
+     "priceLakhMin": 95,
+     "priceLakhMax": 110,
+     "priceEstimated": false,
+     "rentMonthly": 24000,
+     "rentEstimated": false,
+     "psf": 5857,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 4,
+     "sizeSqft": 2400,
+     "bedrooms": [
+      "12'0\"x14'0\"",
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'6\"x12'0\""
+     ],
+     "minBedFt": [
+      10.5,
+      12.0
+     ],
+     "priceLakhMin": 150,
+     "priceLakhMax": 175,
+     "priceEstimated": false,
+     "rentMonthly": 38000,
+     "rentEstimated": false,
+     "psf": 6771,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-19"
+  },
+  {
+   "id": "apt-khajekalan-residency",
+   "name": "Khajekalan Residency",
+   "developer": "Bihar Realty Group",
+   "locality": "Khajekalan",
+   "lat": 25.6112,
+   "lng": 85.1812,
+   "type": "apartment",
+   "towers": 3,
+   "totalUnits": 130,
+   "acres": 1.5,
+   "possession": "Dec 2026",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park",
+    "Gym"
+   ],
+   "nearby": {
+    "park": 600,
+    "metro": 4100,
+    "school": 750,
+    "hospital": 1600,
+    "mall": 1300
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 2,
+     "sizeSqft": 1120,
+     "bedrooms": [
+      "11'0\"x12'0\"",
+      "10'0\"x11'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      11.0
+     ],
+     "priceLakhMin": 64,
+     "priceLakhMax": 74,
+     "priceEstimated": false,
+     "rentMonthly": 17000,
+     "rentEstimated": false,
+     "psf": 6161,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 3,
+     "sizeSqft": 1500,
+     "bedrooms": [
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'0\"x11'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      11.0
+     ],
+     "priceLakhMin": 94,
+     "priceLakhMax": 108,
+     "priceEstimated": false,
+     "rentMonthly": 23500,
+     "rentEstimated": false,
+     "psf": 6733,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-20"
+  },
+  {
+   "id": "apt-mithapur-green-homes",
+   "name": "Mithapur Green Homes",
+   "developer": "Pataliputra Developers",
+   "locality": "Mithapur",
+   "lat": 25.5848,
+   "lng": 85.1368,
+   "type": "apartment",
+   "towers": 5,
+   "totalUnits": 240,
+   "acres": 2.9,
+   "possession": "Jun 2027",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park",
+    "Gym",
+    "Swimming Pool",
+    "Club House",
+    "Kids Play Area",
+    "Solar Power"
+   ],
+   "nearby": {
+    "park": 320,
+    "metro": 3800,
+    "school": 680,
+    "hospital": 1500,
+    "mall": 1200
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 2,
+     "sizeSqft": 1040,
+     "bedrooms": [
+      "11'0\"x12'0\"",
+      "10'0\"x11'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      11.0
+     ],
+     "priceLakhMin": 56,
+     "priceLakhMax": 66,
+     "priceEstimated": false,
+     "rentMonthly": 15000,
+     "rentEstimated": false,
+     "psf": 5865,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 3,
+     "sizeSqft": 1390,
+     "bedrooms": [
+      "12'0\"x13'0\"",
+      "11'0\"x12'6\"",
+      "10'0\"x12'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      12.0
+     ],
+     "priceLakhMin": 82,
+     "priceLakhMax": 96,
+     "priceEstimated": false,
+     "rentMonthly": 21000,
+     "rentEstimated": false,
+     "psf": 6403,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 4,
+     "sizeSqft": 1980,
+     "bedrooms": [
+      "12'0\"x14'0\"",
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'6\"x12'0\""
+     ],
+     "minBedFt": [
+      10.5,
+      12.0
+     ],
+     "priceLakhMin": 130,
+     "priceLakhMax": 150,
+     "priceEstimated": false,
+     "rentMonthly": 29000,
+     "rentEstimated": true,
+     "psf": 7071,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-21"
+  },
+  {
+   "id": "apt-digha-lake-view",
+   "name": "Digha Lake View",
+   "developer": "Ganges Edge Builders",
+   "locality": "Digha",
+   "lat": 25.6384,
+   "lng": 85.0902,
+   "type": "apartment",
+   "towers": 4,
+   "totalUnits": 170,
+   "acres": 2.3,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park",
+    "Gym",
+    "Swimming Pool",
+    "Club House",
+    "Jogging Track"
+   ],
+   "nearby": {
+    "park": 280,
+    "metro": 6500,
+    "school": 950,
+    "hospital": 2300,
+    "mall": 2000
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 3,
+     "sizeSqft": 1580,
+     "bedrooms": [
+      "12'0\"x13'0\"",
+      "11'0\"x12'6\"",
+      "10'0\"x12'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      12.0
+     ],
+     "priceLakhMin": 100,
+     "priceLakhMax": 118,
+     "priceEstimated": false,
+     "rentMonthly": 26000,
+     "rentEstimated": false,
+     "psf": 6899,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 4,
+     "sizeSqft": 2150,
+     "bedrooms": [
+      "12'0\"x14'0\"",
+      "11'6\"x13'0\"",
+      "11'0\"x12'0\"",
+      "10'6\"x12'0\""
+     ],
+     "minBedFt": [
+      10.5,
+      12.0
+     ],
+     "priceLakhMin": 148,
+     "priceLakhMax": 172,
+     "priceEstimated": false,
+     "rentMonthly": 39000,
+     "rentEstimated": false,
+     "psf": 7442,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-22"
+  },
+  {
+   "id": "apt-rukanpura-residency",
+   "name": "Rukanpura Residency",
+   "developer": "Rajdhani Estates",
+   "locality": "Rukanpura",
+   "lat": 25.612,
+   "lng": 85.0948,
+   "type": "apartment",
+   "towers": 2,
+   "totalUnits": 84,
+   "acres": 1.0,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park"
+   ],
+   "nearby": {
+    "park": 750,
+    "metro": 4400,
+    "school": 880,
+    "hospital": 1900,
+    "mall": 1500
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 1,
+     "sizeSqft": 680,
+     "bedrooms": [
+      "11'0\"x12'6\""
+     ],
+     "minBedFt": [
+      11.0,
+      12.5
+     ],
+     "priceLakhMin": 32,
+     "priceLakhMax": 40,
+     "priceEstimated": false,
+     "rentMonthly": 9000,
+     "rentEstimated": false,
+     "psf": 5294,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 2,
+     "sizeSqft": 1060,
+     "bedrooms": [
+      "9'6\"x10'6\"",
+      "9'0\"x10'0\""
+     ],
+     "minBedFt": [
+      9.0,
+      10.0
+     ],
+     "priceLakhMin": 54,
+     "priceLakhMax": 62,
+     "priceEstimated": false,
+     "rentMonthly": 14000,
+     "rentEstimated": false,
+     "psf": 5472,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-23"
+  },
+  {
+   "id": "apt-canal-road-homes",
+   "name": "Canal Road Homes",
+   "developer": "Sonpur Infra",
+   "locality": "Boring Canal Road",
+   "lat": 25.6216,
+   "lng": 85.1134,
+   "type": "apartment",
+   "towers": 3,
+   "totalUnits": 110,
+   "acres": 1.3,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [
+    "Lift",
+    "Power Backup",
+    "Security",
+    "Parking",
+    "Park",
+    "Gym",
+    "Club House"
+   ],
+   "nearby": {
+    "park": 420,
+    "metro": 3500,
+    "school": 720,
+    "hospital": 1600,
+    "mall": 1250
+   },
+   "ratings": null,
+   "reviews": [],
+   "bhkOptions": [
+    {
+     "bhk": 2,
+     "sizeSqft": 1140,
+     "bedrooms": [
+      "11'0\"x12'0\"",
+      "10'0\"x11'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      11.0
+     ],
+     "priceLakhMin": 70,
+     "priceLakhMax": 82,
+     "priceEstimated": false,
+     "rentMonthly": 18500,
+     "rentEstimated": false,
+     "psf": 6667,
+     "source": "demo sample"
+    },
+    {
+     "bhk": 3,
+     "sizeSqft": 1520,
+     "bedrooms": [
+      "12'0\"x13'0\"",
+      "11'0\"x12'6\"",
+      "10'0\"x12'0\""
+     ],
+     "minBedFt": [
+      10.0,
+      12.0
+     ],
+     "priceLakhMin": 100,
+     "priceLakhMax": 116,
+     "priceEstimated": false,
+     "rentMonthly": 25500,
+     "rentEstimated": false,
+     "psf": 7105,
+     "source": "demo sample"
+    }
+   ],
+   "added": "2026-10-24"
+  },
+  {
+   "id": "plot-sample-01",
+   "name": "Premium Commercial Plot near Bihta IIT Road",
+   "developer": null,
+   "locality": "Bihta",
+   "lat": 25.5458,
+   "lng": 84.8625,
+   "type": "plot",
+   "towers": 0,
+   "totalUnits": 0,
+   "acres": null,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [],
+   "nearby": {
+    "park": null,
+    "metro": null,
+    "school": null,
+    "hospital": null,
+    "mall": null
+   },
+   "ratings": null,
+   "reviews": [],
+   "sizeText": "6 Katha",
+   "sizeSqft": 8166,
+   "zone": "Commercial",
+   "sampleChecked": true,
+   "priceLakhMin": 45.0,
+   "priceLakhMax": 45.0,
+   "priceEstimated": false,
+   "rentMonthly": null,
+   "rentEstimated": false,
+   "bhkOptions": [],
+   "added": "2026-10-08"
+  },
+  {
+   "id": "plot-sample-02",
+   "name": "Agricultural Land suitable for Warehouse/Forming",
+   "developer": null,
+   "locality": "Bihta",
+   "lat": 25.56825,
+   "lng": 84.88513,
+   "type": "plot",
+   "towers": 0,
+   "totalUnits": 0,
+   "acres": null,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [],
+   "nearby": {
+    "park": null,
+    "metro": null,
+    "school": null,
+    "hospital": null,
+    "mall": null
+   },
+   "ratings": null,
+   "reviews": [],
+   "sizeText": "1.5 Bigha",
+   "sizeSqft": 40830,
+   "zone": "Agricultural",
+   "sampleChecked": true,
+   "priceLakhMin": 85.0,
+   "priceLakhMax": 85.0,
+   "priceEstimated": false,
+   "rentMonthly": null,
+   "rentEstimated": false,
+   "bhkOptions": [],
+   "added": "2026-10-08"
+  },
+  {
+   "id": "plot-sample-03",
+   "name": "Residential Plot in Gola Road, Danapur",
+   "developer": null,
+   "locality": "Danapur",
+   "lat": 25.6205,
+   "lng": 85.0482,
+   "type": "plot",
+   "towers": 0,
+   "totalUnits": 0,
+   "acres": null,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [],
+   "nearby": {
+    "park": null,
+    "metro": null,
+    "school": null,
+    "hospital": null,
+    "mall": null
+   },
+   "ratings": null,
+   "reviews": [],
+   "sizeText": "3 Katha",
+   "sizeSqft": 4083,
+   "zone": "Residential",
+   "sampleChecked": true,
+   "priceLakhMin": 95.0,
+   "priceLakhMax": 95.0,
+   "priceEstimated": false,
+   "rentMonthly": null,
+   "rentEstimated": false,
+   "bhkOptions": [],
+   "added": "2026-10-08"
+  },
+  {
+   "id": "plot-sample-04",
+   "name": "Commercial Plot near G.D. Goenka School",
+   "developer": null,
+   "locality": "Danapur",
+   "lat": 25.63675,
+   "lng": 85.03155,
+   "type": "plot",
+   "towers": 0,
+   "totalUnits": 0,
+   "acres": null,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [],
+   "nearby": {
+    "park": null,
+    "metro": null,
+    "school": null,
+    "hospital": null,
+    "mall": null
+   },
+   "ratings": null,
+   "reviews": [],
+   "sizeText": "5 Katha",
+   "sizeSqft": 6805,
+   "zone": "Commercial",
+   "sampleChecked": true,
+   "priceLakhMin": 180.0,
+   "priceLakhMax": 180.0,
+   "priceEstimated": false,
+   "rentMonthly": null,
+   "rentEstimated": false,
+   "bhkOptions": [],
+   "added": "2026-10-08"
+  },
+  {
+   "id": "plot-sample-05",
+   "name": "Residential Plot Near Saguna More Main Highway",
+   "developer": null,
+   "locality": "Bailey Road",
+   "lat": 25.6095,
+   "lng": 85.05445,
+   "type": "plot",
+   "towers": 0,
+   "totalUnits": 0,
+   "acres": null,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [],
+   "nearby": {
+    "park": null,
+    "metro": null,
+    "school": null,
+    "hospital": null,
+    "mall": null
+   },
+   "ratings": null,
+   "reviews": [],
+   "sizeText": "4 Katha",
+   "sizeSqft": 5444,
+   "zone": "Residential",
+   "sampleChecked": true,
+   "priceLakhMin": 150.0,
+   "priceLakhMax": 150.0,
+   "priceEstimated": false,
+   "rentMonthly": null,
+   "rentEstimated": false,
+   "bhkOptions": [],
+   "added": "2026-10-08"
+  },
+  {
+   "id": "plot-sample-06",
+   "name": "Industrial Plot near Phulwari Sharif AIIMS",
+   "developer": null,
+   "locality": "Phulwari Sharif",
+   "lat": 25.5768,
+   "lng": 85.07445,
+   "type": "plot",
+   "towers": 0,
+   "totalUnits": 0,
+   "acres": null,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [],
+   "nearby": {
+    "park": null,
+    "metro": null,
+    "school": null,
+    "hospital": null,
+    "mall": null
+   },
+   "ratings": null,
+   "reviews": [],
+   "sizeText": "10 Katha",
+   "sizeSqft": 13610,
+   "zone": "Industrial",
+   "sampleChecked": false,
+   "priceLakhMin": 240.0,
+   "priceLakhMax": 240.0,
+   "priceEstimated": false,
+   "rentMonthly": null,
+   "rentEstimated": false,
+   "bhkOptions": [],
+   "added": "2026-10-08"
+  },
+  {
+   "id": "plot-sample-07",
+   "name": "Premium Commercial Land in Kankarbagh Bypass",
+   "developer": null,
+   "locality": "Kankarbagh",
+   "lat": 25.5925,
+   "lng": 85.15815,
+   "type": "plot",
+   "towers": 0,
+   "totalUnits": 0,
+   "acres": null,
+   "possession": "Ready to move",
+   "rera": null,
+   "source": "demo sample",
+   "amenities": [],
+   "nearby": {
+    "park": null,
+    "metro": null,
+    "school": null,
+    "hospital": null,
+    "mall": null
+   },
+   "ratings": null,
+   "reviews": [],
+   "sizeText": "8 Katha",
+   "sizeSqft": 10888,
+   "zone": "Commercial",
+   "sampleChecked": true,
+   "priceLakhMin": 320.0,
+   "priceLakhMax": 320.0,
+   "priceEstimated": false,
+   "rentMonthly": null,
+   "rentEstimated": false,
+   "bhkOptions": [],
+   "added": "2026-10-08"
+  }
+ ]
+}
