@@ -32,6 +32,7 @@
         <button class="tab" data-tab="plot">Plot Lookup</button>
         <button class="tab" data-tab="taxdues">Tax Dues</button>
         <button class="tab" data-tab="listings">Listings</button>
+        <button class="tab" data-tab="findflat">Find a Flat</button>
         <button class="tab" data-tab="about">About</button>
       </nav>
 
@@ -264,6 +265,168 @@
         <p class="note">✅ appears only when a RERA registration number is entered — always verify it at <a target="_blank" rel="noopener" href="https://rera.bihar.gov.in/">rera.bihar.gov.in</a>. Listings without a RERA number are marked ⚠️ unverified. Your listings are saved only in this browser.</p>
       </section>
 
+      <section class="panel" id="panel-findflat">
+        <h2>Find a Flat 🏠</h2>
+        <p class="hint">Every housing society in Patna on one map. Set the smallest bedroom you can live with, size, BHK, amenities and budget — and watch the properties that fit light up. <b>DEMO DATA:</b> the seeded properties are samples for trying the filters, not live market prices. Live prices live on the portals.</p>
+        <div class="lk-actions">
+          <button class="btn" id="ffGuideBtn">❓ Guide</button>
+          <button class="btn primary" id="ffPresetBtn">✨ Load example search</button>
+        </div>
+
+        <h3>Buy or rent</h3>
+        <div class="ff-seg">
+          <button type="button" id="ffModeBuy" class="ff-seg-btn ff-on">Buy</button>
+          <button type="button" id="ffModeRent" class="ff-seg-btn">Rent</button>
+        </div>
+
+        <h3>Type</h3>
+        <div class="ff-chips">
+          <button type="button" class="ff-chip" data-type="apartment">Apartments</button>
+          <button type="button" class="ff-chip" data-type="builder-floor">Builder floors</button>
+          <button type="button" class="ff-chip" data-type="villa">Villas</button>
+          <button type="button" class="ff-chip" data-type="plot">Plots</button>
+        </div>
+
+        <h3>Bedrooms (BHK)</h3>
+        <div class="ff-chips">
+          <button type="button" class="ff-chip" data-bhk="1">1 BHK</button>
+          <button type="button" class="ff-chip" data-bhk="2">2 BHK</button>
+          <button type="button" class="ff-chip" data-bhk="3">3 BHK</button>
+          <button type="button" class="ff-chip" data-bhk="4">4 BHK</button>
+          <button type="button" class="ff-chip" data-bhk="5">5+ BHK</button>
+        </div>
+
+        <h3>Smallest bedroom</h3>
+        <p class="hint">Every bedroom must be at least this big (length × width).</p>
+        <div class="ff-chips">
+          <button type="button" class="ff-chip ff-on" id="ffBedAny">Any</button>
+          <button type="button" class="ff-chip" id="ffBedArea">Area</button>
+          <button type="button" class="ff-chip ff-on" id="ffBedUnitSqft">Sq ft</button>
+          <button type="button" class="ff-chip" id="ffBedUnitGaj">Gaj</button>
+        </div>
+        <label class="ff-slider-row">
+          <input type="range" id="ffBedSlider" min="0" max="200" step="5" value="0" disabled />
+          <span id="ffBedLabel">Any bedroom size</span>
+        </label>
+
+        <h3>Home size</h3>
+        <label class="ff-slider-row">
+          <span>From</span>
+          <input type="range" id="ffSizeMin" min="0" max="8000" step="50" value="0" />
+          <span id="ffSizeMinLabel">0 sq ft (0 gaj)</span>
+        </label>
+        <label class="ff-slider-row">
+          <span>To</span>
+          <input type="range" id="ffSizeMax" min="0" max="8000" step="50" value="8000" />
+          <span id="ffSizeMaxLabel">8,000 sq ft (889 gaj)</span>
+        </label>
+
+        <div id="ffBuyFilters">
+          <h3>Budget</h3>
+          <label class="ff-slider-row">
+            <span>From</span>
+            <input type="range" id="ffBudgetMin" min="0" max="2000" step="10" value="0" />
+            <span id="ffBudgetMinLabel">₹0</span>
+          </label>
+          <label class="ff-slider-row">
+            <span>To</span>
+            <input type="range" id="ffBudgetMax" min="0" max="2000" step="10" value="2000" />
+            <span id="ffBudgetMaxLabel">₹20 Cr</span>
+          </label>
+        </div>
+
+        <div id="ffRentFilters" class="hidden">
+          <h3>Monthly rent</h3>
+          <label class="ff-slider-row">
+            <span>Max</span>
+            <input type="range" id="ffRentMax" min="0" max="100000" step="1000" value="100000" />
+            <span id="ffRentMaxLabel">up to ₹1,00,000/month</span>
+          </label>
+        </div>
+
+        <h3>Amenities</h3>
+        <div class="ff-chips">
+          <button type="button" class="ff-chip" data-amen="Lift">Lift</button>
+          <button type="button" class="ff-chip" data-amen="Power Backup">Power Backup</button>
+          <button type="button" class="ff-chip" data-amen="Security">Security</button>
+          <button type="button" class="ff-chip" data-amen="Parking">Parking</button>
+          <button type="button" class="ff-chip" data-amen="Park">Park</button>
+          <button type="button" class="ff-chip" data-amen="Gym">Gym</button>
+          <button type="button" class="ff-chip" data-amen="Swimming Pool">Swimming Pool</button>
+          <button type="button" class="ff-chip" data-amen="Club House">Club House</button>
+        </div>
+        <div class="lk-actions">
+          <button class="btn" id="ffAmenMoreBtn">More amenities…</button>
+          <button class="btn hidden" id="ffAmenFewerBtn">Fewer</button>
+        </div>
+        <div id="ffAmenMore" class="hidden">
+          <input type="text" id="ffAmenSearch" class="ff-text" placeholder="Search amenities…" />
+          <div id="ffAmenList" class="ff-amen-list"></div>
+        </div>
+
+        <h3>Nearby</h3>
+        <label class="toggle-row"><input type="checkbox" id="ffNearPark" /><span>Park within 500 m</span></label>
+        <label class="toggle-row"><input type="checkbox" id="ffNearMetro" /><span>Metro / rail station within 1.5 km</span></label>
+        <label class="toggle-row"><input type="checkbox" id="ffNearSchool" /><span>School within 1 km</span></label>
+        <label class="toggle-row"><input type="checkbox" id="ffNearHospital" /><span>Hospital within 2 km</span></label>
+        <label class="toggle-row"><input type="checkbox" id="ffNearMall" /><span>Mall / supermarket within 1.5 km</span></label>
+
+        <label class="toggle-row"><input type="checkbox" id="ffReadyOnly" /><span>Ready to move only</span></label>
+        <label class="toggle-row"><input type="checkbox" id="ffIncludeLikely" checked /><span>Include “probably fits” (estimated prices/rents)</span></label>
+        <label class="toggle-row"><input type="checkbox" id="ffMyListOnly" /><span>Show only my list ⭐</span></label>
+
+        <div id="ffSearchChip" class="ff-search-chip hidden">
+          <span id="ffSearchChipText"></span>
+          <button type="button" id="ffSearchChipClear" title="Clear search filter">✕</button>
+        </div>
+
+        <p id="ffSummary" class="ff-summary">MATCHING PROPERTIES —</p>
+
+        <h3>Results</h3>
+        <label>Sort
+          <select id="ffSort" class="ff-select">
+            <option value="best">Best match</option>
+            <option value="price-asc">Price low to high</option>
+            <option value="price-desc">Price high to low</option>
+            <option value="bedrooms">Most bedrooms</option>
+            <option value="newest">Newest</option>
+          </select>
+        </label>
+        <div id="ffResults" class="ff-results"></div>
+
+        <h3>My List ⭐</h3>
+        <p class="hint">Star properties to keep them here — saved in this browser only, no sign-in.</p>
+        <div class="lk-actions">
+          <button class="btn" id="ffPasteBtn">📋 Paste names</button>
+          <button class="btn" id="ffShareBtn">🔗 Share list</button>
+        </div>
+
+        <h3>Map</h3>
+        <div class="lk-actions">
+          <button class="btn" id="ffWholeCity">🗺️ Show whole city</button>
+          <button class="btn" id="ffMyLoc">📍 My location</button>
+          <button class="btn" id="ffTourBtn">▶ Fly through the matches</button>
+          <button class="btn" id="ffReplayBtn">↺ Replay intro</button>
+        </div>
+        <div class="lk-actions">
+          <button class="btn" id="ffThemeBtn">🌙 Dark theme</button>
+          <button class="btn" id="ffHidePanels">Hide panels</button>
+          <button class="btn" id="ffLogToggle">📋 Show Research Log</button>
+        </div>
+        <label class="toggle-row"><input type="checkbox" id="ffBoundaries" /><span>Boundaries (district boundary)</span></label>
+        <label class="toggle-row"><input type="checkbox" id="ffNames" /><span>Names (locality labels)</span></label>
+        <label class="toggle-row"><input type="checkbox" id="ffGlow" /><span>Glow (highlight matches)</span></label>
+
+        <h3>Downloads</h3>
+        <div class="lk-actions">
+          <button class="btn" id="ffDlResults">⬇️ These results (CSV)</button>
+          <button class="btn" id="ffDlAll">⬇️ All properties (CSV)</button>
+          <button class="btn" id="ffDlUnits">⬇️ Unit types &amp; bedrooms (CSV)</button>
+        </div>
+        <p class="hint">How the numbers are made: prices and rents are medians of the sample / your own listings shown. A price or rent that looks like a typo is flagged and not used for filtering. “~” means an estimate: rent ≈ 2.5% of price per year; a price with “~” is estimated from size × ₹/sq ft. “Probably fits” means the match relies on one of those estimates. Bedroom sizes are demo values; a property with no bedroom sizes is “Not checked yet” — neither a pass nor a fail.</p>
+        <p class="note">⚠️ Seeded properties are DEMO DATA — sample values for trying the filters, not live market prices. Your own listings (Listings tab) appear here too, marked “added by you”. ✅ appears only when a real RERA number is recorded — verify it at <a target="_blank" rel="noopener" href="https://rera.bihar.gov.in/">rera.bihar.gov.in</a>.</p>
+      </section>
+
       <section class="panel" id="panel-about">
         <h2>About this project</h2>
         <p>Open interactive GIS for Patna, Bihar — built with Leaflet, OpenStreetMap and the Overpass API. Optional Google Maps base layers activate when you add an API key in <code>js/config.js</code>.</p>
@@ -279,6 +442,7 @@
           <li>Sample property listings (demo data): <a target="_blank" rel="noopener" href="https://github.com/abhishekkumarai/patnapropertyhub">patnapropertyhub</a> (bundled in <code>data/sample_listings.geojson</code>)</li>
           <li>RoR field reference: <a target="_blank" rel="noopener" href="https://github.com/in-rolls/ror_bihar_2022">ror_bihar_2022</a></li>
           <li>Land records: Govt. of Bihar portals (linked, not scraped)</li>
+          <li>Flat-finder features inspired by <a target="_blank" rel="noopener" href="https://flat-finder.pages.dev/">Flat Finder</a> (reimplemented here in original code for Patna — no Flat Finder code is used)</li>
         </ul>
         <h3>AI assistants</h3>
         <p class="hint">Handy alongside the map — these open in a new tab (they can't be embedded inside this site).</p>
@@ -298,7 +462,43 @@
       <div id="loading" class="loading"><div class="spinner"></div><p>Fetching live map data…</p></div>
       <div id="toast" class="toast hidden"></div>
       <button id="sidebarToggle" class="sidebar-toggle" title="Toggle panel">☰</button>
+      <button id="ffShowPanels" class="ff-show-panels hidden" title="Show panels">☰ Show panels</button>
+      <aside id="ffDetail" class="ff-detail hidden">
+        <div class="ff-detail-head">
+          <button id="ffDetailStar" class="btn" title="My List">☆ Add to My List</button>
+          <button id="ffDetailClose" class="btn" title="Close">✕</button>
+        </div>
+        <div id="ffDetailBody"></div>
+      </aside>
+      <aside id="ffLog" class="ff-log hidden">
+        <h3 id="ffLogTitle">Research Log — the dataset</h3>
+        <div id="ffLogBody"></div>
+      </aside>
     </main>
+  </div>
+
+  <div id="ffGuide" class="ff-modal hidden">
+    <div class="ff-modal-box">
+      <h2 id="ffGuideTitle">1 · Pick size, bedroom and budget</h2>
+      <p id="ffGuideBody"></p>
+      <div class="lk-actions">
+        <button class="btn" id="ffGuideSkip">Skip</button>
+        <button class="btn primary" id="ffGuideNext">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="ffPasteModal" class="ff-modal hidden">
+    <div class="ff-modal-box">
+      <h2>Paste names into My List</h2>
+      <p class="hint">One property name per line — names that match a property are added to your list.</p>
+      <textarea id="ffPasteText" class="ff-textarea" rows="6" placeholder="Ganga View Residency&#10;Kankarbagh Greens"></textarea>
+      <div class="lk-actions">
+        <button class="btn primary" id="ffPasteAdd">Add to my list</button>
+        <button class="btn" id="ffPasteClear">Clear my list</button>
+        <button class="btn" id="ffPasteClose">Close</button>
+      </div>
+    </div>
   </div>
 
   <footer class="footer">
@@ -308,5 +508,6 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="js/config.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/findflat.js"></script>
 </body>
 </html>
